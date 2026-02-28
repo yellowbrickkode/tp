@@ -18,6 +18,14 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 
 * Role: Member
 
+### Yueqian Hong
+
+<img src="images/hahaahaahh.png" width="200px">
+
+[[github](http://github.com/hahaahaahh)]
+[[portfolio](team/hahaahaahh.md)]
+
+* Role: Team Member
 ### Yida Wang
 
 <img src="images/wang-yida.png" width="200px">
