@@ -320,8 +320,11 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 1.  Should work on any _mainstream OS_ as long as it has Java `17` or above installed.
 2.  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 3.  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-
-*{More to be added}*
+4.  The application must be able to function completely offline as a standalone executable .jar file, without requiring a connection to an external database or the internet.
+5.  The system should handle malformed commands (e.g., a delivery worker typing a wrong region format) by providing clear, actionable error messages rather than crashing.
+6.  The system should safeguard against data corruption. If the application is closed abruptly, previously saved order data must remain intact.
+7.  The system should be designed so that adding a new region (e.g., expanding from Central Singapore to the East) or a new delivery status does not require modifying the core execution logic.
+8.  The application must not upload customer addresses or order details to any external cloud service or third-party server. All data must remain strictly on the delivery worker's local machine.
 
 ### Glossary
 
@@ -380,3 +383,4 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
+
