@@ -7,6 +7,11 @@ import static java.util.Objects.requireNonNull;
 public class OrderDate {
     public final LocalDate value;
 
+    /**
+     * Constructs an {@code OrderDate}.
+     *
+     * @param date A valid date.
+     */
     public OrderDate(LocalDate date) {
         requireNonNull(date);
         value = date;

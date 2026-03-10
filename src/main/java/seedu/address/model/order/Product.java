@@ -9,6 +9,11 @@ public class Product {
 
     public final String value;
 
+    /**
+     * Constructs an {@code Product}.
+     *
+     * @param product A valid Product.
+     */
     public Product(String product) {
         requireNonNull(product);
         checkArgument(!product.trim().isEmpty(), MESSAGE_CONSTRAINTS);

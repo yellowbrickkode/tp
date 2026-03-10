@@ -7,6 +7,10 @@ import java.util.Objects;
 
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+/**
+ * Represents a Person in the address book.
+ * Guarantees: details are present and not null, field values are validated, immutable.
+ */
 public class Order {
 
     private final OrderId orderId;
@@ -17,6 +21,9 @@ public class Order {
     private final OrderStatus status;
     private final OrderDate orderDate;
 
+    /**
+     * Every field must be present and not null.
+     */
     public Order(OrderId orderId, Person person, Product product, Quantity quantity, Price price, OrderStatus status, OrderDate orderDate) {
         requireAllNonNull(orderId, product, quantity, price, status, orderDate);
         this.orderId = orderId;
@@ -56,6 +63,10 @@ public class Order {
         return orderDate;
     }
 
+    /**
+     * Returns true if both orders have the same name.
+     * This defines a weaker notion of equality between two orders.
+     */
     public boolean isSameOrder(Order otherOrder) {
         if (otherOrder == this) {
             return true;
@@ -65,6 +76,10 @@ public class Order {
                 && otherOrder.getOrderId().equals(getOrderId());
     }
 
+    /**
+     * Returns true if both orders have the same identity and data fields.
+     * This defines a stronger notion of equality between two orders.
+     */
     @Override
     public boolean equals(Object other) {
         if (other == this) {

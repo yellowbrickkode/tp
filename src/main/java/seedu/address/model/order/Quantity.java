@@ -9,12 +9,20 @@ public class Quantity {
 
     public final int value;
 
+    /**
+     * Constructs an {@code Quantity}.
+     *
+     * @param quantity A valid Quantity.
+     */
     public Quantity(String quantity) {
         requireNonNull(quantity);
         checkArgument(isValidQuantity(quantity), MESSAGE_CONSTRAINTS);
         value = Integer.parseInt(quantity);
     }
 
+    /**
+     * Returns true if a given string is a valid quantity.
+     */
     public static boolean isValidQuantity(String test) {
         try {
             return Integer.parseInt(test) > 0;

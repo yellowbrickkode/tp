@@ -11,12 +11,20 @@ public class OrderId {
 
     public final String value;
 
+    /**
+     * Constructs an {@code OrderId}.
+     *
+     * @param orderId A valid OrderId.
+     */
     public OrderId(String orderId) {
         requireNonNull(orderId);
         checkArgument(isValidOrderId(orderId), MESSAGE_CONSTRAINTS);
         value = orderId;
     }
 
+    /**
+     * Returns true if a given string is a valid orderId.
+     */
     public static boolean isValidOrderId(String test) {
         return test.matches(VALIDATION_REGEX);
     }

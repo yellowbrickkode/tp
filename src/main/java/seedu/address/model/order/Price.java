@@ -9,12 +9,20 @@ public class Price {
 
     public final double value;
 
+    /**
+     * Constructs an {@code Price}.
+     *
+     * @param price A valid Price.
+     */
     public Price(String price) {
         requireNonNull(price);
         checkArgument(isValidPrice(price), MESSAGE_CONSTRAINTS);
         value = Double.parseDouble(price);
     }
 
+    /**
+     * Returns true if a given string is a valid price.
+     */
     public static boolean isValidPrice(String test) {
         try {
             return Double.parseDouble(test) >= 0;
