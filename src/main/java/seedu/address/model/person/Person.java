@@ -43,6 +43,18 @@ public class Person {
         this.tags.addAll(tags);
     }
 
+    /* for adding a list of multiple orders */
+    public Person(Name name, Phone phone, Email email, Address address, Region region, ArrayList orders, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, region, orders, tags);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.region = region;
+        this.orders.addAll(orders);
+        this.tags.addAll(tags);
+    }
+
     public Name getName() {
         return name;
     }
@@ -60,6 +72,8 @@ public class Person {
     }
 
     public Region getRegion() { return region; }
+
+    public ArrayList<String> getOrders() { return orders; }
 
     public String getLastOrder() { return orders.get(orders.size() - 1); }
 
