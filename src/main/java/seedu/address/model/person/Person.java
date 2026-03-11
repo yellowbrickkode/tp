@@ -4,7 +4,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Dictionary;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -44,7 +43,7 @@ public class Person {
     }
 
     /* for adding a list of multiple orders */
-    public Person(Name name, Phone phone, Email email, Address address, Region region, ArrayList orders, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Address address, Region region, ArrayList<String> orders, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, region, orders, tags);
         this.name = name;
         this.phone = phone;
