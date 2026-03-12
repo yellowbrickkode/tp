@@ -104,6 +104,13 @@ public class ParserUtil {
         return new Email(trimmedEmail);
     }
 
+
+    /**
+     * Parses a {@code String region} into a {@code Region}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code region} is invalid.
+     */
     public static Region parseRegion(String region) throws ParseException {
         requireNonNull(region);
         String trimmedRegion = region.trim();

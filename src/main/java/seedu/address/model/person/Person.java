@@ -42,8 +42,11 @@ public class Person {
         this.tags.addAll(tags);
     }
 
-    /* for adding a list of multiple orders */
-    public Person(Name name, Phone phone, Email email, Address address, Region region, ArrayList<String> orders, Set<Tag> tags) {
+    /**
+     * Every field must be present and not null. For adding a list of multiple orders.
+     */
+    public Person(Name name, Phone phone, Email email, Address address,
+                  Region region, ArrayList<String> orders, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, region, orders, tags);
         this.name = name;
         this.phone = phone;
@@ -70,11 +73,17 @@ public class Person {
         return address;
     }
 
-    public Region getRegion() { return region; }
+    public Region getRegion() {
+        return region;
+    }
 
-    public ArrayList<String> getOrders() { return orders; }
+    public ArrayList<String> getOrders() {
+        return orders;
+    }
 
-    public String getLastOrder() { return orders.get(orders.size() - 1); }
+    public String getLastOrder() {
+        return orders.get(orders.size() - 1);
+    }
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}

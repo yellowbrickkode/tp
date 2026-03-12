@@ -38,9 +38,9 @@ class JsonAdaptedPerson {
      */
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
-            @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("region") String region, @JsonProperty("orders") List<String> orders,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+                             @JsonProperty("email") String email, @JsonProperty("address") String address,
+                             @JsonProperty("region") String region, @JsonProperty("orders") List<String> orders,
+                             @JsonProperty("tags") List<JsonAdaptedTag> tags) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -61,7 +61,7 @@ class JsonAdaptedPerson {
         name = source.getName().fullName;
         phone = source.getPhone().value;
         email = source.getEmail().value;
-        address = source.getAddress().value.toString();
+        address = source.getAddress().toString();
         region = source.getRegion().value;
         orders.addAll(source.getOrders());
         tags.addAll(source.getTags().stream()
@@ -105,18 +105,31 @@ class JsonAdaptedPerson {
         final Email modelEmail = new Email(email);
 
         if (address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Address.class.getSimpleName()));
         }
-        if (!Address.isValidAddress(address.substring(0,5))) {
-            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
-        }
+        final Address modelAddress;
         if (address.contains(", ")) {
-            if (!Address.isValidUnit(address.substring(8))) {
+            String postalCode = address.substring(0, 6);
+            String unit = address.substring(8);
+            if (!Address.isValidAddress(postalCode)) {
+                throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+            }
+            if (!Address.isValidUnit(unit)) {
                 throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS_UNIT);
             }
+            modelAddress = new Address(postalCode, unit);
+        } else {
+            if (!Address.isValidAddress(address)) {
+                throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+            }
+            modelAddress = new Address(address);
         }
-        final Address modelAddress = new Address(address);
 
+        if (region == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                    Region.class.getSimpleName()));
+        }
         if (!Region.isValidRegion(region)) {
             throw new IllegalValueException(Region.MESSAGE_CONSTRAINTS);
         }
@@ -129,3 +142,4 @@ class JsonAdaptedPerson {
     }
 
 }
+

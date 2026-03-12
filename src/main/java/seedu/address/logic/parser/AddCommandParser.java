@@ -58,7 +58,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
-        String unit = argMultimap.getValue(PREFIX_UNITNO).get();
+        String unit = argMultimap.getValue(PREFIX_UNITNO).orElse("");
         String postalCode = argMultimap.getValue(PREFIX_ADDRESS).get();
         Address address = ParserUtil.parseAddress(postalCode, unit);
         Region region = ParserUtil.parseRegion(argMultimap.getValue(PREFIX_REGION).get());
@@ -79,3 +79,4 @@ public class AddCommandParser implements Parser<AddCommand> {
     }
 
 }
+

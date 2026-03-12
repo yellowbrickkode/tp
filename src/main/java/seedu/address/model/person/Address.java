@@ -1,8 +1,11 @@
 package seedu.address.model.person;
 
-import javafx.util.Pair;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
+
+import java.util.Objects;
+
+import javafx.util.Pair;
 
 /**
  * Represents a Person's address in the address book.
@@ -10,8 +13,10 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
  */
 public class Address {
 
-    public static final String MESSAGE_CONSTRAINTS = "Addresses should be entered as postal codes, and should not be blank.";
-    public static final String MESSAGE_CONSTRAINTS_UNIT = "Unit numbers should follow the convention #XX-XX or #XX-XXX.";
+    public static final String MESSAGE_CONSTRAINTS =
+            "Addresses should be entered as postal codes, and should not be blank.";
+    public static final String MESSAGE_CONSTRAINTS_UNIT =
+            "Unit numbers should follow the convention #XX-XX or #XX-XXX.";
 
     /*
      * The first character of the address must not be a whitespace,
@@ -33,6 +38,12 @@ public class Address {
         value = new Pair<>(address, null);
     }
 
+    /**
+     * Constructs an {@code Address} with a unit number.
+     *
+     * @param address A valid address.
+     * @param unit A valid unit number.
+     */
     public Address(String address, String unit) {
         requireNonNull(address);
         checkArgument(isValidAddress(address), MESSAGE_CONSTRAINTS);
@@ -47,6 +58,10 @@ public class Address {
     public static boolean isValidAddress(String test) {
         return test.matches(VALIDATION_REGEX);
     }
+
+    /**
+     * Returns true if a given string is a valid unit number.
+     */
     public static boolean isValidUnit(String test) {
         return test.matches(VALIDATION_REGEX_UNIT);
     }
@@ -83,7 +98,8 @@ public class Address {
         }
 
         Address otherAddress = (Address) other;
-        return value.getKey().equals(otherAddress.getPostalCode()) && value.getValue().equals(otherAddress.getUnit());
+        return value.getKey().equals(otherAddress.getPostalCode())
+                && Objects.equals(value.getValue(), otherAddress.getUnit());
     }
 
     @Override

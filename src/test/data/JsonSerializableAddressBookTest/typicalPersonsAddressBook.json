@@ -4,43 +4,57 @@
     "name" : "Alice Pauline",
     "phone" : "94351253",
     "email" : "alice@example.com",
-    "address" : "123, Jurong West Ave 6, #08-111",
+    "address" : "120111",
+    "region" : "N",
+    "orders" : [ "nasi lemak" ],
     "tags" : [ "friends" ]
   }, {
     "name" : "Benson Meier",
     "phone" : "98765432",
     "email" : "johnd@example.com",
-    "address" : "311, Clementi Ave 2, #02-25",
+    "address" : "311002",
+    "region" : "N",
+    "orders" : [ "nasi lemak" ],
     "tags" : [ "owesMoney", "friends" ]
   }, {
     "name" : "Carl Kurz",
     "phone" : "95352563",
     "email" : "heinz@example.com",
-    "address" : "wall street",
+    "address" : "100001",
+    "region" : "N",
+    "orders" : [ "nasi lemak" ],
     "tags" : [ ]
   }, {
     "name" : "Daniel Meier",
     "phone" : "87652533",
     "email" : "cornelia@example.com",
-    "address" : "10th street",
+    "address" : "100010",
+    "region" : "N",
+    "orders" : [ "nasi lemak" ],
     "tags" : [ "friends" ]
   }, {
     "name" : "Elle Meyer",
-    "phone" : "9482224",
+    "phone" : "94822240",
     "email" : "werner@example.com",
-    "address" : "michegan ave",
+    "address" : "200001",
+    "region" : "N",
+    "orders" : [ "nasi lemak" ],
     "tags" : [ ]
   }, {
     "name" : "Fiona Kunz",
-    "phone" : "9482427",
+    "phone" : "94824270",
     "email" : "lydia@example.com",
-    "address" : "little tokyo",
+    "address" : "300001",
+    "region" : "N",
+    "orders" : [ "nasi lemak" ],
     "tags" : [ ]
   }, {
     "name" : "George Best",
-    "phone" : "9482442",
+    "phone" : "94824420",
     "email" : "anna@example.com",
-    "address" : "4th street",
+    "address" : "400001",
+    "region" : "N",
+    "orders" : [ "nasi lemak" ],
     "tags" : [ ]
   } ]
 }

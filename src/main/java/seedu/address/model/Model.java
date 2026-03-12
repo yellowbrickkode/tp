@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.order.Order;
 import seedu.address.model.person.Person;
 
 /**
@@ -13,6 +14,9 @@ import seedu.address.model.person.Person;
 public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
+
+    /** {@code Predicate} that always evaluate to true */
+    Predicate<Order> PREDICATE_SHOW_ALL_ORDERS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -58,10 +62,21 @@ public interface Model {
     boolean hasPerson(Person person);
 
     /**
+     * Returns true if an order with the same id as {@code order} exists in the address book.
+     */
+    boolean hasOrder(Order order);
+
+    /**
      * Deletes the given person.
      * The person must exist in the address book.
      */
     void deletePerson(Person target);
+
+    /**
+     * Deletes the given order.
+     * The order must exist in the address book.
+     */
+    void deleteOrder(Order target);
 
     /**
      * Adds the given person.
@@ -70,14 +85,30 @@ public interface Model {
     void addPerson(Person person);
 
     /**
+     * Adds the given order.
+     * {@code order} must not already exist in the address book.
+     */
+    void addOrder(Order order);
+
+    /**
      * Replaces the given person {@code target} with {@code editedPerson}.
      * {@code target} must exist in the address book.
      * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
      */
     void setPerson(Person target, Person editedPerson);
 
+    /**
+     * Replaces the given order {@code target} with {@code editedOrder}.
+     * {@code target} must exist in the address book.
+     * The orderId of {@code editedOrder} must not be the same as another existing order in the address book.
+     */
+    void setOrder(Order target, Order editedPerson);
+
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
+
+    /** Returns an unmodifiable view of the filtered person list */
+    ObservableList<Order> getFilteredOrderList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
@@ -115,4 +146,3 @@ public interface Model {
      */
     void commitAddressBook();
 }
-
