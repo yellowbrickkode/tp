@@ -3,8 +3,6 @@ package seedu.address.model.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
-import java.util.Objects;
-
 import javafx.util.Pair;
 
 /**
@@ -35,7 +33,7 @@ public class Address {
     public Address(String address) {
         requireNonNull(address);
         checkArgument(isValidAddress(address), MESSAGE_CONSTRAINTS);
-        value = new Pair<>(address, null);
+        value = new Pair<>(address, "");
     }
 
     /**
@@ -68,10 +66,10 @@ public class Address {
 
     @Override
     public String toString() {
-        if (value.getValue() == null) {
-            return value.getKey();
+        if (getUnit().isEmpty()) {
+            return getPostalCode();
         }
-        return value.getKey() + ", " + value.getValue();
+        return getPostalCode() + ", " + getUnit();
     }
 
     public String getPostalCode() {
@@ -98,8 +96,9 @@ public class Address {
         }
 
         Address otherAddress = (Address) other;
-        return value.getKey().equals(otherAddress.getPostalCode())
-                && Objects.equals(value.getValue(), otherAddress.getUnit());
+        boolean samePostalCode = getPostalCode().equals(otherAddress.getPostalCode());
+        boolean sameUnitNo = getUnit().equals(otherAddress.getUnit());
+        return samePostalCode && sameUnitNo;
     }
 
     @Override

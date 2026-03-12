@@ -36,4 +36,10 @@ public class ListCommandTest {
         showPersonAtIndex(model, INDEX_FIRST_PERSON);
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
     }
+
+    @Test
+    public void execute_listIsEmpty_showsNothing() {
+        Model emptyModel = new ModelManager();
+        assertCommandSuccess(new ListCommand(), emptyModel, ListCommand.MESSAGE_NO_CONTACTS, emptyModel);
+    }
 }

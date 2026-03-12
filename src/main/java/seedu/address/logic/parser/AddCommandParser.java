@@ -44,7 +44,7 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         if (!arePrefixesPresent(
                 argMultimap,
-                PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL,
+                PREFIX_NAME, PREFIX_PHONE,
                 PREFIX_ADDRESS, PREFIX_REGION,
                 PREFIX_ORDERS)
                 || !argMultimap.getPreamble().isEmpty()) {
@@ -57,7 +57,7 @@ public class AddCommandParser implements Parser<AddCommand> {
                 PREFIX_ORDERS);
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
-        Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
+        Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).orElse(""));
         String unit = argMultimap.getValue(PREFIX_UNITNO).orElse("");
         String postalCode = argMultimap.getValue(PREFIX_ADDRESS).get();
         Address address = ParserUtil.parseAddress(postalCode, unit);
@@ -79,4 +79,3 @@ public class AddCommandParser implements Parser<AddCommand> {
     }
 
 }
-

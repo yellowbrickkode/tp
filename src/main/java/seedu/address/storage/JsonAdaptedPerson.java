@@ -3,6 +3,7 @@ package seedu.address.storage;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -60,9 +61,9 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(Person source) {
         name = source.getName().fullName;
         phone = source.getPhone().value;
-        email = source.getEmail().value;
+        email = Optional.ofNullable(source.getEmail()).map(e -> e.value).orElse("");
         address = source.getAddress().toString();
-        region = source.getRegion().value;
+        region = source.getRegion().toString();
         orders.addAll(source.getOrders());
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
@@ -142,4 +143,3 @@ class JsonAdaptedPerson {
     }
 
 }
-

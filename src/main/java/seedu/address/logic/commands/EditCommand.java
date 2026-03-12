@@ -2,11 +2,12 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_ORDERS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REGION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_UNITNO;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.ArrayList;
@@ -43,16 +44,17 @@ public class EditCommand extends Command {
             + "Existing values will be overwritten by the input values.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
-            + "[" + PREFIX_PHONE + "PHONE] "
-            + "[" + PREFIX_EMAIL + "EMAIL] "
+            + "[" + PREFIX_PHONE + "PHONE_NUMBER] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
-            + "[" + PREFIX_REGION + "REGION] "
+            + "[" + PREFIX_UNITNO + "UNIT] "
+            + "[" + PREFIX_REGION + "REGION]\n"
+            + "[" + PREFIX_ORDERS + "ORDER]...\n"
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "johndoe@example.com";
+            + PREFIX_ORDERS + "chicken rice";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
+    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Contact edited successfully.\n%1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
 
@@ -104,7 +106,7 @@ public class EditCommand extends Command {
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Region updatedRegion = editPersonDescriptor.getRegion().orElse(personToEdit.getRegion());
-        ArrayList<String> updatedOrders = personToEdit.getOrders();
+        ArrayList<String> updatedOrders = editPersonDescriptor.getOrders().orElse(personToEdit.getOrders());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedRegion,
@@ -146,6 +148,7 @@ public class EditCommand extends Command {
         private Address address;
         private Region region;
         private Set<Tag> tags;
+        private ArrayList<String> order;
 
         public EditPersonDescriptor() {}
 
@@ -157,9 +160,10 @@ public class EditCommand extends Command {
             setName(toCopy.name);
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
-            setAddress(toCopy.address);
             setRegion(toCopy.region);
+            setAddress(toCopy.address);
             setTags(toCopy.tags);
+            setOrder(toCopy.order);
         }
 
         /**
@@ -209,6 +213,14 @@ public class EditCommand extends Command {
             return Optional.ofNullable(region);
         }
 
+        public void setOrder(ArrayList<String> order) {
+            this.order = order;
+        }
+
+        public Optional<ArrayList<String>> getOrders() {
+            return Optional.ofNullable(order);
+        }
+
         /**
          * Sets {@code tags} to this object's {@code tags}.
          * A defensive copy of {@code tags} is used internally.
@@ -254,6 +266,7 @@ public class EditCommand extends Command {
                     .add("email", email)
                     .add("address", address)
                     .add("region", region)
+                    .add("orders", order)
                     .add("tags", tags)
                     .toString();
         }
