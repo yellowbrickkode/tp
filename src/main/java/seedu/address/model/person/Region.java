@@ -11,14 +11,6 @@ public class Region {
     public static final String MESSAGE_CONSTRAINTS =
             "Regions should be one of: N, NE, W, E, C. They should not be blank.";
     public static final String VALIDATION_REGEX = "^(N|NE|W|E|C)$";
-    private final RegionType value;
-
-    /**
-     * Returns the value of the region.
-     */
-    public RegionType getValue() {
-        return value;
-    }
 
     /**
      * An enumeration for all possible region types.
@@ -37,6 +29,8 @@ public class Region {
         }
     }
 
+    private final RegionType value;
+
     /**
      * Constructs a {@code Region}.
      *
@@ -46,6 +40,13 @@ public class Region {
         requireNonNull(region);
         checkArgument(isValidRegion(region), MESSAGE_CONSTRAINTS);
         this.value = RegionType.valueOf(region);
+    }
+
+    /**
+     * Returns the value of the region.
+     */
+    public RegionType getValue() {
+        return value;
     }
 
     /**

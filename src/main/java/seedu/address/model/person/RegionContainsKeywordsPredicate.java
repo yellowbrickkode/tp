@@ -18,8 +18,8 @@ public class RegionContainsKeywordsPredicate implements Predicate<Person> {
 
     @Override
     public boolean test(Person person) {
-        return keywords.stream()
-                .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getRegion().getValue().toString(), keyword));
+        return keywords.stream().anyMatch(keyword ->
+                        StringUtil.containsWordIgnoreCase(person.getRegion().getValue().toString(), keyword));
     }
 
     @Override
