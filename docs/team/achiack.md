@@ -21,6 +21,7 @@ Given below are my contributions to the project.
   * Developer Guide:
 
 * **Community**:
+
 * **Tools**:
 
 * _{you can add/remove categories in the list above}_
