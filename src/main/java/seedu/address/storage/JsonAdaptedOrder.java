@@ -1,12 +1,19 @@
 package seedu.address.storage;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.model.order.*;
-import seedu.address.model.person.Person;
 
-import java.time.LocalDate;
+import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.model.order.Order;
+import seedu.address.model.order.OrderDate;
+import seedu.address.model.order.OrderId;
+import seedu.address.model.order.OrderStatus;
+import seedu.address.model.order.Price;
+import seedu.address.model.order.Product;
+import seedu.address.model.order.Quantity;
+import seedu.address.model.person.Person;
 
 /**
  * Jackson-friendly version of {@link Order}.
@@ -44,7 +51,7 @@ public class JsonAdaptedOrder {
     }
 
     /**
-     * Converts a given {@code Person} into this class for Jackson use.
+     * Converts a given {@code Order} into this class for Jackson use.
      */
     public JsonAdaptedOrder(Order source) {
         orderId = source.getOrderId().toString();
@@ -60,6 +67,11 @@ public class JsonAdaptedOrder {
         return personName;
     }
 
+    /**
+     * Converts this Jackson-friendly adapted order object into the model's {@code Order} object.
+     *
+     * @throws IllegalValueException if there were any data constraints violated in the adapted order.
+     */
     public Order toModelType(Person person) throws IllegalValueException {
         return new Order(
                 new OrderId(orderId),
