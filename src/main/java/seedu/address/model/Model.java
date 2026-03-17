@@ -57,6 +57,12 @@ public interface Model {
     ReadOnlyAddressBook getAddressBook();
 
     /**
+     * Returns the person referred to by the index
+     * @param index the index of the person in the filtered list
+     * @return person
+     */
+    Person getPerson(int index);
+    /**
      * Returns true if a person with the same identity as {@code person} exists in the address book.
      */
     boolean hasPerson(Person person);

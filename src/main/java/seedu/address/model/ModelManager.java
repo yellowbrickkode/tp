@@ -90,6 +90,12 @@ public class ModelManager implements Model {
         return this.versionedAddressBook;
     }
 
+
+    @Override
+    public Person getPerson(int index) {
+        return filteredPersons.get(index);
+    }
+
     @Override
     public boolean hasPerson(Person person) {
         requireNonNull(person);
