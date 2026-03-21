@@ -56,6 +56,13 @@ public class PersonUtil {
         descriptor.getPostalCode().ifPresent(postalCode -> sb.append(PREFIX_ADDRESS).append(postalCode).append(" "));
         descriptor.getUnitNo().ifPresent(unitNo -> sb.append(PREFIX_UNITNO).append(unitNo).append(" "));
         descriptor.getRegion().ifPresent(region -> sb.append(PREFIX_REGION).append(region.getValue()).append(" "));
+        descriptor.getOrders().ifPresent(orders -> {
+            if (orders.isEmpty()) {
+                sb.append(PREFIX_ORDERS);
+            } else {
+                orders.forEach(order -> sb.append(PREFIX_ORDERS).append(order).append(" "));
+            }
+        });
         if (descriptor.getTags().isPresent()) {
             Set<Tag> tags = descriptor.getTags().get();
             if (tags.isEmpty()) {
