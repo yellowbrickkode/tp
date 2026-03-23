@@ -179,7 +179,7 @@ Redoes the most recently undone change.
 
 Format: `redo`
 
-* Only works immediately after a successful `undo`.
+* Works only if there is at least one previously undone change to redo; you can perform `redo` multiple times until the latest state is reached.
 * If there is no undone change to redo, the command will fail.
 * `redo` cannot be used after any new modifying command has been executed following an `undo` (the redo history is cleared when new changes are made).
 
@@ -227,14 +227,15 @@ _Details coming soon ..._
 
 ## Command summary
 
-| Action | Format, Examples |
-|--------|------------------|
-| **Add** | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
-| **Clear** | `clear` |
-| **Delete** | `delete INDEX`<br> e.g., `delete 3` |
-| **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com` |
-| **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake` |
-| **List** | `list` |
-| **Help** | `help` |
-| **Undo** | `undo` |
-| **Redo** | `redo` |
+| Action           | Format, Examples                                                                                                                                                      |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add**          | `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` |
+| **Clear**        | `clear`                                                                                                                                                               |
+| **DeletePerson** | `deleteperson INDEX`<br> e.g., `deleteperson 3`                                                                                                                       |
+| **DeleteOrder**  | `deleteorder INDEX`<br> e.g., `deleteorder 2`                                                                                                                         |
+| **Edit**         | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                           |
+| **Find**         | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                            |
+| **List**         | `list`                                                                                                                                                                |
+| **Help**         | `help`                                                                                                                                                                |
+| **Undo**         | `undo`                                                                                                                                                                |
+| **Redo**         | `redo`                                                                                                                                                                |
