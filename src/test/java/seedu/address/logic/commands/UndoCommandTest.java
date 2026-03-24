@@ -98,8 +98,8 @@ public class UndoCommandTest {
     }
 
     @Test
-    public void execute_undoAddCommand_success() {
-        // Execute AddCommand, commit, then undo – person should be removed
+    public void execute_undoAddPersonCommand_success() {
+        // Execute AddPersonCommand, commit, then undo – person should be removed
         Person personToAdd = new PersonBuilder().withName("Hoon Meier")
                 .withPhone("84824240").withEmail("stefan@example.com").withAddress("500001").build();
 

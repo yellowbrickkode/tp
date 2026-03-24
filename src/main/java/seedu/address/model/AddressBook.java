@@ -53,12 +53,21 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
+     * Replaces the contents of the order list with {@code orders}.
+     * {@code orders} must not contain duplicate orders.
+     */
+    public void setOrders(List<Order> orders) {
+        this.orders.setOrders(orders);
+    }
+
+    /**
      * Resets the existing data of this {@code AddressBook} with {@code newData}.
      */
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
 
         setPersons(newData.getPersonList());
+        setOrders(newData.getOrderList());
     }
 
     //// person-level operations
@@ -118,14 +127,6 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Replaces the contents of the order list with {@code orders}.
-     * {@code orders} must not contain duplicate orders.
-     */
-    public void setOrders(List<Order> orders) {
-        this.orders.setOrders(orders);
-    }
-
-    /**
      * Removes {@code key} from this {@code AddressBook}.
      * {@code key} must exist in the address book.
      */
@@ -147,6 +148,7 @@ public class AddressBook implements ReadOnlyAddressBook {
     public String toString() {
         return new ToStringBuilder(this)
                 .add("persons", persons)
+                .add("orders", orders)
                 .toString();
     }
 
@@ -172,11 +174,12 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
 
         AddressBook otherAddressBook = (AddressBook) other;
-        return persons.equals(otherAddressBook.persons);
+        return persons.equals(otherAddressBook.persons)
+                && orders.equals(otherAddressBook.orders);
     }
 
     @Override
     public int hashCode() {
-        return persons.hashCode();
+        return java.util.Objects.hash(persons, orders);
     }
 }

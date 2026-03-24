@@ -109,7 +109,7 @@ public class RedoCommandTest {
     }
 
     @Test
-    public void execute_redoAddCommand_success() {
+    public void execute_redoAddPersonCommand_success() {
         // Add a person, commit, undo, then redo – person should be re-added
         Person personToAdd = new PersonBuilder().withName("Hoon Meier")
                 .withPhone("84824240").withEmail("stefan@example.com").withAddress("500001").build();
