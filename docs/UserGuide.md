@@ -130,7 +130,7 @@ Examples:
 
 ### Deleting a person : `deleteperson`
 
-Deletes the specified person from the address book.
+Deletes the specified person from the person list.
 
 Format: `deleteperson INDEX`
 
@@ -139,12 +139,12 @@ Format: `deleteperson INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `listperson` followed by `deleteperson 2` deletes the 2nd person in the address book.
+* `deleteperson 2` deletes the 2nd person in the person list.
 * `find N` followed by `deleteperson 1` deletes the 1st person in the results of the `find` command.
 
 ### Deleting an order : `deleteorder`
 
-Deletes the specified order from the address book.
+Deletes the specified order from the order list.
 
 Format: `deleteorder INDEX`
 
@@ -153,7 +153,7 @@ Format: `deleteorder INDEX`
 * The index **must be a positive integer** 1, 2, 3, …​
 
 Examples:
-* `listorder` followed by `deleteorder 3` deletes the 3rd order in the address book.
+* `deleteorder 3` deletes the 3rd order in the order list.
 
 ### Clearing all entries : `clear`
 
@@ -171,7 +171,7 @@ Format: `undo`
 * You can perform `undo` multiple times to step backwards through recent modifying commands until there is no more history to undo.
 
 Examples:
-* `deleteperson 2` followed by `undo` will restore the deleted person.
+* `deleteperson 2` followed by `undo` will restore the deleted 2nd person.
 
 ### Redoing the last undone change : `redo`
 
@@ -184,7 +184,7 @@ Format: `redo`
 * `redo` cannot be used after any new modifying command has been executed following an `undo` (the redo history is cleared when new changes are made).
 
 Examples:
-* `deleteperson 2` then `undo` then `redo` will delete the person again.
+* `deleteperson 2` then `undo` then `redo` will delete the 2nd person again.
 
 ### Exiting the program : `exit`
 
