@@ -114,7 +114,7 @@ Examples:
 
 Shows a list of all orders in the order list.
 
-Format: `list`
+Format: `listorder`
 
 ### Locating contacts by region: `findperson`
 
@@ -200,6 +200,6 @@ Action | Format, Examples
 **Clear** | `clear`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find N NE`
-**List** | `list`
+**FindPerson** | `findperson KEYWORD [MORE_KEYWORDS]`<br> e.g., `find N NE`
+**ListOrder** | `listorder`
 **Help** | `help`
