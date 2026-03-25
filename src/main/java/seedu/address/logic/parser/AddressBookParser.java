@@ -15,11 +15,11 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.order.EditOrderCommand;
-import seedu.address.logic.commands.person.AddCommand;
-import seedu.address.logic.commands.person.DeleteCommand;
-import seedu.address.logic.commands.person.EditCommand;
-import seedu.address.logic.commands.person.FindCommand;
-import seedu.address.logic.commands.person.ListCommand;
+import seedu.address.logic.commands.person.AddPersonCommand;
+import seedu.address.logic.commands.person.DeletePersonCommand;
+import seedu.address.logic.commands.person.EditPersonCommand;
+import seedu.address.logic.commands.person.FindPersonCommand;
+import seedu.address.logic.commands.person.ListPersonCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.logic.parser.person.AddCommandParser;
 import seedu.address.logic.parser.person.DeleteCommandParser;
@@ -60,23 +60,23 @@ public class AddressBookParser {
 
         switch (commandWord) {
 
-        case AddCommand.COMMAND_WORD:
+        case AddPersonCommand.COMMAND_WORD:
             return new AddCommandParser().parse(arguments);
 
-        case EditCommand.COMMAND_WORD:
+        case EditPersonCommand.COMMAND_WORD:
             return new EditCommandParser().parse(arguments);
 
-        case DeleteCommand.COMMAND_WORD:
+        case DeletePersonCommand.COMMAND_WORD:
             return new DeleteCommandParser().parse(arguments);
 
         case ClearCommand.COMMAND_WORD:
             return new ClearCommand();
 
-        case FindCommand.COMMAND_WORD:
+        case FindPersonCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);
 
-        case ListCommand.COMMAND_WORD:
-            return new ListCommand();
+        case ListPersonCommand.COMMAND_WORD:
+            return new ListPersonCommand();
 
         case EditOrderCommand.COMMAND_WORD:
             return new seedu.address.logic.parser.order.EditCommandParser().parse(arguments);
