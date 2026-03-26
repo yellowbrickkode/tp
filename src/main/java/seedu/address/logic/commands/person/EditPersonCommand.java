@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/java/seedu/address/logic/commands/order/EditCommand.java
-package seedu.address.logic.commands.order;
-========
 package seedu.address.logic.commands.person;
->>>>>>>> master:src/main/java/seedu/address/logic/commands/person/EditPersonCommand.java
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
@@ -116,22 +112,7 @@ public class EditPersonCommand extends Command {
         Region updatedRegion = editPersonDescriptor.getRegion().orElse(personToEdit.getRegion());
         Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
 
-<<<<<<<< HEAD:src/main/java/seedu/address/logic/commands/order/EditCommand.java
         return new Person(updatedName, updatedPhone, updatedAddress, updatedRegion, updatedTags);
-    }
-
-    @Override
-    public boolean shouldRecordInHistory() {
-        return true;
-    }
-
-    @Override
-    public boolean mutatesModel() {
-        return true;
-========
-        return new Person(updatedName, updatedPhone, updatedAddress, updatedRegion,
-                updatedOrders, updatedTags);
->>>>>>>> master:src/main/java/seedu/address/logic/commands/person/EditPersonCommand.java
     }
 
     @Override

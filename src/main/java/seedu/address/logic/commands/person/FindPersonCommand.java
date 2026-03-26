@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/java/seedu/address/logic/commands/order/FindCommand.java
-package seedu.address.logic.commands.order;
-========
 package seedu.address.logic.commands.person;
->>>>>>>> master:src/main/java/seedu/address/logic/commands/person/FindPersonCommand.java
 
 import static java.util.Objects.requireNonNull;
 

@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:src/main/java/seedu/address/logic/commands/order/ListCommand.java
-package seedu.address.logic.commands.order;
-========
 package seedu.address.logic.commands.person;
->>>>>>>> master:src/main/java/seedu/address/logic/commands/person/ListPersonCommand.java
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;

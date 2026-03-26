@@ -1,18 +1,10 @@
-<<<<<<<< HEAD:src/main/java/seedu/address/logic/parser/order/FindCommandParser.java
-package seedu.address.logic.parser.order;
-========
 package seedu.address.logic.parser.person;
->>>>>>>> master:src/main/java/seedu/address/logic/parser/person/FindPersonCommandParser.java
 
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 import java.util.Arrays;
 
-<<<<<<<< HEAD:src/main/java/seedu/address/logic/parser/order/FindCommandParser.java
-import seedu.address.logic.commands.person.FindCommand;
-========
 import seedu.address.logic.commands.person.FindPersonCommand;
->>>>>>>> master:src/main/java/seedu/address/logic/parser/person/FindPersonCommandParser.java
 import seedu.address.logic.parser.Parser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.person.RegionContainsKeywordsPredicate;

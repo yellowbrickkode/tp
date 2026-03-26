@@ -18,13 +18,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import seedu.address.commons.core.index.Index;
-<<<<<<<< HEAD:src/main/java/seedu/address/logic/parser/person/EditCommandParser.java
-import seedu.address.logic.commands.person.EditCommand;
-import seedu.address.logic.commands.person.EditCommand.EditPersonDescriptor;
-========
-import seedu.address.logic.commands.person.EditPersonCommand;
 import seedu.address.logic.commands.person.EditPersonCommand.EditPersonDescriptor;
->>>>>>>> master:src/main/java/seedu/address/logic/parser/person/EditPersonCommandParser.java
+import seedu.address.logic.commands.person.EditPersonCommand;
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.Parser;
@@ -46,11 +41,7 @@ public class EditPersonCommandParser implements Parser<EditPersonCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
-<<<<<<<< HEAD:src/main/java/seedu/address/logic/parser/person/EditCommandParser.java
                         PREFIX_ADDRESS, PREFIX_UNITNO, PREFIX_REGION, PREFIX_TAG);
-========
-                        PREFIX_ADDRESS, PREFIX_UNITNO, PREFIX_REGION, PREFIX_ORDERS, PREFIX_TAG);
->>>>>>>> master:src/main/java/seedu/address/logic/parser/person/EditPersonCommandParser.java
 
         Index index;
 
@@ -83,10 +74,7 @@ public class EditPersonCommandParser implements Parser<EditPersonCommand> {
         if (argMultimap.getValue(PREFIX_REGION).isPresent()) {
             editPersonDescriptor.setRegion(ParserUtil.parseRegion(argMultimap.getValue(PREFIX_REGION).get()));
         }
-        if (argMultimap.getValue(PREFIX_ORDERS).isPresent()) {
-            editPersonDescriptor.setOrder(
-                    new ArrayList<>(List.of(ParserUtil.parseOrder(argMultimap.getValue(PREFIX_ORDERS).get()))));
-        }
+
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {

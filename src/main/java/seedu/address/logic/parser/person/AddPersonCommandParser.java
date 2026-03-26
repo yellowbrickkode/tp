@@ -11,11 +11,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_UNITNO;
 import java.util.Set;
 import java.util.stream.Stream;
 
-<<<<<<<< HEAD:src/main/java/seedu/address/logic/parser/person/AddCommandParser.java
-import seedu.address.logic.commands.person.AddCommand;
-========
 import seedu.address.logic.commands.person.AddPersonCommand;
->>>>>>>> master:src/main/java/seedu/address/logic/parser/person/AddPersonCommandParser.java
 import seedu.address.logic.parser.ArgumentMultimap;
 import seedu.address.logic.parser.ArgumentTokenizer;
 import seedu.address.logic.parser.Parser;
