@@ -20,7 +20,6 @@ public class Person {
     // Identity fields
     private final Name name;
     private final Phone phone;
-    private final Email email;
 
     // Data fields
     private final Address address;
@@ -29,45 +28,14 @@ public class Person {
     private final Set<Tag> tags = new HashSet<>();
 
     /**
-     * Every field except email must be present and not null.
-     */
-    public Person(Name name, Phone phone, Address address, Region region, ArrayList<String> order, Set<Tag> tags) {
-        requireAllNonNull(name, phone, address, region, order, tags);
-        this.name = name;
-        this.phone = phone;
-        this.email = new Email("");
-        this.address = address;
-        this.region = region;
-        this.orders.addAll(order);
-        this.tags.addAll(tags);
-    }
-
-    /**
      * Every field except email must be present and not null. Old constructor that includes email.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Region region, String order, Set<Tag> tags) {
-        requireAllNonNull(name, phone, address, region, order, tags);
+    public Person(Name name, Phone phone, Address address, Region region, Set<Tag> tags) {
+        requireAllNonNull(name, phone, address, region, tags);
         this.name = name;
         this.phone = phone;
-        this.email = email;
         this.address = address;
         this.region = region;
-        this.orders.add(order);
-        this.tags.addAll(tags);
-    }
-
-    /**
-     * Every field must be present and not null. For adding a list of multiple orders.
-     */
-    public Person(Name name, Phone phone, Email email, Address address,
-                  Region region, ArrayList<String> orders, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, region, orders, tags);
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.address = address;
-        this.region = region;
-        this.orders.addAll(orders);
         this.tags.addAll(tags);
     }
 
@@ -79,24 +47,12 @@ public class Person {
         return phone;
     }
 
-    public Email getEmail() {
-        return email;
-    }
-
     public Address getAddress() {
         return address;
     }
 
     public Region getRegion() {
         return region;
-    }
-
-    public ArrayList<String> getOrders() {
-        return orders;
-    }
-
-    public String getLastOrder() {
-        return orders.get(orders.size() - 1);
     }
 
     /**
@@ -156,7 +112,6 @@ public class Person {
                 .add("phone", phone)
                 .add("address", address)
                 .add("region", region)
-                .add("orders", orders)
                 .add("tags", tags)
                 .toString();
     }

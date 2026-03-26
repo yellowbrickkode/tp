@@ -4,16 +4,13 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ORDERS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REGION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_UNITNO;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -41,7 +38,7 @@ public class EditPersonCommandParser implements Parser<EditPersonCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE,
-                        PREFIX_ADDRESS, PREFIX_UNITNO, PREFIX_REGION, PREFIX_ORDERS, PREFIX_TAG);
+                        PREFIX_ADDRESS, PREFIX_UNITNO, PREFIX_REGION, PREFIX_TAG);
 
         Index index;
 
@@ -74,10 +71,7 @@ public class EditPersonCommandParser implements Parser<EditPersonCommand> {
         if (argMultimap.getValue(PREFIX_REGION).isPresent()) {
             editPersonDescriptor.setRegion(ParserUtil.parseRegion(argMultimap.getValue(PREFIX_REGION).get()));
         }
-        if (argMultimap.getValue(PREFIX_ORDERS).isPresent()) {
-            editPersonDescriptor.setOrder(
-                    new ArrayList<>(List.of(ParserUtil.parseOrder(argMultimap.getValue(PREFIX_ORDERS).get()))));
-        }
+
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
 
         if (!editPersonDescriptor.isAnyFieldEdited()) {

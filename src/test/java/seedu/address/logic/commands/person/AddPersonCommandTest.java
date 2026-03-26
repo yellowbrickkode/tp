@@ -24,7 +24,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.order.Order;
+import seedu.address.model.order.OrderMap;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.PersonBuilder;
 
@@ -135,7 +135,7 @@ public class AddPersonCommandTest {
         }
 
         @Override
-        public void addOrder(Order order) {
+        public void addOrder(OrderMap order) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -155,7 +155,7 @@ public class AddPersonCommandTest {
         }
 
         @Override
-        public boolean hasOrder(Order order) {
+        public boolean hasOrder(OrderMap order) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -165,7 +165,7 @@ public class AddPersonCommandTest {
         }
 
         @Override
-        public void deleteOrder(Order target) {
+        public void deleteOrder(OrderMap target) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -175,7 +175,7 @@ public class AddPersonCommandTest {
         }
 
         @Override
-        public void setOrder(Order target, Order editedPerson) {
+        public void setOrder(OrderMap target, OrderMap editedPerson) {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -185,7 +185,7 @@ public class AddPersonCommandTest {
         }
 
         @Override
-        public ObservableList<Order> getFilteredOrderList() {
+        public ObservableList<OrderMap> getFilteredOrderList() {
             throw new AssertionError("This method should not be called.");
         }
 
@@ -194,7 +194,7 @@ public class AddPersonCommandTest {
             throw new AssertionError("This method should not be called.");
         }
 
-        public void updateFilteredOrderList(Predicate<Order> predicate) {
+        public void updateFilteredOrderList(Predicate<OrderMap> predicate) {
             throw new AssertionError("This method should not be called.");
         }
 

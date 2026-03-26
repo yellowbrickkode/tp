@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.model.order.Order;
+import seedu.address.model.order.OrderMap;
 import seedu.address.model.person.Person;
 
 /**
@@ -16,7 +16,7 @@ public interface Model {
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
     /** {@code Predicate} that always evaluate to true */
-    Predicate<Order> PREDICATE_SHOW_ALL_ORDERS = unused -> true;
+    Predicate<OrderMap> PREDICATE_SHOW_ALL_ORDERS = unused -> true;
 
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
@@ -64,7 +64,7 @@ public interface Model {
     /**
      * Returns true if an order with the same id as {@code order} exists in the address book.
      */
-    boolean hasOrder(Order order);
+    boolean hasOrder(OrderMap order);
 
     /**
      * Deletes the given person.
@@ -76,7 +76,7 @@ public interface Model {
      * Deletes the given order.
      * The order must exist in the address book.
      */
-    void deleteOrder(Order target);
+    void deleteOrder(OrderMap target);
 
     /**
      * Adds the given person.
@@ -88,7 +88,7 @@ public interface Model {
      * Adds the given order.
      * {@code order} must not already exist in the address book.
      */
-    void addOrder(Order order);
+    void addOrder(OrderMap order);
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
@@ -102,13 +102,13 @@ public interface Model {
      * {@code target} must exist in the address book.
      * The orderId of {@code editedOrder} must not be the same as another existing order in the address book.
      */
-    void setOrder(Order target, Order editedPerson);
+    void setOrder(OrderMap target, OrderMap editedPerson);
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
     /** Returns an unmodifiable view of the filtered person list */
-    ObservableList<Order> getFilteredOrderList();
+    ObservableList<OrderMap> getFilteredOrderList();
 
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
@@ -120,7 +120,7 @@ public interface Model {
      * Updates the filter of the filtered order list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
-    void updateFilteredOrderList(Predicate<Order> predicate);
+    void updateFilteredOrderList(Predicate<OrderMap> predicate);
 
     //=========== Undo/Redo =================================================================================
     //@@author wangyida-reused

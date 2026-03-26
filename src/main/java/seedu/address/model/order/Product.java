@@ -1,7 +1,7 @@
 package seedu.address.model.order;
 
-import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
+import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 /**
  * Represents the Product ordered.
@@ -11,33 +11,44 @@ public class Product {
     public static final String MESSAGE_CONSTRAINTS =
             "Product names should not be blank.";
 
-    public final String value;
+    private static int idx = 1;
+    public final int index;
+    public final String name;
+    private final double price;
 
     /**
      * Constructs an {@code Product}.
      *
      * @param product A valid Product.
      */
-    public Product(String product) {
-        requireNonNull(product);
+    public Product(String product, double price) {
+        requireAllNonNull(product, price);
         checkArgument(!product.trim().isEmpty(), MESSAGE_CONSTRAINTS);
-        value = product;
+        this.index = idx;
+        name = product;
+        this.price = price;
+        idx++;
     }
+
+    public String getName() { return name; }
+
+    public double getPrice() { return price; }
 
     @Override
     public String toString() {
-        return value;
+        return name + ", $" + price;
     }
 
     @Override
     public boolean equals(Object other) {
         return other == this
                 || (other instanceof Product
-                && value.equals(((Product) other).value));
+                && name.equals(((Product) other).name)
+                && price == (((Product) other).price));
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return name.hashCode();
     }
 }

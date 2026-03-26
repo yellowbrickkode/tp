@@ -11,7 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.model.order.Order;
+import seedu.address.model.order.OrderMap;
 import seedu.address.model.person.Person;
 
 /**
@@ -23,7 +23,7 @@ public class ModelManager implements Model {
     private final VersionedAddressBook versionedAddressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
-    private final FilteredList<Order> filteredOrders;
+    private final FilteredList<OrderMap> filteredOrders;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -97,7 +97,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public boolean hasOrder(Order order) {
+    public boolean hasOrder(OrderMap order) {
         requireNonNull(order);
         return versionedAddressBook.hasOrder(order);
     }
@@ -108,8 +108,8 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void deleteOrder(Order target) {
-        this.versionedAddressBook.removeOrder(target);
+    public void deleteOrder(OrderMap target) {
+        versionedAddressBook.removeOrder(target);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void addOrder(Order order) {
+    public void addOrder(OrderMap order) {
         versionedAddressBook.addOrder(order);
         updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
     }
@@ -132,7 +132,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void setOrder(Order target, Order editedOrder) {
+    public void setOrder(OrderMap target, OrderMap editedOrder) {
         requireAllNonNull(target, editedOrder);
 
         versionedAddressBook.setOrder(target, editedOrder);
@@ -150,7 +150,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public ObservableList<Order> getFilteredOrderList() {
+    public ObservableList<OrderMap> getFilteredOrderList() {
         return filteredOrders;
     }
 
@@ -161,7 +161,7 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void updateFilteredOrderList(Predicate<Order> predicate) {
+    public void updateFilteredOrderList(Predicate<OrderMap> predicate) {
         requireNonNull(predicate);
         filteredOrders.setPredicate(predicate);
     }

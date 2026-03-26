@@ -1,7 +1,7 @@
 package seedu.address.model;
 
 import javafx.collections.ObservableList;
-import seedu.address.model.order.Order;
+import seedu.address.model.order.OrderMap;
 import seedu.address.model.person.Person;
 
 /**
@@ -19,6 +19,6 @@ public interface ReadOnlyAddressBook {
      * Returns an unmodifiable view of the orders list.
      * This list will not contain any duplicate orders.
      */
-    ObservableList<Order> getOrderList();
+    ObservableList<OrderMap> getOrderList();
 
 }

@@ -41,7 +41,7 @@ public class UndoCommandTest {
     public void execute_singleUndoableState_success() {
         // Simulate a modifying command by adding a person and committing
         Person person = new PersonBuilder().withName("Undo Test Person")
-                .withPhone("91234567").withEmail("undotest@example.com").withAddress("123456").build();
+                .withPhone("91234567").withAddress("123456").build();
 
         model.addPerson(person);
         model.commitAddressBook();
@@ -61,9 +61,9 @@ public class UndoCommandTest {
     public void execute_multipleUndoableStates_success() {
         // Commit two modifying states
         Person firstPerson = new PersonBuilder().withName("First Undo Person")
-                .withPhone("91111111").withEmail("first@example.com").withAddress("111111").build();
+                .withPhone("91111111").withAddress("111111").build();
         Person secondPerson = new PersonBuilder().withName("Second Undo Person")
-                .withPhone("92222222").withEmail("second@example.com").withAddress("222222").build();
+                .withPhone("92222222").withAddress("222222").build();
 
         model.addPerson(firstPerson);
         model.commitAddressBook();
@@ -87,7 +87,7 @@ public class UndoCommandTest {
     public void execute_undoAfterUndoingAll_failure() {
         // Commit one state, undo it manually, then the UndoCommand should fail
         Person person = new PersonBuilder().withName("Undo Test Person")
-                .withPhone("91234567").withEmail("undotest@example.com").withAddress("123456").build();
+                .withPhone("91234567").withAddress("123456").build();
 
         model.addPerson(person);
         model.commitAddressBook();
@@ -101,7 +101,7 @@ public class UndoCommandTest {
     public void execute_undoAddPersonCommand_success() {
         // Execute AddPersonCommand, commit, then undo – person should be removed
         Person personToAdd = new PersonBuilder().withName("Hoon Meier")
-                .withPhone("84824240").withEmail("stefan@example.com").withAddress("500001").build();
+                .withPhone("84824240").withAddress("500001").build();
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.addPerson(personToAdd);
@@ -165,9 +165,9 @@ public class UndoCommandTest {
     public void execute_consecutiveUndos_success() {
         // Commit three states, then undo all the way back to the initial state
         Person firstPerson = new PersonBuilder().withName("Hoon Meier")
-                .withPhone("84824240").withEmail("stefan@example.com").withAddress("500001").build();
+                .withPhone("84824240").withAddress("500001").build();
         Person secondPerson = new PersonBuilder().withName("Ida Mueller")
-                .withPhone("84821310").withEmail("hans@example.com").withAddress("600001").build();
+                .withPhone("84821310").withAddress("600001").build();
 
         model.addPerson(firstPerson);
         model.commitAddressBook();

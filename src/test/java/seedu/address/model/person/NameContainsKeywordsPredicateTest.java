@@ -72,7 +72,7 @@ public class NameContainsKeywordsPredicateTest {
         predicate = new NameContainsKeywordsPredicate(
                 Arrays.asList("91234567", "alice@email.com", "123456"));
         assertFalse(predicate.test(new PersonBuilder().withName("Alice").withPhone("91234567")
-                .withEmail("alice@email.com").withAddress("123456").build()));
+                .withAddress("123456").build()));
     }
 
     @Test

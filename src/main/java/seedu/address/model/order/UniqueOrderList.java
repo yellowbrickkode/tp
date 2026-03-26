@@ -20,17 +20,17 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
  *
  * Supports a minimal set of list operations.
  *
- * @see Order#isSameOrder(Order)
+ * @see OrderMap#isSameOrder(OrderMap)
  */
-public class UniqueOrderList implements Iterable<Order> {
-    private final ObservableList<Order> internalList = FXCollections.observableArrayList();
-    private final ObservableList<Order> internalUnmodifiableList =
+public class UniqueOrderList implements Iterable<OrderMap> {
+    private final ObservableList<OrderMap> internalList = FXCollections.observableArrayList();
+    private final ObservableList<OrderMap> internalUnmodifiableList =
             FXCollections.unmodifiableObservableList(internalList);
 
     /**
      * Returns true if the list contains an equivalent person as the given argument.
      */
-    public boolean contains(Order toCheck) {
+    public boolean contains(OrderMap toCheck) {
         requireNonNull(toCheck);
         return internalList.stream().anyMatch(toCheck::isSameOrder);
     }
@@ -39,7 +39,7 @@ public class UniqueOrderList implements Iterable<Order> {
      * Adds an order to the list.
      * The order must not already exist in the list.
      */
-    public void add(Order toAdd) {
+    public void add(OrderMap toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
             throw new DuplicatePersonException();
@@ -52,7 +52,7 @@ public class UniqueOrderList implements Iterable<Order> {
      * {@code target} must exist in the list.
      * The orderId of {@code editedOrder} must not be the same as another existing order in the list.
      */
-    public void setOrder(Order target, Order editedOrder) {
+    public void setOrder(OrderMap target, OrderMap editedOrder) {
         requireAllNonNull(target, editedOrder);
 
         int index = internalList.indexOf(target);
@@ -71,7 +71,7 @@ public class UniqueOrderList implements Iterable<Order> {
      * Removes the equivalent order from the list.
      * The order must exist in the list.
      */
-    public void remove(Order toRemove) {
+    public void remove(OrderMap toRemove) {
         requireNonNull(toRemove);
         if (!internalList.remove(toRemove)) {
             throw new PersonNotFoundException();
@@ -87,7 +87,7 @@ public class UniqueOrderList implements Iterable<Order> {
      * Replaces the contents of this list with {@code orders}.
      * {@code orders} must not contain duplicate persons.
      */
-    public void setOrders(List<Order> orders) {
+    public void setOrders(List<OrderMap> orders) {
         requireAllNonNull(orders);
         if (!ordersAreUnique(orders)) {
             throw new DuplicatePersonException();
@@ -99,12 +99,12 @@ public class UniqueOrderList implements Iterable<Order> {
     /**
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
-    public ObservableList<Order> asUnmodifiableObservableList() {
+    public ObservableList<OrderMap> asUnmodifiableObservableList() {
         return internalUnmodifiableList;
     }
 
     @Override
-    public Iterator<Order> iterator() {
+    public Iterator<OrderMap> iterator() {
         return internalList.iterator();
     }
 
@@ -136,7 +136,7 @@ public class UniqueOrderList implements Iterable<Order> {
     /**
      * Returns true if {@code orders} contains only unique orders.
      */
-    private boolean ordersAreUnique(List<Order> orders) {
+    private boolean ordersAreUnique(List<OrderMap> orders) {
         for (int i = 0; i < orders.size() - 1; i++) {
             for (int j = i + 1; j < orders.size(); j++) {
                 if (orders.get(i).isSameOrder(orders.get(j))) {

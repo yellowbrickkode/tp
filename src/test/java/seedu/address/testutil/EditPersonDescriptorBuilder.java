@@ -1,7 +1,5 @@
 package seedu.address.testutil;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -38,7 +36,6 @@ public class EditPersonDescriptorBuilder {
         descriptor.setPostalCode(person.getAddress().getPostalCode());
         descriptor.setUnitNo(person.getAddress().getUnit());
         descriptor.setRegion(person.getRegion());
-        descriptor.setOrder(new ArrayList<>(person.getOrders()));
         descriptor.setTags(person.getTags());
     }
 
@@ -89,14 +86,6 @@ public class EditPersonDescriptorBuilder {
     public EditPersonDescriptorBuilder withTags(String... tags) {
         Set<Tag> tagSet = Stream.of(tags).map(Tag::new).collect(Collectors.toSet());
         descriptor.setTags(tagSet);
-        return this;
-    }
-
-    /**
-     * Sets the {@code orders} of the {@code EditPersonDescriptor} that we are building.
-     */
-    public EditPersonDescriptorBuilder withOrders(String... orders) {
-        descriptor.setOrder(new ArrayList<>(Arrays.asList(orders)));
         return this;
     }
 

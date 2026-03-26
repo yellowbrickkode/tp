@@ -11,7 +11,7 @@ import seedu.address.model.person.Person;
  * Represents an Order in the address book.
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
-public class Order {
+public class OrderItem {
 
     private final OrderId orderId;
     private final Person person;
@@ -19,13 +19,13 @@ public class Order {
     private final Quantity quantity;
     private final Price price;
     private final OrderStatus status;
-    private final OrderDate orderDate;
+    private final OrderDateTime orderDate;
 
     /**
      * Every field must be present and not null.
      */
-    public Order(OrderId orderId, Person person, Product product, Quantity quantity,
-                 Price price, OrderStatus status, OrderDate orderDate) {
+    public OrderItem(OrderId orderId, Person person, Product product, Quantity quantity,
+                 Price price, OrderStatus status, OrderDateTime orderDate) {
         requireAllNonNull(orderId, product, quantity, price, status, orderDate);
         this.orderId = orderId;
         this.person = person;
@@ -60,7 +60,7 @@ public class Order {
         return status;
     }
 
-    public OrderDate getDate() {
+    public OrderDateTime getDate() {
         return orderDate;
     }
 
@@ -68,7 +68,7 @@ public class Order {
      * Returns true if both orders have the same name.
      * This defines a weaker notion of equality between two orders.
      */
-    public boolean isSameOrder(Order otherOrder) {
+    public boolean isSameOrder(OrderItem otherOrder) {
         if (otherOrder == this) {
             return true;
         }
@@ -87,11 +87,11 @@ public class Order {
             return true;
         }
 
-        if (!(other instanceof Order)) {
+        if (!(other instanceof OrderItem)) {
             return false;
         }
 
-        Order otherOrder = (Order) other;
+        OrderItem otherOrder = (OrderItem) other;
         return orderId.equals(otherOrder.orderId)
                 && product.equals(otherOrder.product)
                 && quantity.equals(otherOrder.quantity);

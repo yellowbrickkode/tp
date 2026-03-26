@@ -1,62 +1,141 @@
 package seedu.address.testutil;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.AddressBook;
-import seedu.address.model.order.Order;
-import seedu.address.model.order.OrderStatus;
-import seedu.address.model.person.Person;
+import seedu.address.model.order.OrderMap;
+
 /**
  * A utility class containing a list of {@code Order} objects to be used in tests.
  */
+
 public class TypicalOrders {
-    private static final Person ALICE_PERSON = new PersonBuilder().withName("Alice Pauline").build();
-    private static final Person BENSON_PERSON = new PersonBuilder().withName("Benson").build();
-    private static final Person CARL_PERSON = new PersonBuilder().withName("Carl").build();
-    private static final Person DANIEL_PERSON = new PersonBuilder().withName("Daniel").build();
 
-    public static final Order ALICE_ORDER = new OrderBuilder()
-            .withOrderId("1")
-            .withPerson(ALICE_PERSON)
-            .withProduct("Nasi Lemak")
-            .withQuantity("2")
-            .withPrice("5")
-            .withStatus(OrderStatus.PENDING)
-            .withOrderDate(LocalDate.parse("2026-03-10"))
-            .build();
+    public static final OrderMap ALICE_ORDER;
 
-    public static final Order BENSON_ORDER = new OrderBuilder()
-            .withOrderId("2")
-            .withPerson(BENSON_PERSON)
-            .withProduct("Chicken Rice")
-            .withQuantity("1")
-            .withPrice("4")
-            .withStatus(OrderStatus.PENDING)
-            .withOrderDate(LocalDate.parse("2026-03-11"))
-            .build();
+    static {
+        try {
+            ALICE_ORDER = new OrderBuilder().withPerson(TypicalPersons.ALICE)
+                    .withOrderMap(List.of("1 2", "2 4")).build();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    public static final Order CARL_ORDER = new OrderBuilder()
-            .withOrderId("3")
-            .withPerson(CARL_PERSON)
-            .withProduct("Laksa")
-            .withQuantity("3")
-            .withPrice("6")
-            .withStatus(OrderStatus.COMPLETED)
-            .withOrderDate(LocalDate.parse("2026-03-12"))
-            .build();
+    public static final OrderMap BENSON_ORDER;
 
-    public static final Order DANIEL_ORDER = new OrderBuilder()
-            .withOrderId("4")
-            .withPerson(DANIEL_PERSON)
-            .withProduct("Char Kway Teow")
-            .withQuantity("1")
-            .withPrice("5")
-            .withStatus(OrderStatus.PENDING)
-            .withOrderDate(LocalDate.parse("2026-03-13"))
-            .build();
+    static {
+        try {
+            BENSON_ORDER = new OrderBuilder().withPerson(TypicalPersons.BENSON)
+                    .withOrderMap(List.of("2 1", "3 6", "1 1")).build();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static final OrderMap CARL_ORDER;
+
+    static {
+        try {
+            CARL_ORDER = new OrderBuilder().withPerson(TypicalPersons.CARL)
+                    .withOrderMap(List.of("1 1")).build();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static final OrderMap DANIEL_ORDER;
+
+    static {
+        try {
+            DANIEL_ORDER = new OrderBuilder().withPerson(TypicalPersons.DANIEL)
+                    .withOrderMap(List.of("4 1")).build();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static final OrderMap ELLE_ORDER;
+
+    static {
+        try {
+            ELLE_ORDER = new OrderBuilder().withPerson(TypicalPersons.ELLE)
+                    .withOrderMap(List.of("4 4")).build();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static final OrderMap FIONA_ORDER;
+
+    static {
+        try {
+            FIONA_ORDER = new OrderBuilder().withPerson(TypicalPersons.FIONA)
+                    .withOrderMap(List.of("5 1")).build();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static final OrderMap GEORGE_ORDER;
+
+    static {
+        try {
+            GEORGE_ORDER = new OrderBuilder().withPerson(TypicalPersons.GEORGE)
+                    .withOrderMap(List.of("2 2", "4 2")).build();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Manually added
+    public static final OrderMap HOON_ORDER;
+
+    static {
+        try {
+            HOON_ORDER = new OrderBuilder().withPerson(TypicalPersons.HOON)
+                    .withOrderMap(List.of("1 1", "2 2")).build();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static final OrderMap IDA_ORDER;
+
+    static {
+        try {
+            IDA_ORDER = new OrderBuilder().withPerson(TypicalPersons.IDA)
+                    .withOrderMap(List.of("3 2", "4 3")).build();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Manually added - Person's details found in {@code CommandTestUtil}
+    public static final OrderMap AMY_ORDER;
+
+    static {
+        try {
+            AMY_ORDER = new OrderBuilder().withPerson(TypicalPersons.AMY)
+                    .withOrderMap(List.of("3 2", "4 4")).build();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static final OrderMap BOB_ORDER;
+
+    static {
+        try {
+            BOB_ORDER = new OrderBuilder().withPerson(TypicalPersons.BOB)
+                    .withOrderMap(List.of("1 2", "3 1")).build();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private TypicalOrders() {} // prevents instantiation
 
@@ -66,24 +145,29 @@ public class TypicalOrders {
     public static AddressBook getTypicalAddressBook() {
         AddressBook ab = new AddressBook();
 
-        ab.addPerson(ALICE_PERSON);
-        ab.addPerson(BENSON_PERSON);
-        ab.addPerson(CARL_PERSON);
-        ab.addPerson(DANIEL_PERSON);
+        ab.addPerson(TypicalPersons.ALICE);
+        ab.addPerson(TypicalPersons.BENSON);
+        ab.addPerson(TypicalPersons.CARL);
+        ab.addPerson(TypicalPersons.DANIEL);
 
-        for (Order order : getTypicalOrders()) {
+        for (OrderMap order : getTypicalOrders()) {
             ab.addOrder(order);
         }
 
         return ab;
     }
 
-    public static List<Order> getTypicalOrders() {
-        return new ArrayList<>(Arrays.asList(
-                ALICE_ORDER,
-                BENSON_ORDER,
-                CARL_ORDER,
-                DANIEL_ORDER
-        ));
+    public static List<OrderMap> getTypicalOrders() {
+        return new ArrayList<>(
+                Arrays.asList(
+                        ALICE_ORDER,
+                        BENSON_ORDER,
+                        CARL_ORDER,
+                        DANIEL_ORDER,
+                        ELLE_ORDER,
+                        FIONA_ORDER,
+                        GEORGE_ORDER
+                )
+        );
     }
 }
