@@ -15,10 +15,10 @@ import seedu.address.model.order.OrderMap;
 
 public class EditOrderCommandParserTest {
 
-    private EditOrderCommandParser parser = new EditOrderCommandParser();
-
     private static final String MESSAGE_INVALID_FORMAT =
             String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditOrderCommand.MESSAGE_USAGE);
+
+    private EditOrderCommandParser parser = new EditOrderCommandParser();
 
     @Test
     public void parse_returnsCommandInstance() throws Exception {
