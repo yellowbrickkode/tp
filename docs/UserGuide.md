@@ -3,7 +3,7 @@ layout: page
 title: User Guide
 ---
 
-Food Bridge is a **desktop app for managing contacts and orders for restaurants, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI).
+Food Bridge is a **desktop app for restaurant delivery workers to manage contacts and orders. It is optimized for use via a Command Line Interface** (CLI).
 
 * Table of Contents
 {:toc}
@@ -13,24 +13,26 @@ Food Bridge is a **desktop app for managing contacts and orders for restaurants,
 ## Quick start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
-   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html). <br>
+   **Windows/Linux users:** Ensure you have the precise Java and JDK versions prescribed by running the commands `java -version` and `javac -version` in your command terminal respectively. 
 
 1. Download the latest `.jar` file from [here](https://github.com/AY2526S2-CS2103T-T12-4/tp/releases).
 
 1. Copy the file to the folder you want to use as the _home folder_ for your Food Bridge Application.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar food-bridge-[version].jar` command to run the application.<br>
+1. Open a command terminal. 
+2. Use the command `cd FOLDER_PATH`, where `FOLDER_PATH` is the folder you put the jar file in. Then, use the command `java -jar food-bridge-[version].jar` to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all contacts.
+   * `listperson` : Lists all contacts.
 
    * `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N` : Adds a contact named `John Doe` to the Address Book.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+   * `deleteperson 3` : Deletes the 3rd contact shown in the current list.
 
    * `clear` : Deletes all contacts.
 
@@ -64,16 +66,9 @@ Food Bridge is a **desktop app for managing contacts and orders for restaurants,
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
-### Viewing help : `help`
+### **Customer Management**
 
-Shows a message explaining how to access the help page.
-
-![help message](images/helpMessage.png)
-
-Format: `help`
-
-
-### Adding a person: `addperson`
+#### Adding a person: `addperson`
 
 Adds a person to the address book.
 
@@ -84,10 +79,10 @@ A person can have any number of tags (including 0)
 </div>
 
 Examples:
-* `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N`
-* `addperson n/Betsy Crowe p/87243155 a/110022 r/C t/loyal customer`
+* `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N` adds a person named John Doe, with phone number 98765432, living at postal code 111111, unit #01-01, in the North region. 
+* `addperson n/Betsy Crowe p/87243155 a/110022 r/C t/loyal customer` adds a person named Betsy Crowe, with phone number 87243155, living at postal code 110022, in the Central region, tagged as a loyal customer. 
 
-### Deleting a person : `deleteperson`
+#### Deleting a person : `deleteperson`
 
 Deletes the specified person from the person list.
 
@@ -99,15 +94,15 @@ Format: `deleteperson INDEX`
 
 Examples:
 * `deleteperson 2` deletes the 2nd person in the person list.
-* `find N` followed by `deleteperson 1` deletes the 1st person in the results of the `find` command.
+* `findperson N` followed by `deleteperson 1` deletes the 1st person in the results of the `find` command.
 
-### Listing all persons : `listperson`
+#### Listing all persons : `listperson`
 
 Shows a list of all persons in the contact list.
 
 Format: `listperson`
 
-### Editing a person : `editperson`
+#### Editing a person : `editperson`
 
 Edits an existing person in the person list.
 
@@ -131,11 +126,11 @@ Editing tags:
 | `REGION`       | Must be one of: `N`, `NE`, `W`, `E`, `C`.                       |
 
 Examples:
-*  `editperson 1 p/91234567 r/E` Edits the phone number and region of the 1st person in the list to be `91234567` and `East` respectively.
-*  `editperson 2 n/Betsy Crower t/` Edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
-* `editperson 3 a/123456 u/` Edits the postal code of the 3rd person to be `123456` and clears the existing unit number.
+* `editperson 1 p/91234567 r/E` edits the phone number and region of the 1st person in the list to be `91234567` and `East` respectively.
+* `editperson 2 n/Betsy Crower t/` edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
+* `editperson 3 a/123456 u/` edits the postal code of the 3rd person to be `123456` and clears the existing unit number.
 
-### Locating people by region: `findperson`
+#### Locating people by region: `findperson`
 
 Finds people whose regions match any of the given keywords.
 
@@ -152,7 +147,10 @@ Examples:
 * `findperson N` returns persons in region `N`
 * `findperson NE W` returns persons in region `NE` or `W`
 
-### Adding an order: `addorder`
+
+### **Order Management** 
+
+#### Adding an order: `addorder`
 
 Adds an order to the address book.
 
@@ -163,10 +161,10 @@ A person can have any number of orders (excluding 0)
 </div>
 
 Examples:
-* `addorder c/1 o/2 5`
-* `addorder c/2 o/1 1 o/2 3 o/4 2`
+* addorder c/1 o/2 5 adds an order of 5 units of menu item 2 for the first customer in the customer list.
+* addorder c/2 o/1 1 o/2 3 o/4 2 adds an order for the second customer, consisting of 1 unit of menu item 1, 3 units of menu item 2, and 2 units of menu item 4.
 
-### Deleting an order : `deleteorder`
+#### Deleting an order : `deleteorder`
 
 Deletes the specified order from the order list.
 
@@ -179,13 +177,13 @@ Format: `deleteorder INDEX`
 Examples:
 * `deleteorder 3` deletes the 3rd order in the order list.
 
-### Listing all orders : `listorder`
+#### Listing all orders : `listorder`
 
 Shows a list of all orders in the order list.
 
 Format: `listorder`
 
-### Editing an order : `editorder`
+#### Editing an order : `editorder`
 
 Edits an existing order in the order list.
 
@@ -195,10 +193,20 @@ Format: `editorder INDEX o/MENU_ITEM PRODUCT_QUANTITY…​`
 * Existing menu item selections will be updated to the input values.
 
 Examples:
-*  `editorder 1 o/1 1 o/2 4` Edits the 1st order in the list to include 1 of menu item 1 and 4 of menu item 2.
-*  `editorder 2 o/2 0` Edits the 2nd order to clear the selection of menu item 2.
+*  `editorder 1 o/1 1 o/2 4` edits the 1st order in the list to include 1 of menu item 1 and 4 of menu item 2.
+*  `editorder 2 o/2 0` edits the 2nd order to clear the selection of menu item 2.
 
-### Undoing the last change : `undo`
+### **General Commands**
+
+#### Viewing help : `help`
+
+Shows a message explaining how to access the help page.
+
+![help message](images/helpMessage.png)
+
+Format: `help`
+
+#### Undoing the last change : `undo`
 
 Undoes the most recent change to the address book.
 
@@ -210,7 +218,7 @@ Format: `undo`
 Examples:
 * `deleteperson 2` followed by `undo` will restore the deleted 2nd person.
 
-### Redoing the last undone change : `redo`
+#### Redoing the last undone change : `redo`
 
 Redoes the most recently undone change.
 
@@ -221,32 +229,43 @@ Format: `redo`
 * `redo` cannot be used after any new modifying command has been executed following an `undo` (the redo history is cleared when new changes are made).
 
 Examples:
-* `deleteperson 2` then `undo` then `redo` will delete the 2nd person again.
+* `deleteperson 2` followed by `undo` then `redo` will delete the 2nd person again.
 
-### Clearing all entries : `clear`
+#### Clearing all entries : `clear`
 
 Clears all entries from the address book.
 
 Format: `clear`
 
-### Exiting the program : `exit`
+#### Exiting the program : `exit`
 
 Exits the program.
 
 Format: `exit`
 
-### Saving customer and order data
+#### Saving customer and order data
 
 AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
-### Updating the customer and order data file  
+#### Updating the customer and order data file  
 
 AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+<div markdown="span" class="alert alert-warning"> :exclamation: **Caution:**
 If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
 Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
+
+--------------------------------------------------------------------------------------------------------------------
+
+## Example Workflow
+1. [**Add a person**](#adding-a-person-addperson): Use `addperson` to add a new person to the contact list. 
+1. [**Edit a person**](#editing-a-person--editperson): Use `editperson` to edit the contact. 
+1. [**Add an order**](#adding-an-order-addorder): Use `addperson` to add an order. Tag it to the person created. 
+1. [**Edit an order**](#editing-an-order--editorder): Use `editorder` to edit the order. 
+1. [**Delete an order**](#deleting-an-order--deleteorder): Use `deleteorder` to delete the order. 
+1. [**Clear all data**](#clearing-all-entries--clear): Use `clear` to clear all data. 
+1. [**Exit**](#exiting-the-program--exit): Use `exit` to exit the application. 
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -280,7 +299,7 @@ Action | Format, Examples
 **Delete Contact** | `deleteperson INDEX`<br> e.g., `deleteperson 3`
 **List Contacts** | `listperson`
 **Edit Contact** | `editperson INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find Region** | `find REGION`<br> e.g., `find N`
+**Find Contact by Region** | `findperson REGION`<br> e.g., `findperson N`
 **Add Order** | `addorder c/CUSTOMER_INDEX o/MENU_ITEM QUANTITY_ORDERED…​` <br> e.g., `addorder c/1 o/2 5` `addorder c/2 o/1 1 o/2 3 o/4 2`
 **Delete Order** | `deleteorder INDEX`<br> e.g., `deleteorder 3`
 **Edit Order** | `editorder INDEX o/MENU_ITEM PRODUCT_QUANTITY…​` <br> e.g.,`editorder 1 o/1 1 o/2 4` `editorder 2 o/2 0`
