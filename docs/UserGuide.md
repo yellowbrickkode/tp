@@ -44,135 +44,182 @@ Food Bridge is a **desktop app for restaurant delivery workers to manage contact
 
 ## Features
 
-<div markdown="block" class="alert alert-info">
+#### Command format
 
-**:information_source: Notes about the command format:**<br>
+The commands used in Food Bridge consist of the following parts:
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
+`command [INDEX] [prefix/VALUE]…​`
+
+1. The `command`, which controls the behaviour.
+2. The `INDEX`, which identifies the relevant item in the list.
+3. The `prefix`, which identifies a field in a customer or order.
+4. The `VALUE`, which provides information for the field identified by the `prefix`.
+
+Notes about the format:
+
+* **Parameters**: Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
-* Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+* **Optionals**: Items in square brackets are optional.<br>
+  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/member` or as `n/John Doe`.
 
-* Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+* **Multiple parameters**: Items with `…`​ after them can be used multiple times including zero times.<br>
+  e.g. `[t/TAG]…​` can be used as `t/member`, `t/member t/staff`, or simply ignored.
 
-* Parameters can be in any order.<br>
+* **Parameter order**: Apart from the `INDEX`, parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
+* **Commands with no parameters**: Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
-* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
-</div>
+If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
-### **Customer Management**
+### **Customer Management Commands**
 
-#### Adding a person: `addperson`
+#### Customer contacts
 
-Adds a person to the address book.
+Information about a customer is stored in a customer contact. Each contact has the following fields:
+
+* **Name**: The name of the customer.
+* **Phone number**: The phone number of the customer.
+* **Address**: The address of the customer, identified by its postal code.
+* **Unit number**: The optional unit number of the customer's address.
+* **Region**: One of the five regions in Singapore, i.e. North, North East, West, East, and Central.
+* **Tags**: Additional information about the customer, e.g. `member`
+
+Below are some common parameters and their required formats.
+
+| Parameter        | Format requirements                                             |
+|------------------|-----------------------------------------------------------------|
+| `CUSTOMER_INDEX` | Must be a positive integer, e.g. 1, 2, 3, …​                    |
+| `NAME`           | Must contain only alphabetical letters, numbers, and spaces.    |
+| `PHONE_NUMBER`   | Must be exactly 8 digits long and start with either 6, 8, or 9. |
+| `POSTAL_CODE`    | Must be exactly 6 digits long.                                  |
+| `UNIT`           | Must be in the form `#XX-XX`, where `X` is a digit.             |
+| `REGION`         | Must be either: `N`, `NE`, `W`, `E`, or `C`.                    |
+| `TAG`            | Must contain only alphabetical letters and numbers.             |
+
+#### Adding a customer: `addperson`
+
+Adds a customer to the address book.
 
 Format: `addperson n/NAME p/PHONE_NUMBER a/POSTAL_CODE [u/UNIT_NUMBER] r/REGION [t/TAG]…​`
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of tags (including 0)
-</div>
+* A customer can have zero or more tags.
 
 Examples:
-* `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N` adds a person named John Doe, with phone number 98765432, living at postal code 111111, unit #01-01, in the North region. 
-* `addperson n/Betsy Crowe p/87243155 a/110022 r/C t/loyal customer` adds a person named Betsy Crowe, with phone number 87243155, living at postal code 110022, in the Central region, tagged as a loyal customer. 
+* `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N` adds a customer named `John Doe` with phone number `98765432`, postal code `111111`, unit number `#01-01`, in the `N` region to the customer list.
+* `addperson n/Betsy Crowe p/87243155 a/110022 r/C t/member` adds a customer named `Betsy Crowe`, with phone number `87243155`, postal code `110022`, in the `C` region, tagged as a `member` to the customer list. 
 
-#### Deleting a person : `deleteperson`
+#### Deleting a customer : `deleteperson`
 
-Deletes the specified person from the person list.
+Deletes the specified customer from the contact list.
 
-Format: `deleteperson INDEX`
+Format: `deleteperson CUSTOMER_INDEX`
 
-* Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the displayed person list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* Deletes the customer at the specified `CUSTOMER_INDEX`.
+  * The index refers to the index number shown in the displayed contact list.
 
 Examples:
-* `deleteperson 2` deletes the 2nd person in the person list.
-* `findperson N` followed by `deleteperson 1` deletes the 1st person in the results of the `find` command.
+* `deleteperson 2` deletes the 2nd customer in the contact list.
+* `findperson N` followed by `deleteperson 1` deletes the 1st person displayed in the results of the `findperson` command.
 
-#### Listing all persons : `listperson`
+#### Listing all customers : `listperson`
 
-Shows a list of all persons in the contact list.
+Shows a list of all customers in the contact list.
 
 Format: `listperson`
 
-#### Editing a person : `editperson`
+#### Editing a customer : `editperson`
 
-Edits an existing person in the person list.
+Edits an existing customer in the contact list.
 
-Format: `editperson INDEX [n/NAME] [p/PHONE_NUMBER] [a/ADDRESS] [u/UNIT] [r/REGION] [t/TAG]…​`
+Format: `editperson CUSTOMER_INDEX [n/NAME] [p/PHONE_NUMBER] [a/POSTAL_CODE] [u/UNIT_NUMBER] [r/REGION] [t/TAG]…​`
 
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the displayed person list.
+* Edits the person at the specified `CUSTOMER_INDEX`. 
+  * The index refers to the index number shown in the displayed contact list.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
 
 Editing tags:
-* When editing tags, the existing tags of the person will be removed i.e adding of tags is not cumulative.
-* You can remove all the person’s tags by typing `t/` without
+* When editing tags, the existing tags of the customer will be overridden.
+* You can remove all of the specified customer’s tags by using `t/` without
     specifying any tags after it.
-
-| Parameter      | Format requirements                                             |
-|----------------|-----------------------------------------------------------------|
-| `INDEX`        | Must be a positive integer, e.g. 1, 2, 3, …​                    |
-| `PHONE_NUMBER` | Must be exactly 8 digits long and start with either 6, 8, or 9. |
-| `ADDRESS`      | Must be a 6-digit postal code.                                  |
-| `UNIT`         | Must be in the form `#XX-XX`, where `X` is a digit.             |
-| `REGION`       | Must be one of: `N`, `NE`, `W`, `E`, `C`.                       |
 
 Examples:
 * `editperson 1 p/91234567 r/E` edits the phone number and region of the 1st person in the list to be `91234567` and `East` respectively.
 * `editperson 2 n/Betsy Crower t/` edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 * `editperson 3 a/123456 u/` edits the postal code of the 3rd person to be `123456` and clears the existing unit number.
 
-#### Locating people by region: `findperson`
+#### Locating customers by region: `findperson`
 
-Finds people whose regions match any of the given keywords.
+Finds people who live in one of the given regions.
 
-Format: `findperson KEYWORD [MORE_KEYWORDS]`
+Format: `findperson REGION [MORE_REGIONS]…`
 
-* The search is case-insensitive. e.g. `n` will match `N`
-* The order of the keywords does not matter. e.g. `NE W` will match both `W` and `NE`
-* Valid region keywords are: `N`, `NE`, `W`, `E`, `C`
-* Only full region words will be matched. e.g. `N` will not match `NE`
-* Persons matching at least one keyword will be returned (i.e. `OR` search).
-  e.g. `N E` will return persons in either `N` or `E`
+* The search is case-insensitive.<br/> e.g. `n` will match `N`
+* The order of the regions does not matter.<br/> e.g. `NE W` will match both `W` and `NE`
+* Only full region keywords will be matched.<br/> e.g. `N` will not match `NE`
 
 Examples:
-* `findperson N` returns persons in region `N`
-* `findperson NE W` returns persons in region `NE` or `W`
+* `findperson N` displays customers who live in region `N`.
+* `findperson NE W` displays customers who live in either region `NE` or `W`.
 
 
-### **Order Management** 
+### **Order Management Commands** 
+
+#### Orders
+
+Each order has the following fields:
+
+* **Customer**: The customer who placed the order.
+* **Items**: A list of items in the order. Each item includes:
+  * **Menu item**: The food item, identified by its index in the menu.
+  * **Quantity**: The number of units ordered for that item.
+
+Below are some common parameters and their required formats.
+
+| Parameter     | Format requirements                                                     |
+|---------------|-------------------------------------------------------------------------|
+| `ORDER_INDEX` | Must be a positive integer, e.g. 1, 2, 3, …​                            |
+| `MENU_ITEM`   | Must be a positive integer and correspond to an item index on the menu. |
+| `QUANTITY`    | Must be a positive integer.                                             |
+
+#### Menu
+
+Below is the menu used in Food Bridge, consisting of each item's name and price.
+
+1. Chicken Rice, $4.50
+2. Mixed Rice, $4.50
+3. Beef Udon, $7.00
+4. Ice Cream, $2.50
+5. Caesar Salad, $5.50
+6. Smoked Salmon Bagel, $8.50
+7. Apple Juice, $1.50
+8. Cafe Latte, $3.00
 
 #### Adding an order: `addorder`
 
-Adds an order to the address book.
+Adds an order to the order list.
 
-Format: `addorder c/CUSTOMER_INDEX o/MENU_ITEM QUANTITY_ORDERED…​`
+Format: `addorder c/CUSTOMER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​`
 
-<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-A person can have any number of orders (excluding 0)
-</div>
+* Adds an order for the customer at `CUSTOMER_INDEX` in the displayed contact list.
+* An order can consist of one or more menu items.
+  * The `o/` prefix can be repeated to add multiple items in the same order.
 
 Examples:
-* addorder c/1 o/2 5 adds an order of 5 units of menu item 2 for the first customer in the customer list.
-* addorder c/2 o/1 1 o/2 3 o/4 2 adds an order for the second customer, consisting of 1 unit of menu item 1, 3 units of menu item 2, and 2 units of menu item 4.
+* `addorder c/1 o/2 5` adds an order of 5 units of menu item 2 for the first customer in the customer list.
+* `addorder c/2 o/1 1 o/2 3 o/4` 2 adds an order for the second customer, consisting of 1 unit of menu item 1, 3 units of menu item 2, and 2 units of menu item 4.
 
 #### Deleting an order : `deleteorder`
 
-Deletes the specified order from the order list.
+Deletes an order from the order list.
 
-Format: `deleteorder INDEX`
+Format: `deleteorder ORDER_INDEX`
 
-* Deletes the order at the specified `INDEX`.
-* The index refers to the index number shown in the displayed order list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* Deletes the order at the specified `ORDER_INDEX`.
+  * The index refers to the index number shown in the displayed order list.
 
 Examples:
 * `deleteorder 3` deletes the 3rd order in the order list.
@@ -187,14 +234,19 @@ Format: `listorder`
 
 Edits an existing order in the order list.
 
-Format: `editorder INDEX o/MENU_ITEM PRODUCT_QUANTITY…​` 
+Format: `editorder ORDER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​` 
 
-* Edits the order at the specified `INDEX`. The index refers to the index number shown in the displayed order list.
-* Existing menu item selections will be updated to the input values.
+* Edits the order at the specified `ORDER_INDEX`. 
+  * The index refers to the index number shown in the displayed order list.
+* The `o/` prefix can be repeated to modify multiple menu items.
+* For each specified menu item:
+  * If it does not exist in the order, it will be added. 
+  * If it already exists, its quantity will be updated. 
+  * If the specified quantity is `0`, the item will be removed from the order.
 
 Examples:
-*  `editorder 1 o/1 1 o/2 4` edits the 1st order in the list to include 1 of menu item 1 and 4 of menu item 2.
-*  `editorder 2 o/2 0` edits the 2nd order to clear the selection of menu item 2.
+*  `editorder 1 o/1 1 o/2 4` edits the 1st order in the list to include 1 unit of menu item 1 and 4 units of menu item 2.
+*  `editorder 2 o/3 0` edits the 2nd order to remove menu item 3 from the order.
 
 ### **General Commands**
 
@@ -213,10 +265,10 @@ Undoes the most recent change to the address book.
 Format: `undo`
 
 * Only commands that modify data can be undone.
-* You can perform `undo` multiple times to step backwards through recent modifying commands until there is no more history to undo.
+* You can perform `undo` multiple times until there is no more history to undo.
 
 Examples:
-* `deleteperson 2` followed by `undo` will restore the deleted 2nd person.
+* `deleteperson 2` followed by `undo` restores the deleted person.
 
 #### Redoing the last undone change : `redo`
 
@@ -224,12 +276,13 @@ Redoes the most recently undone change.
 
 Format: `redo`
 
-* Works only if there is at least one previously undone change to redo; you can perform `redo` multiple times until the latest state is reached.
-* If there is no undone change to redo, the command will fail.
-* `redo` cannot be used after any new modifying command has been executed following an `undo` (the redo history is cleared when new changes are made).
+* Can only be used after `undo` is used.
+  * If there are no undone changes, the command will fail.
+* You can perform `redo` multiple times until the latest state is reached.
+* The redo history is cleared when new changes are made.
 
 Examples:
-* `deleteperson 2` followed by `undo` then `redo` will delete the 2nd person again.
+* `deleteperson 2` followed by `undo` then `redo` deletes the 2nd person again.
 
 #### Clearing all entries : `clear`
 
@@ -243,17 +296,19 @@ Exits the program.
 
 Format: `exit`
 
+### **Data Storage**
+
 #### Saving customer and order data
 
-AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+Food Bridge data is saved automatically after any command that modifies data. There is no need to save manually.
 
-#### Updating the customer and order data file  
+#### (Advanced) Updating the customer and order data file  
 
-AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
+Food Bridge data is stored as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users may update the data directly by editing this file.
 
 <div markdown="span" class="alert alert-warning"> :exclamation: **Caution:**
-If your changes to the data file makes its format invalid, AddressBook will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the AddressBook to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+If your changes are invalid, Food Bridge will discard all data and start with an empty data file on the next run. Hence, it is recommended to back up the file before editing it.<br>
+Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e.g., if a value is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 --------------------------------------------------------------------------------------------------------------------
@@ -274,10 +329,10 @@ Furthermore, certain edits can cause the AddressBook to behave in unexpected way
 **Q**: How do I transfer my data to another Computer?<br>
 **A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
 
-**Q**: Can I add multiple products in one order?
-**A**: Yes. Use the `addorder` command and add as many orders you want with the `o/` prefix
+**Q**: Can I add multiple products in one order?<br>
+**A**: Yes. Use the `addorder` command and add as many menu items you want with the `o/` prefix
 
-**Q**: What happens if I delete a customer with existing orders?
+**Q**: What happens if I delete a customer with existing orders?<br>
 **A**: Deleting a customer does not automatically delete their orders. This may result in orphaned orders.
 
 --------------------------------------------------------------------------------------------------------------------
