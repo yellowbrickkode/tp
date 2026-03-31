@@ -347,19 +347,19 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 
 ## Command summary
 
-Action | Format, Examples
---------|------------------
-**View Help** | `help`
-**Add Contact** | `addperson n/NAME p/PHONE_NUMBER a/ADDRESS u/UNIT_NO r/REGION` <br> e.g., `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N`
-**Delete Contact** | `deleteperson INDEX`<br> e.g., `deleteperson 3`
-**List Contacts** | `listperson`
-**Edit Contact** | `editperson INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find Contact by Region** | `findperson REGION`<br> e.g., `findperson N`
-**Add Order** | `addorder c/CUSTOMER_INDEX o/MENU_ITEM QUANTITY_ORDERED…​` <br> e.g., `addorder c/1 o/2 5` `addorder c/2 o/1 1 o/2 3 o/4 2`
-**Delete Order** | `deleteorder INDEX`<br> e.g., `deleteorder 3`
-**Edit Order** | `editorder INDEX o/MENU_ITEM PRODUCT_QUANTITY…​` <br> e.g.,`editorder 1 o/1 1 o/2 4` `editorder 2 o/2 0`
-**List Orders** | `listorder`
-**Undo** | `undo`
-**Redo** | `redo`
-**Clear** | `clear`
-**Exit** | `exit`
+| Action                       | Format, Examples                                                                                                                                              |
+|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add Customer**             | `addperson n/NAME p/PHONE_NUMBER a/POSTAL_CODE [u/UNIT_NUMBER] r/REGION [t/TAG]…​` <br> e.g. `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N t/member` |
+| **Delete Customer**          | `deleteperson CUSTOMER_INDEX` <br> e.g. `deleteperson 2`                                                                                                      |
+| **List Customers**           | `listperson`                                                                                                                                                  |
+| **Edit Customer**            | `editperson CUSTOMER_INDEX [n/NAME] [p/PHONE_NUMBER] [a/POSTAL_CODE] [u/UNIT_NUMBER] [r/REGION] [t/TAG]…​` <br> e.g. `editperson 1 p/91234567 r/E`            |
+| **Find Customers by Region** | `findperson REGION [MORE_REGIONS]…` <br> e.g. `findperson N`                                                                                                  |
+| **Add Order**                | `addorder c/CUSTOMER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​` <br> e.g. `addorder c/1 o/2 5`                                                      |
+| **Delete Order**             | `deleteorder ORDER_INDEX` <br> e.g. `deleteorder 3`                                                                                                           |
+| **List Orders**              | `listorder`                                                                                                                                                   |
+| **Edit Order**               | `editorder ORDER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​` <br> e.g. `editorder 1 o/1 1 o/2 4`                                                     |
+| **View Help**                | `help`                                                                                                                                                        |
+| **Undo**                     | `undo`                                                                                                                                                        |
+| **Redo**                     | `redo`                                                                                                                                                        |
+| **Clear**                    | `clear`                                                                                                                                                       |
+| **Exit**                     | `exit`                                                                                                                                                        |
