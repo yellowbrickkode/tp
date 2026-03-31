@@ -18,7 +18,9 @@ import seedu.address.model.person.UniquePersonList;
 public class AddressBook implements ReadOnlyAddressBook {
 
     private final UniquePersonList persons;
+    //@@author Achiack
     private final UniqueOrderList orders;
+    //@@author
 
     /*
      * The 'unusual' code block below is a non-static initialization block, sometimes used to avoid duplication
@@ -29,7 +31,9 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     {
         persons = new UniquePersonList();
+        //@@author Achiack
         orders = new UniqueOrderList();
+        //@@author
     }
 
     public AddressBook() {}
@@ -107,6 +111,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         persons.remove(key);
     }
 
+    //@@author Achiack
     /**
      * Adds an order to the address book.
      * The order must not already exist in the address book.
@@ -141,7 +146,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(order);
         return orders.contains(order);
     }
-
+    //@@author
     //// util methods
 
     @Override

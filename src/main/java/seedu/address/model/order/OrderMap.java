@@ -109,6 +109,26 @@ public class OrderMap {
     }
 
     /**
+     * Sets the OrderStatus of an OrderMap as Completed.
+     */
+    public OrderMap markAsCompleted() {
+        if (status == OrderStatus.COMPLETED) {
+            throw new IllegalStateException("Order is already completed");
+        }
+        if (status == OrderStatus.CANCELLED) {
+            throw new IllegalStateException("Cannot complete a cancelled order");
+        }
+
+        return new OrderMap(
+                orderId,
+                person,
+                orderMap,
+                OrderStatus.COMPLETED,
+                orderDatetime
+        );
+    }
+
+    /**
      * Returns true if a given string is a valid product + quantity pair.
      */
     public static boolean isValidProductQuantityPair(String test) {

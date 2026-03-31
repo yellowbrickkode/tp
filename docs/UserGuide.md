@@ -189,7 +189,7 @@ Format: `listorder`
 
 Edits an existing order in the order list.
 
-Format: `editorder INDEX o/MENU_ITEM PRODUCT_QUANTITY…​` 
+Format: `editorder INDEX o/MENU_ITEM PRODUCT_QUANTITY…​`
 
 * Edits the order at the specified `INDEX`. The index refers to the index number shown in the displayed order list.
 * Existing menu item selections will be updated to the input values.
@@ -239,7 +239,7 @@ Format: `exit`
 
 AddressBook data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
 
-### Updating the customer and order data file  
+### Updating the customer and order data file
 
 AddressBook data are saved automatically as a JSON file `[JAR file location]/data/addressbook.json`. Advanced users are welcome to update data directly by editing that data file.
 

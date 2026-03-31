@@ -54,7 +54,7 @@ public class JsonAdaptedOrder {
     public JsonAdaptedOrder(OrderMap source) {
         this.orderId = Integer.toString(source.getOrderId());
         this.personName = source.getPerson().getName().toString();
-        this.status = source.getStatus().toString();
+        this.status = source.getStatus().name();
         this.orders = new HashMap<>(source.getOrderMap());
         this.orderDatetime = source.getOrderDatetime().toString();
     }

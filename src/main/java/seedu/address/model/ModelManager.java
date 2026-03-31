@@ -107,11 +107,12 @@ public class ModelManager implements Model {
         this.versionedAddressBook.removePerson(target);
     }
 
+    //@@author Achiack
     @Override
     public void deleteOrder(OrderMap target) {
         versionedAddressBook.removeOrder(target);
     }
-
+    //@@author
     @Override
     public void addPerson(Person person) {
         this.versionedAddressBook.addPerson(person);
@@ -130,14 +131,15 @@ public class ModelManager implements Model {
 
         this.versionedAddressBook.setPerson(target, editedPerson);
     }
-
+    //@@author Achiack
     @Override
     public void setOrder(OrderMap target, OrderMap editedOrder) {
         requireAllNonNull(target, editedOrder);
 
-        versionedAddressBook.setOrder(target, editedOrder);
+        this.versionedAddressBook.setOrder(target, editedOrder);
     }
 
+    //@@author
     //=========== Filtered Person List Accessors =============================================================
 
     /**
@@ -148,23 +150,25 @@ public class ModelManager implements Model {
     public ObservableList<Person> getFilteredPersonList() {
         return filteredPersons;
     }
-
+    //@@author Achiack
     @Override
     public ObservableList<OrderMap> getFilteredOrderList() {
         return filteredOrders;
     }
-
+    //@@author
     @Override
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
     }
 
+    //@@author Achiack
     @Override
     public void updateFilteredOrderList(Predicate<OrderMap> predicate) {
         requireNonNull(predicate);
         filteredOrders.setPredicate(predicate);
     }
+    //@@author
 
     //=========== Undo/Redo =================================================================================
     //@@author wangyida-reused

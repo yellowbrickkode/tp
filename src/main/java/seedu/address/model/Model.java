@@ -15,9 +15,11 @@ public interface Model {
     /** {@code Predicate} that always evaluate to true */
     Predicate<Person> PREDICATE_SHOW_ALL_PERSONS = unused -> true;
 
+    //@@author Achiack
     /** {@code Predicate} that always evaluate to true */
     Predicate<OrderMap> PREDICATE_SHOW_ALL_ORDERS = unused -> true;
 
+    //@@author
     /**
      * Replaces user prefs data with the data in {@code userPrefs}.
      */
@@ -61,35 +63,41 @@ public interface Model {
      */
     boolean hasPerson(Person person);
 
+    //@@author Achiack
     /**
      * Returns true if an order with the same id as {@code order} exists in the address book.
      */
     boolean hasOrder(OrderMap order);
 
+    //@@author
     /**
      * Deletes the given person.
      * The person must exist in the address book.
      */
     void deletePerson(Person target);
 
+    //@@author Achiack
     /**
      * Deletes the given order.
      * The order must exist in the address book.
      */
     void deleteOrder(OrderMap target);
 
+    //@@author
     /**
      * Adds the given person.
      * {@code person} must not already exist in the address book.
      */
     void addPerson(Person person);
 
+    //@@author Achiack
     /**
      * Adds the given order.
      * {@code order} must not already exist in the address book.
      */
     void addOrder(OrderMap order);
 
+    //@@author
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
      * {@code target} must exist in the address book.
@@ -97,6 +105,7 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
+    //@@author Achiack
     /**
      * Replaces the given order {@code target} with {@code editedOrder}.
      * {@code target} must exist in the address book.
@@ -104,6 +113,7 @@ public interface Model {
      */
     void setOrder(OrderMap target, OrderMap editedOrder);
 
+    //@@author
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 

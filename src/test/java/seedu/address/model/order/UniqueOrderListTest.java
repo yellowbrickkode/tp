@@ -1,3 +1,4 @@
+//@@author Achiack
 package seedu.address.model.order;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,14 +23,18 @@ import seedu.address.testutil.PersonBuilder;
 public class UniqueOrderListTest {
 
     private UniqueOrderList uniqueOrderList;
+    //@@author
     private OrderMap order1;
     private OrderMap order2;
+    //@@author Achiack
 
     @Test
     public void addOrder_orderAdded() {
         ModelManager model = new ModelManager();
         Person person = new PersonBuilder().build();
+        //@@author
         OrderMap order = new OrderBuilder().build();
+        //@@author Achiack
 
         model.addOrder(order);
 
@@ -38,12 +43,17 @@ public class UniqueOrderListTest {
 
     @BeforeEach
     void setUp() {
+        //@@author
         OrderMap.cleanIdx();
+
+        //@@author Achiack
         uniqueOrderList = new UniqueOrderList();
         Person person1 = new PersonBuilder().build();
         Person person2 = new PersonBuilder().build();
+        //@@author
         order1 = new OrderBuilder().build();
         order2 = new OrderBuilder().build();
+        //@@author Achiack
     }
 
     @Test
@@ -71,7 +81,9 @@ public class UniqueOrderListTest {
     @Test
     void add_duplicateOrder_throwsDuplicatePersonException() {
         uniqueOrderList.add(order1);
+        //@@author
         OrderMap duplicate = new OrderBuilder(order1).build();
+        //@@author Achiack
         assertThrows(DuplicatePersonException.class, () -> uniqueOrderList.add(duplicate));
     }
 
@@ -84,7 +96,10 @@ public class UniqueOrderListTest {
     void setOrder_editDuplicate_throwsDuplicatePersonException() {
         uniqueOrderList.add(order1);
         uniqueOrderList.add(order2);
+        //@@author
         OrderMap edited = order1;
+
+        //@@author Achiack
         assertThrows(DuplicatePersonException.class, () -> uniqueOrderList.setOrder(order2, edited));
     }
 
