@@ -26,6 +26,9 @@ public class DeleteOrderByPhoneNumberCommand extends Command {
 
     private final PhoneNumberPredicate predicate;
 
+    /**
+     * Creates a command that deletes orders matching the given phone number predicate.
+     */
     public DeleteOrderByPhoneNumberCommand(PhoneNumberPredicate predicate) {
         requireNonNull(predicate);
         this.predicate = predicate;

@@ -12,6 +12,9 @@ import seedu.address.commons.util.ToStringBuilder;
 public class PhoneNumberPredicate implements Predicate<OrderMap> {
     private final String phoneNum;
 
+    /**
+     * Creates a predicate that matches orders whose person's phone equals the given number.
+     */
     public PhoneNumberPredicate(String phoneNum) {
         requireNonNull(phoneNum);
         this.phoneNum = phoneNum;
