@@ -27,18 +27,20 @@ public class DeleteOrderByPhoneNumberCommand extends Command {
     private final PhoneNumberPredicate predicate;
 
     public DeleteOrderByPhoneNumberCommand(PhoneNumberPredicate predicate) {
+        requireNonNull(predicate);
         this.predicate = predicate;
     }
 
     @Override
     public CommandResult execute(Model model) throws CommandException {
         requireNonNull(model);
-        long matchCount = model.getAddressBook().getOrderList().stream().filter(predicate).count();
-        if (matchCount == 0) {
+        int orderCountBeforeDeletion = model.getAddressBook().getOrderList().size();
+        if (model.getAddressBook().getOrderList().stream().filter(predicate).findAny().isEmpty()) {
             throw new CommandException(MESSAGE_NO_ORDER_WITH_PHONE);
         }
         model.deleteOrderByPredicate(this.predicate);
-        return new CommandResult(String.format(MESSAGE_DELETE_ORDERS_BY_PHONE_SUCCESS, matchCount),
+        int deletedOrderCount = orderCountBeforeDeletion - model.getAddressBook().getOrderList().size();
+        return new CommandResult(String.format(MESSAGE_DELETE_ORDERS_BY_PHONE_SUCCESS, deletedOrderCount),
                 false, false, false, true);
     }
 
