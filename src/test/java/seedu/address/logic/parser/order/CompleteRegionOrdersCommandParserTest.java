@@ -27,8 +27,14 @@ public class CompleteRegionOrdersCommandParserTest {
     }
 
     @Test
+    public void parse_nonEmptyPreamble_failure() {
+        assertParseFailure(parser, " extra r/N",
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT,
+                        CompleteRegionOrdersCommand.MESSAGE_USAGE));
+    }
+
+    @Test
     public void parse_invalidRegion_failure() {
         assertParseFailure(parser, " r/NEE", Region.MESSAGE_CONSTRAINTS);
     }
 }
-

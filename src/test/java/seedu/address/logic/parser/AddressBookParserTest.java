@@ -18,6 +18,7 @@ import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.order.DeleteOrderCommand;
+import seedu.address.logic.commands.order.FindOrderCommand;
 import seedu.address.logic.commands.order.ListOrderCommand;
 import seedu.address.logic.commands.person.AddPersonCommand;
 import seedu.address.logic.commands.person.DeletePersonCommand;
@@ -26,7 +27,9 @@ import seedu.address.logic.commands.person.EditPersonCommand.EditPersonDescripto
 import seedu.address.logic.commands.person.FindPersonCommand;
 import seedu.address.logic.commands.person.ListPersonCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.order.ActiveOrderInRegionPredicate;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Region;
 import seedu.address.model.person.RegionContainsKeywordsPredicate;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 import seedu.address.testutil.PersonBuilder;
@@ -84,6 +87,13 @@ public class AddressBookParserTest {
         FindPersonCommand command = (FindPersonCommand) parser.parseCommand(
                 FindPersonCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
         assertEquals(new FindPersonCommand(new RegionContainsKeywordsPredicate(keywords)), command);
+    }
+
+    @Test
+    public void parseCommand_findOrder() throws Exception {
+        FindOrderCommand command = (FindOrderCommand) parser.parseCommand(
+                FindOrderCommand.COMMAND_WORD + " r/N");
+        assertEquals(new FindOrderCommand(new ActiveOrderInRegionPredicate(new Region("N"))), command);
     }
 
     @Test

@@ -1,6 +1,7 @@
 package seedu.address.logic.commands.order;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -104,5 +105,32 @@ public class CompleteRegionOrdersCommandTest {
                 result.getFeedbackToUser());
         assertTrue(model.getAddressBook().getOrderList().get(0).getStatus() == OrderStatus.COMPLETED);
     }
-}
 
+    @Test
+    public void mutabilityFlags_returnsTrue() {
+        CompleteRegionOrdersCommand command = new CompleteRegionOrdersCommand(new Region("N"));
+        assertTrue(command.shouldRecordInHistory());
+        assertTrue(command.mutatesModel());
+    }
+
+    @Test
+    public void equals() {
+        CompleteRegionOrdersCommand command = new CompleteRegionOrdersCommand(new Region("N"));
+        CompleteRegionOrdersCommand sameCommand = new CompleteRegionOrdersCommand(new Region("N"));
+        CompleteRegionOrdersCommand differentCommand = new CompleteRegionOrdersCommand(new Region("E"));
+
+        assertTrue(command.equals(command));
+        assertTrue(command.equals(sameCommand));
+        assertFalse(command.equals(differentCommand));
+        assertFalse(command.equals(null));
+        assertFalse(command.equals(1));
+    }
+
+    @Test
+    public void toStringMethod() {
+        CompleteRegionOrdersCommand command = new CompleteRegionOrdersCommand(new Region("N"));
+        String expected = CompleteRegionOrdersCommand.class.getCanonicalName() + "{region="
+                + new Region("N") + "}";
+        assertEquals(expected, command.toString());
+    }
+}
