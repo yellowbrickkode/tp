@@ -8,7 +8,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import javafx.application.Platform;
+import com.sun.javafx.application.PlatformImpl;
+
 import javafx.scene.control.Label;
 import seedu.address.model.order.OrderMap;
 import seedu.address.model.person.Person;
@@ -22,10 +23,13 @@ public class OrderCardTest {
     @BeforeAll
     public static void initToolkit() {
         if (TOOLKIT_INITIALIZED.compareAndSet(false, true)) {
+            System.setProperty("javafx.platform", "Monocle");
+            System.setProperty("monocle.platform", "Headless");
+            System.setProperty("prism.order", "sw");
             try {
-                Platform.startup(() -> { });
-            } catch (IllegalStateException e) {
-                // Toolkit already initialized.
+                PlatformImpl.startup(() -> { });
+            } catch (IllegalStateException | UnsupportedOperationException e) {
+                // Toolkit already initialized or not available in this environment.
             }
         }
     }
