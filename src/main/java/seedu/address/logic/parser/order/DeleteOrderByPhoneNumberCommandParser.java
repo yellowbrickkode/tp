@@ -17,7 +17,7 @@ public class DeleteOrderByPhoneNumberCommandParser implements Parser<DeleteOrder
 
     /**
      * Parses the given {@code String} of arguments in the context of the DeleteOrderByPhoneNumberCommand
-     * and returns a DeleteOrderByPhoneNUmberCommand object for execution.
+     * and returns a DeleteOrderByPhoneNumberCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
     public DeleteOrderByPhoneNumberCommand parse(String args) throws ParseException {
