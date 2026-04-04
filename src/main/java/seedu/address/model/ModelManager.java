@@ -104,6 +104,7 @@ public class ModelManager implements Model {
 
     @Override
     public void deletePerson(Person target) {
+        this.versionedAddressBook.removeOrdersForPerson(target);
         this.versionedAddressBook.removePerson(target);
     }
 

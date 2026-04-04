@@ -90,6 +90,12 @@ public class MainApp extends Application {
             initialData = new AddressBook();
         }
 
+        try {
+            storage.saveAddressBook(initialData);
+        } catch (IOException e) {
+            logger.warning("Failed to save address book file : " + StringUtil.getDetails(e));
+        }
+
         return new ModelManager(initialData, userPrefs);
     }
 
