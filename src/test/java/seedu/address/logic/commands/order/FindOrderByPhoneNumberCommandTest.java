@@ -15,7 +15,7 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.order.PhoneNumberPredicate;
 
-public class FindOrderCommandTest {
+public class FindOrderByPhoneNumberCommandTest {
 
     private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
     private final Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
@@ -25,11 +25,11 @@ public class FindOrderCommandTest {
         PhoneNumberPredicate firstPredicate = new PhoneNumberPredicate("94351253");
         PhoneNumberPredicate secondPredicate = new PhoneNumberPredicate("98765432");
 
-        FindOrderCommand findFirstCommand = new FindOrderCommand(firstPredicate);
-        FindOrderCommand findSecondCommand = new FindOrderCommand(secondPredicate);
+        FindOrderByPhoneNumberCommand findFirstCommand = new FindOrderByPhoneNumberCommand(firstPredicate);
+        FindOrderByPhoneNumberCommand findSecondCommand = new FindOrderByPhoneNumberCommand(secondPredicate);
 
         assertSame(findFirstCommand, findFirstCommand);
-        assertEquals(findFirstCommand, new FindOrderCommand(firstPredicate));
+        assertEquals(findFirstCommand, new FindOrderByPhoneNumberCommand(firstPredicate));
         assertNotEquals(findFirstCommand, 1);
         assertNotEquals(findFirstCommand, null);
         assertNotEquals(findFirstCommand, findSecondCommand);
@@ -39,7 +39,7 @@ public class FindOrderCommandTest {
     public void execute_noMatchingPhone_noOrdersFound() {
         String expectedMessage = String.format(MESSAGE_ORDERS_LISTED_OVERVIEW, 0);
         PhoneNumberPredicate predicate = preparePredicate("99999999");
-        FindOrderCommand command = new FindOrderCommand(predicate);
+        FindOrderByPhoneNumberCommand command = new FindOrderByPhoneNumberCommand(predicate);
         expectedModel.updateFilteredOrderList(predicate);
         assertCommandSuccess(command, model,
                 new CommandResult(expectedMessage, false, false, false, true), expectedModel);
@@ -50,7 +50,7 @@ public class FindOrderCommandTest {
     public void execute_matchingPhone_oneOrderFound() {
         String expectedMessage = String.format(MESSAGE_ORDERS_LISTED_OVERVIEW, 1);
         PhoneNumberPredicate predicate = preparePredicate("94351253");
-        FindOrderCommand command = new FindOrderCommand(predicate);
+        FindOrderByPhoneNumberCommand command = new FindOrderByPhoneNumberCommand(predicate);
         expectedModel.updateFilteredOrderList(predicate);
         assertCommandSuccess(command, model,
                 new CommandResult(expectedMessage, false, false, false, true), expectedModel);
@@ -60,8 +60,8 @@ public class FindOrderCommandTest {
     @Test
     public void toStringMethod() {
         PhoneNumberPredicate predicate = new PhoneNumberPredicate("94351253");
-        FindOrderCommand findCommand = new FindOrderCommand(predicate);
-        String expected = FindOrderCommand.class.getCanonicalName() + "{predicate=" + predicate + "}";
+        FindOrderByPhoneNumberCommand findCommand = new FindOrderByPhoneNumberCommand(predicate);
+        String expected = FindOrderByPhoneNumberCommand.class.getCanonicalName() + "{predicate=" + predicate + "}";
         assertEquals(expected, findCommand.toString());
     }
 

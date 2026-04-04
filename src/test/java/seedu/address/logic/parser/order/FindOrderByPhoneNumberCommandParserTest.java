@@ -6,18 +6,18 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.logic.commands.order.FindOrderCommand;
+import seedu.address.logic.commands.order.FindOrderByPhoneNumberCommand;
 import seedu.address.model.order.PhoneNumberPredicate;
 import seedu.address.model.person.Phone;
 
-public class FindOrderCommandParserTest {
+public class FindOrderByPhoneNumberCommandParserTest {
 
-    private final FindOrderCommandParser parser = new FindOrderCommandParser();
+    private final FindOrderByPhoneNumberCommandParser parser = new FindOrderByPhoneNumberCommandParser();
 
     @Test
     public void parse_emptyArg_throwsParseException() {
         assertParseFailure(parser, "     ",
-                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindOrderCommand.MESSAGE_USAGE));
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindOrderByPhoneNumberCommand.MESSAGE_USAGE));
     }
 
     @Test
@@ -28,8 +28,8 @@ public class FindOrderCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsFindOrderCommand() {
-        FindOrderCommand expectedFindCommand =
-                new FindOrderCommand(new PhoneNumberPredicate("94351253"));
+        FindOrderByPhoneNumberCommand expectedFindCommand =
+                new FindOrderByPhoneNumberCommand(new PhoneNumberPredicate("94351253"));
         assertParseSuccess(parser, "94351253", expectedFindCommand);
         assertParseSuccess(parser, " \n 94351253 \t", expectedFindCommand);
     }

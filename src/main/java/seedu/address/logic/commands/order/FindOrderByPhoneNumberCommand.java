@@ -12,9 +12,9 @@ import seedu.address.model.order.PhoneNumberPredicate;
 /**
  * Finds and lists all orders in address book whose customer's phone number matches the given phone number.
  */
-public class FindOrderCommand extends Command {
+public class FindOrderByPhoneNumberCommand extends Command {
 
-    public static final String COMMAND_WORD = "findorder";
+    public static final String COMMAND_WORD = "findorderbyphone";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Finds all orders whose customer's phone number matches the given phone number "
@@ -24,7 +24,7 @@ public class FindOrderCommand extends Command {
 
     private final PhoneNumberPredicate predicate;
 
-    public FindOrderCommand(PhoneNumberPredicate predicate) {
+    public FindOrderByPhoneNumberCommand(PhoneNumberPredicate predicate) {
         this.predicate = predicate;
     }
 
@@ -44,11 +44,11 @@ public class FindOrderCommand extends Command {
         }
 
         // instanceof handles nulls
-        if (!(other instanceof FindOrderCommand)) {
+        if (!(other instanceof FindOrderByPhoneNumberCommand)) {
             return false;
         }
 
-        FindOrderCommand otherFindCommand = (FindOrderCommand) other;
+        FindOrderByPhoneNumberCommand otherFindCommand = (FindOrderByPhoneNumberCommand) other;
         return predicate.equals(otherFindCommand.predicate);
     }
 
