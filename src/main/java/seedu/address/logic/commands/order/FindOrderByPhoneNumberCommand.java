@@ -10,7 +10,7 @@ import seedu.address.model.Model;
 import seedu.address.model.order.PhoneNumberPredicate;
 
 /**
- * Finds and lists all orders in address book whose customer's phone number matches the given phone number.
+ * Finds and lists all active orders in address book whose customer's phone number matches the given phone number.
  */
 public class FindOrderByPhoneNumberCommand extends Command {
 
@@ -25,6 +25,7 @@ public class FindOrderByPhoneNumberCommand extends Command {
     private final PhoneNumberPredicate predicate;
 
     public FindOrderByPhoneNumberCommand(PhoneNumberPredicate predicate) {
+        requireNonNull(predicate);
         this.predicate = predicate;
     }
 
