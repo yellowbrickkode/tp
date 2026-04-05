@@ -10,8 +10,8 @@ title: Food Bridge
 
 **Food Bridge is a desktop app for managing contacts and orders for restaurant delivery workers.** While it has a GUI, most of the user interactions happen using a CLI (Command Line Interface).
 
-* If you are interested in using Food Bridge, head over to the [_Quick Start_ section of the **User Guide**](https://ay2526s2-cs2103t-t12-4.github.io/tp/UserGuide.html#quick-start).
-* If you are interested about developing Food Bridge, the [**Developer Guide**](https://ay2526s2-cs2103t-t12-4.github.io/tp/DeveloperGuide.html) is a good place to start.
+* If you are interested in using Food Bridge, head over to the [_Quick Start_ section of the **User Guide**](UserGuide.html#quick-start).
+* If you are interested about developing Food Bridge, the [**Developer Guide**](DeveloperGuide.html) is a good place to start.
 
 
 **Acknowledgements**
