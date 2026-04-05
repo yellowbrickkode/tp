@@ -64,6 +64,9 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.0'
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.7.4'
 
+    implementation 'org.commonmark:commonmark:0.28.0'
+    implementation 'org.commonmark:commonmark-ext-gfm-tables:0.28.0'
+
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: jUnitVersion
 
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: jUnitVersion
@@ -76,3 +79,10 @@ shadowJar {
 }
 
 defaultTasks 'clean', 'test'
+
+processResources {
+    from('docs') {
+        include 'UserGuide.md'
+        into 'docs'
+    }
+}

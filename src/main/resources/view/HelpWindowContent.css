@@ -1,0 +1,28 @@
+body {
+    background-color: #383838;
+    font-family: "Segoe UI", sans-serif;
+    padding: 12px;
+    color: #ffffff;
+}
+
+h2 {
+    font-size: 18px;
+}
+
+code {
+    background-color: #4d4d4d;
+    padding: 2px 4px;
+    font-family: Consolas, Menlo, monospace;
+    border-radius: 3px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    font-size: 14px;
+}
