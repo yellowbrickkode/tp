@@ -49,6 +49,7 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         region.setText(person.getRegion().toLabel());
+        region.setStyle("-fx-background-color: " + person.getRegion().getColour());
         name.setText(person.getName().fullName);
         phone.setText(person.getPhone().value);
         address.setText(person.getAddress().toString());

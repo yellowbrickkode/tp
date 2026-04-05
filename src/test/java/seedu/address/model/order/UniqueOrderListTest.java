@@ -14,11 +14,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.model.ModelManager;
-import seedu.address.model.person.Person;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.order.exceptions.DuplicateOrderException;
+import seedu.address.model.order.exceptions.OrderNotFoundException;
 import seedu.address.testutil.OrderBuilder;
-import seedu.address.testutil.PersonBuilder;
 
 public class UniqueOrderListTest {
 
@@ -31,7 +29,6 @@ public class UniqueOrderListTest {
     @Test
     public void addOrder_orderAdded() {
         ModelManager model = new ModelManager();
-        Person person = new PersonBuilder().build();
         //@@author
         OrderMap order = new OrderBuilder().build();
         //@@author Achiack
@@ -48,8 +45,6 @@ public class UniqueOrderListTest {
 
         //@@author Achiack
         uniqueOrderList = new UniqueOrderList();
-        Person person1 = new PersonBuilder().build();
-        Person person2 = new PersonBuilder().build();
         //@@author
         order1 = new OrderBuilder().build();
         order2 = new OrderBuilder().build();
@@ -79,12 +74,12 @@ public class UniqueOrderListTest {
     }
 
     @Test
-    void add_duplicateOrder_throwsDuplicatePersonException() {
+    void add_duplicateOrder_throwsDuplicateOrderException() {
         uniqueOrderList.add(order1);
         //@@author
         OrderMap duplicate = new OrderBuilder(order1).build();
         //@@author Achiack
-        assertThrows(DuplicatePersonException.class, () -> uniqueOrderList.add(duplicate));
+        assertThrows(DuplicateOrderException.class, () -> uniqueOrderList.add(duplicate));
     }
 
     @Test
@@ -93,14 +88,14 @@ public class UniqueOrderListTest {
     }
 
     @Test
-    void setOrder_editDuplicate_throwsDuplicatePersonException() {
+    void setOrder_editDuplicate_throwsDuplicateOrderException() {
         uniqueOrderList.add(order1);
         uniqueOrderList.add(order2);
         //@@author
         OrderMap edited = order1;
 
         //@@author Achiack
-        assertThrows(DuplicatePersonException.class, () -> uniqueOrderList.setOrder(order2, edited));
+        assertThrows(DuplicateOrderException.class, () -> uniqueOrderList.setOrder(order2, edited));
     }
 
     @Test
@@ -111,8 +106,8 @@ public class UniqueOrderListTest {
     }
 
     @Test
-    void remove_orderNotInList_throwsPersonNotFoundException() {
-        assertThrows(PersonNotFoundException.class, () -> uniqueOrderList.remove(order1));
+    void remove_orderNotInList_throwsOrderNotFoundException() {
+        assertThrows(OrderNotFoundException.class, () -> uniqueOrderList.remove(order1));
     }
 
     @Test
@@ -129,9 +124,9 @@ public class UniqueOrderListTest {
     }
 
     @Test
-    void setOrders_listWithDuplicates_throwsDuplicatePersonException() {
+    void setOrders_listWithDuplicates_throwsDuplicateOrderException() {
         List<OrderMap> orders = Arrays.asList(order1, order1);
-        assertThrows(DuplicatePersonException.class, () -> uniqueOrderList.setOrders(orders));
+        assertThrows(DuplicateOrderException.class, () -> uniqueOrderList.setOrders(orders));
     }
 
     @Test

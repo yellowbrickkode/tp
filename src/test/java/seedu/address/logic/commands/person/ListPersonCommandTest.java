@@ -12,6 +12,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.testutil.TypicalOrders;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for ListPersonCommand.
@@ -45,5 +46,25 @@ public class ListPersonCommandTest {
         Model emptyModel = new ModelManager();
         assertCommandSuccess(new ListPersonCommand(), emptyModel,
                 new CommandResult(ListPersonCommand.MESSAGE_NO_CONTACTS, false, false, true, false), emptyModel);
+    }
+
+    @Test
+    public void execute_listIsFilteredToNone_showsEverything() {
+        model.updateFilteredPersonList(person -> false);
+        assertCommandSuccess(new ListPersonCommand(), model,
+                new CommandResult(ListPersonCommand.MESSAGE_SUCCESS, false, false, true, false), expectedModel);
+    }
+
+    @Test
+    public void execute_doesNotAffectOrderFilter() {
+        Model modelWithOrders = new ModelManager(TypicalOrders.getTypicalAddressBook(), new UserPrefs());
+        Model expectedModelWithOrders = new ModelManager(modelWithOrders.getAddressBook(), new UserPrefs());
+
+        modelWithOrders.updateFilteredOrderList(order -> false);
+        expectedModelWithOrders.updateFilteredOrderList(order -> false);
+
+        assertCommandSuccess(new ListPersonCommand(), modelWithOrders,
+                new CommandResult(ListPersonCommand.MESSAGE_SUCCESS, false, false, true, false),
+                expectedModelWithOrders);
     }
 }

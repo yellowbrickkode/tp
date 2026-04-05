@@ -6,11 +6,12 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.address.model.person.exceptions.DuplicatePersonException;
-import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.model.order.exceptions.DuplicateOrderException;
+import seedu.address.model.order.exceptions.OrderNotFoundException;
 
 /**
  * A list of orders that enforces uniqueness between its elements and does not allow nulls.
@@ -43,7 +44,7 @@ public class UniqueOrderList implements Iterable<OrderMap> {
     public void add(OrderMap toAdd) {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
-            throw new DuplicatePersonException();
+            throw new DuplicateOrderException();
         }
         internalList.add(toAdd);
     }
@@ -58,11 +59,11 @@ public class UniqueOrderList implements Iterable<OrderMap> {
 
         int index = internalList.indexOf(target);
         if (index == -1) {
-            throw new PersonNotFoundException();
+            throw new OrderNotFoundException();
         }
 
         if (!target.isSameOrder(editedOrder) && contains(editedOrder)) {
-            throw new DuplicatePersonException();
+            throw new DuplicateOrderException();
         }
 
         internalList.set(index, editedOrder);
@@ -75,8 +76,16 @@ public class UniqueOrderList implements Iterable<OrderMap> {
     public void remove(OrderMap toRemove) {
         requireNonNull(toRemove);
         if (!internalList.remove(toRemove)) {
-            throw new PersonNotFoundException();
+            throw new OrderNotFoundException();
         }
+    }
+
+    /**
+     * If no orders match the predicate, no orders are removed.
+     */
+    public void removeByPredicate(Predicate<OrderMap> predicate) {
+        requireNonNull(predicate);
+        internalList.removeIf(predicate);
     }
 
     public void setOrders(UniqueOrderList replacement) {
@@ -86,12 +95,12 @@ public class UniqueOrderList implements Iterable<OrderMap> {
 
     /**
      * Replaces the contents of this list with {@code orders}.
-     * {@code orders} must not contain duplicate persons.
+     * {@code orders} must not contain duplicate orders.
      */
     public void setOrders(List<OrderMap> orders) {
         requireAllNonNull(orders);
         if (!ordersAreUnique(orders)) {
-            throw new DuplicatePersonException();
+            throw new DuplicateOrderException();
         }
 
         internalList.setAll(orders);
