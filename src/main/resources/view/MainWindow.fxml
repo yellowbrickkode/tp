@@ -16,9 +16,6 @@
   <icons>
     <Image url="@/images/food_bridge.png" />
   </icons>
-  <icons>
-    <Image url="@/images/food_bridge.png" />
-  </icons>
   <scene>
     <Scene>
       <stylesheets>

@@ -170,6 +170,11 @@ public class AddOrderCommandTest {
         }
 
         @Override
+        public void deleteOrderByPredicate(Predicate<OrderMap> predicate) {
+            throw new AssertionError();
+        }
+
+        @Override
         public void setPerson(Person target, Person editedPerson) {
             throw new AssertionError();
         }

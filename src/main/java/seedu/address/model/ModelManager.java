@@ -112,6 +112,12 @@ public class ModelManager implements Model {
     public void deleteOrder(OrderMap target) {
         versionedAddressBook.removeOrder(target);
     }
+
+    @Override
+    public void deleteOrderByPredicate(Predicate<OrderMap> predicate) {
+        versionedAddressBook.removeOrderByPredicate(predicate);
+    }
+
     //@@author
     @Override
     public void addPerson(Person person) {

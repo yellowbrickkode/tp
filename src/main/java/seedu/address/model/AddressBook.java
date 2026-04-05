@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.util.ToStringBuilder;
@@ -137,6 +138,13 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removeOrder(OrderMap key) {
         orders.remove(key);
+    }
+
+    /**
+     * Removes order(s) from the order list using the given predicate.
+     */
+    public void removeOrderByPredicate(Predicate<OrderMap> predicate) {
+        orders.removeByPredicate(predicate);
     }
 
     /**

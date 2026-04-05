@@ -1,5 +1,7 @@
 package seedu.address.model.order;
 
+import static java.util.Objects.requireNonNull;
+
 import java.util.function.Predicate;
 
 import seedu.address.commons.util.ToStringBuilder;
@@ -10,7 +12,11 @@ import seedu.address.commons.util.ToStringBuilder;
 public class PhoneNumberPredicate implements Predicate<OrderMap> {
     private final String phoneNum;
 
+    /**
+     * Creates a predicate that matches orders whose person's phone equals the given number.
+     */
     public PhoneNumberPredicate(String phoneNum) {
+        requireNonNull(phoneNum);
         this.phoneNum = phoneNum;
     }
 
