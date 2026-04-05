@@ -20,7 +20,9 @@ import seedu.address.logic.commands.order.DeleteOrderByPhoneNumberCommand;
 import seedu.address.logic.commands.order.DeleteOrderCommand;
 import seedu.address.logic.commands.order.EditOrderCommand;
 import seedu.address.logic.commands.order.FindOrderByPhoneNumberCommand;
+import seedu.address.logic.commands.order.ListCurrOrderCommand;
 import seedu.address.logic.commands.order.ListOrderCommand;
+import seedu.address.logic.commands.order.ListPastOrderCommand;
 import seedu.address.logic.commands.person.AddPersonCommand;
 import seedu.address.logic.commands.person.DeletePersonCommand;
 import seedu.address.logic.commands.person.EditPersonCommand;
@@ -107,6 +109,12 @@ public class AddressBookParser {
 
         case ListOrderCommand.COMMAND_WORD:
             return new ListOrderCommand();
+
+        case ListCurrOrderCommand.COMMAND_WORD:
+            return new ListCurrOrderCommand();
+
+        case ListPastOrderCommand.COMMAND_WORD:
+            return new ListPastOrderCommand();
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();
