@@ -54,8 +54,13 @@ public class FindOrderByPredicateCommandParser implements Parser<Command> {
             return new FindOrderByPhoneNumberCommand(new PhoneNumberPredicate(phone.value));
         }
 
-        Region region = ParserUtil.parseRegion(argMultimap.getValue(PREFIX_REGION).get());
-        return new FindOrderByRegionCommand(new RegionPredicate(region));
+        if (hasRegion) {
+            Region region = ParserUtil.parseRegion(argMultimap.getValue(PREFIX_REGION).get());
+            return new FindOrderByRegionCommand(new RegionPredicate(region));
+        }
+
+        throw new ParseException(
+                String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindOrderByPhoneNumberCommand.MESSAGE_USAGE));
     }
 
     /**

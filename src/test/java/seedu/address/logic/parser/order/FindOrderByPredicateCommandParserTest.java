@@ -45,7 +45,7 @@ public class FindOrderByPredicateCommandParserTest {
     }
 
     @Test
-    public void parse_validRegion_returnsFindOrderByPhoneNumberCommand() {
+    public void parse_validRegion_returnsFindOrderByRegionCommand() {
         FindOrderByRegionCommand expectedFindCommand =
                 new FindOrderByRegionCommand(new RegionPredicate(new Region("N")));
         assertParseSuccess(parser, " r/N", expectedFindCommand);
