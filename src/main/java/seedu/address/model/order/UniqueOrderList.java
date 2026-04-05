@@ -9,6 +9,7 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -66,6 +67,22 @@ public class UniqueOrderList implements Iterable<OrderMap> {
         }
 
         internalList.set(index, editedOrder);
+    }
+
+    public void setPerson(Person target, Person editedPerson) {
+        requireAllNonNull(target, editedPerson);
+
+        for (int i = 0; i < internalList.size(); i++) {
+            OrderMap order = internalList.get(i);
+            if (order.getPerson().isSamePerson(target)) {
+                internalList.set(i, new OrderMap(
+                        order.getOrderId(),
+                        editedPerson,
+                        order.getProductQuantityPairs(),
+                        order.getStatus(),
+                        order.getOrderDatetime()));
+            }
+        }
     }
 
     /**
