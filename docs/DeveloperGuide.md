@@ -432,8 +432,8 @@ testers are expected to do more *exploratory* testing.
 
    1. Download the jar file and copy into an empty folder
 
-   1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
-
+   1. Double-click the jar file Expected: Shows the GUI with a set of sample customers.
+   
 1. Saving window preferences
 
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
@@ -441,8 +441,15 @@ testers are expected to do more *exploratory* testing.
    1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-1. _{ more test cases …​ }_
+### Adding a person
 
+1. Adding a person while all customers are being shown
+   1. Prerequisites: List all customers using the `listperson` command. Multiple customers in the list.
+   2. Test case: `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N`<br>
+      Expected: New contact is added to the list. Details of the new contact shown in the status message.
+   3. Test case: `addperson n/John Doe p/98765432`<br>
+      Expected: No new contact is added. Error details shown in the status message. Status bar remains the same.
+   
 ### Deleting a person
 
 1. Deleting a person while all persons are being shown
@@ -458,7 +465,132 @@ testers are expected to do more *exploratory* testing.
    1. Other incorrect delete commands to try: `deleteperson`, `deleteperson x`, `...` (where x is larger than the list size)<br>
       Expected: Similar to previous.
 
-1. _{ more test cases …​ }_
+### Listing all persons
+1. Listing all persons
+   1. Prerequisites: App is launched with multiple persons in the list.
+   2. Test case: `listperson`<br>
+   Expected: All customers are displayed in the list.
+
+### Editing a person
+1. Editing a person with valid inputs
+    1. Prerequisites: List all persons using the `listperson` command. Multiple persons in the list.
+    2. Test case: `editperson 1 p/91234567 r/E`<br>
+   Expected: First person’s phone number and region are updated.
+    4. Test case: `editperson 2 n/Betsy Crower t/`<br>
+   Expected: Second person’s name is updated and all tags are cleared.
+    5. Test case: `editperson 3 a/123456 u/`<br>
+    Expected: Third person’s address is updated and unit is cleared.
+2. Editing a person with invalid inputs<br>
+    1. Test case: `editperson 0 n/John`<br>
+    Expected: No person is edited. Error message shown.
+    2. Test case: `editperson 1 p/123`<br>
+    Expected: No change. Error message due to invalid phone number.
+    3. Other incorrect commands to try:
+    `editperson`, `editperson x`, `editperson 1`<br>
+    Expected: Similar to above.
+
+### Finding persons by region
+1. Finding persons with valid regions
+    1. Prerequisites: List contains persons from different regions.
+    2. Test case: `findperson N`<br>
+    Expected: Persons in region N are displayed.
+    3. Test case: `findperson NE W`<br>
+    Expected: Persons in region NE or W are displayed.
+2. Finding persons with invalid input
+    1. Test case: `findperson X`<br>
+    Expected: No persons found or error message shown.
+
+### Adding an order
+1. Adding an order with valid inputs
+    1. Prerequisites: At least one person exists.
+    2. Test case: `addorder c/1 o/2 5`<br>
+    Expected: Order is added for customer 1.
+    3. Test case: `addorder c/2 o/1 1 o/2 3 o/4 2`<br>
+    Expected: Multiple items added to the order.
+2. Adding an order with invalid inputs
+    1. Test case: `addorder c/0 o/1 1`<br>
+    Expected: No order added. Error message shown.
+    2. Other incorrect commands to try:
+    `addorder`, `addorder c/x`, `addorder c/1`<br>
+    Expected: Similar to above.
+
+### Deleting an order
+1. Deleting an order
+    1. Prerequisites: List all orders using `listorder`. Multiple orders exist.
+    2. Test case: `deleteorder 1`<br>
+    Expected: First order is deleted.
+    3. Test case: `deleteorder 0`<br>
+    Expected: No order deleted. Error message shown.
+    4. Other incorrect commands to try:
+    `deleteorder`, `deleteorder x`, `deleteorder 999`<br>
+    Expected: Similar to above.
+
+### Listing all orders
+1. Listing all orders
+    1. Prerequisites: Orders exist in the system.
+    Test case: `listorder`<br>
+    Expected: All orders are displayed.
+
+### Editing an order
+1. Editing an order with valid inputs
+    1. Prerequisites: List all orders using listorder.
+    2. Test case: `editorder 1 o/1 1 o/2 4`<br>
+    Expected: Order is updated with new quantities.
+    3. Test case: `editorder 2 o/2 0`<br>
+    Expected: Menu item 2 is removed from the order.
+2. Editing an order with invalid inputs
+    1. Test case: `editorder 0 o/1 1`<br>
+    Expected: No changes made. Error shown.
+    2. Other incorrect commands:
+    `editorder`, `editorder x`, `editorder 1`<br>
+    Expected: Similar to above.
+
+### Mark an order as completed
+1. Marking an order as completed
+    1. Prerequisites: List all orders using the `listorder` command. Multiple orders in the list.
+    2. Test case: `complete 1`<br>
+    Expected: First order is marked as completed. Status message reflects the update.
+    3. Test case: `complete 0`<br>
+    Expected: No order is updated. Error message shown.
+    4. Other incorrect commands to try:
+    `complete`, `complete x`, `complete 999`<br>
+    Expected: Similar to above.
+
+### Clearing all orders
+1. Clearing the order list
+    1. Prerequisites: Orders exist in the system.
+    2. Test case: `clearorder`<br>
+    Expected: All orders are removed from the order list. Status message confirms clearing.
+    3. Test case: `clearorder` when order list is already empty<br>
+    Expected: No change to the list. Application remains stable 
+   
+### Undoing changes
+1. Undo last action
+    1. Prerequisites: Perform a modifying command (e.g. `deleteperson 1`).
+    2. Test case: `undo`<br>
+    Expected: Last change is reverted.
+    3. Test case: `undo` repeatedly<br>
+    Expected: Steps back through history until no more actions to undo.
+
+### Redoing changes
+1. Redo last undone action
+    1. Prerequisites: Perform `undo` first.
+    2. Test case: `redo`<br>
+    Expected: Last undone action is reapplied.
+    3. Test case: `redo` with no undo history<br>
+    Expected: Error message shown.
+
+### Clearing all entries
+1. Clearing all data
+    1. Prerequisites: App contains persons and/or orders.
+    2. Test case: `clear`<br>
+    Expected: All entries are removed.
+
+### Exiting the program
+1. Exiting the program
+    1. Prerequisites: The applcation is running.
+    2. Test case: `exit`<br>
+    Expected: The application closes.
 
 ### Saving data
 
