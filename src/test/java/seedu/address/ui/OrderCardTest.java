@@ -20,8 +20,13 @@ public class OrderCardTest {
 
     @BeforeAll
     public static void initToolkit() {
+        System.setProperty("javafx.platform", "Monocle");
+        System.setProperty("monocle.platform", "Headless");
+        System.setProperty("prism.order", "sw");
         try {
             Platform.startup(() -> { });
+        } catch (UnsupportedOperationException e) {
+            org.junit.jupiter.api.Assumptions.assumeTrue(false, "JavaFX not supported in this environment");
         } catch (IllegalStateException e) {
             // JavaFX runtime already initialized.
         }
@@ -59,4 +64,3 @@ public class OrderCardTest {
         }
     }
 }
-
