@@ -30,6 +30,8 @@ public class OrderCard extends UiPart<Region> {
     @FXML
     private Label datetime;
     @FXML
+    private Label region;
+    @FXML
     private FlowPane items;
 
     /**
@@ -41,6 +43,7 @@ public class OrderCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         customer.setText(order.getPerson().getName().fullName);
         status.setText("Status: " + order.getStatus());
+        region.setText("Region: " + order.getPerson().getRegion());
         datetime.setText("At: " + order.getOrderDatetime());
 
         for (ProductQuantityPair entry : order.getProductQuantityPairs()) {

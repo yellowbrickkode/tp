@@ -21,6 +21,8 @@ import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.order.ClearOrderCommand;
 import seedu.address.logic.commands.order.DeleteOrderByPhoneNumberCommand;
 import seedu.address.logic.commands.order.DeleteOrderCommand;
+import seedu.address.logic.commands.order.FindOrderByPhoneNumberCommand;
+import seedu.address.logic.commands.order.FindOrderByRegionCommand;
 import seedu.address.logic.commands.order.ListOrderCommand;
 import seedu.address.logic.commands.person.AddPersonCommand;
 import seedu.address.logic.commands.person.DeletePersonCommand;
@@ -103,6 +105,14 @@ public class AddressBookParserTest {
         FindPersonCommand command = (FindPersonCommand) parser.parseCommand(
                 FindPersonCommand.COMMAND_WORD + " " + keywords.stream().collect(Collectors.joining(" ")));
         assertEquals(new FindPersonCommand(new RegionContainsKeywordsPredicate(keywords)), command);
+    }
+
+    @Test
+    public void parseCommand_findOrder() throws Exception {
+        assertTrue(parser.parseCommand("findorder p/94351253")
+                instanceof FindOrderByPhoneNumberCommand);
+        assertTrue(parser.parseCommand("findorder r/N")
+                instanceof FindOrderByRegionCommand);
     }
 
     @Test

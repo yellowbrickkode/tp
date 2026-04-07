@@ -2,35 +2,26 @@ package seedu.address.logic.commands.order;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.function.Predicate;
-
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.model.Model;
-import seedu.address.model.order.OrderMap;
+import seedu.address.model.order.RegionPredicate;
 
 /**
- * Finds and lists all active orders in address book that match the given predicate.
+ * Finds and lists all active orders in address book whose customer's region matches the given region.
  */
-public class FindOrderByPhoneNumberCommand extends Command {
+public class FindOrderByRegionCommand extends Command {
 
     public static final String COMMAND_WORD = "findorder";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds all active orders that match the given criteria and displays them as a list "
-            + "with index numbers.\n"
-            + "Parameters: [p/PHONE] [r/REGION] (exactly one field must be provided)\n"
-            + "Example: " + COMMAND_WORD + " p/90813212\n"
-            + "Example: " + COMMAND_WORD + " r/N";
-
-    private final Predicate<OrderMap> predicate;
+    private final RegionPredicate predicate;
 
     /**
-     * Creates a command to find active orders by predicate.
+     * Creates a command to find active orders by customer region.
      */
-    public FindOrderByPhoneNumberCommand(Predicate<OrderMap> predicate) {
+    public FindOrderByRegionCommand(RegionPredicate predicate) {
         requireNonNull(predicate);
         this.predicate = predicate;
     }
@@ -50,12 +41,11 @@ public class FindOrderByPhoneNumberCommand extends Command {
             return true;
         }
 
-        // instanceof handles nulls
-        if (!(other instanceof FindOrderByPhoneNumberCommand)) {
+        if (!(other instanceof FindOrderByRegionCommand)) {
             return false;
         }
 
-        FindOrderByPhoneNumberCommand otherFindCommand = (FindOrderByPhoneNumberCommand) other;
+        FindOrderByRegionCommand otherFindCommand = (FindOrderByRegionCommand) other;
         return predicate.equals(otherFindCommand.predicate);
     }
 
@@ -66,3 +56,4 @@ public class FindOrderByPhoneNumberCommand extends Command {
                 .toString();
     }
 }
+

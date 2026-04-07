@@ -27,6 +27,7 @@
         <Label fx:id="customer" styleClass="cell_big_label" text="Customer" />
       </HBox>
       <Label fx:id="status" styleClass="cell_small_label" text="Status" />
+      <Label fx:id="region" styleClass="cell_small_label" text="Region" />
       <Label fx:id="datetime" styleClass="cell_small_label" text="Datetime" />
       <FlowPane fx:id="items" hgap="5" vgap="5" />
     </VBox>
