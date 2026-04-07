@@ -16,6 +16,22 @@ public class VersionedAddressBook extends AddressBook {
     private int currentStatePointer;
 
     /**
+     * Snapshot of the current address book contents and undo/redo history state.
+     */
+    public static class Snapshot {
+        private final AddressBook currentAddressBook;
+        private final List<ReadOnlyAddressBook> addressBookStateList;
+        private final int currentStatePointer;
+
+        private Snapshot(AddressBook currentAddressBook, List<ReadOnlyAddressBook> addressBookStateList,
+                         int currentStatePointer) {
+            this.currentAddressBook = currentAddressBook;
+            this.addressBookStateList = addressBookStateList;
+            this.currentStatePointer = currentStatePointer;
+        }
+    }
+
+    /**
      * Creates a {@code VersionedAddressBook} with the given {@code initialState}.
      */
     public VersionedAddressBook(ReadOnlyAddressBook initialState) {
@@ -34,6 +50,29 @@ public class VersionedAddressBook extends AddressBook {
         removeStatesAfterCurrentPointer();
         addressBookStateList.add(new AddressBook(this));
         currentStatePointer++;
+    }
+
+    /**
+     * Returns a deep snapshot of the current address book state.
+     */
+    public Snapshot createSnapshot() {
+        List<ReadOnlyAddressBook> copiedStates = new ArrayList<>();
+        for (ReadOnlyAddressBook state : addressBookStateList) {
+            copiedStates.add(new AddressBook(state));
+        }
+        return new Snapshot(new AddressBook(this), copiedStates, currentStatePointer);
+    }
+
+    /**
+     * Restores the address book and undo/redo state from a snapshot.
+     */
+    public void restoreSnapshot(Snapshot snapshot) {
+        resetData(snapshot.currentAddressBook);
+        addressBookStateList.clear();
+        for (ReadOnlyAddressBook state : snapshot.addressBookStateList) {
+            addressBookStateList.add(new AddressBook(state));
+        }
+        currentStatePointer = snapshot.currentStatePointer;
     }
 
     private void removeStatesAfterCurrentPointer() {

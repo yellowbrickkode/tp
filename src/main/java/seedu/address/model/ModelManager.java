@@ -207,6 +207,17 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public VersionedAddressBook.Snapshot createAddressBookSnapshot() {
+        return versionedAddressBook.createSnapshot();
+    }
+
+    @Override
+    public void restoreAddressBookSnapshot(VersionedAddressBook.Snapshot snapshot) {
+        requireNonNull(snapshot);
+        versionedAddressBook.restoreSnapshot(snapshot);
+    }
+
+    @Override
     public boolean equals(Object other) {
         if (other == this) {
             return true;

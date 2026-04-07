@@ -32,7 +32,9 @@ class JsonSerializableAddressBook {
     @JsonCreator
     public JsonSerializableAddressBook(@JsonProperty("persons") List<JsonAdaptedPerson> persons,
                                        @JsonProperty("orders") List<JsonAdaptedOrder> orders) {
-        this.persons.addAll(persons);
+        if (persons != null) {
+            this.persons.addAll(persons);
+        }
         if (orders != null) {
             this.orders.addAll(orders);
         }
@@ -68,11 +70,22 @@ class JsonSerializableAddressBook {
             addressBook.addPerson(person);
         }
         for (JsonAdaptedOrder jsonOrder : orders) {
+            Person person = null;
+            String personPhone = jsonOrder.getPersonPhone();
+            if (personPhone != null) {
+                person = addressBook.getPersonList().stream()
+                        .filter(p -> p.getPhone().toString().equals(personPhone))
+                        .findFirst()
+                        .orElse(null);
+            }
 
-            Person person = addressBook.getPersonList().stream()
-                    .filter(p -> p.getName().toString().equals(jsonOrder.getPersonName()))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalValueException("Person not found for order"));
+            if (person == null) {
+                person = addressBook.getPersonList().stream()
+                        .filter(p -> p.getName().toString().equals(jsonOrder.getPersonName()))
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalValueException(
+                                "Person not found for order: " + jsonOrder.getPersonName()));
+            }
 
             OrderMap order = jsonOrder.toModelType(person);
             if (addressBook.hasOrder(order)) {

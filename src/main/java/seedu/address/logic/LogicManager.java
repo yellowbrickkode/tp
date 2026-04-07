@@ -15,6 +15,7 @@ import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.VersionedAddressBook;
 import seedu.address.model.order.OrderMap;
 import seedu.address.model.person.Person;
 import seedu.address.storage.Storage;
@@ -47,24 +48,36 @@ public class LogicManager implements Logic {
     public CommandResult execute(String commandText) throws CommandException, ParseException {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
 
-        CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
-        commandResult = command.execute(model);
-        if (command.shouldRecordInHistory()) {
-            model.commitAddressBook();
+        VersionedAddressBook.Snapshot snapshot = null;
+        if (command.mutatesModel()) {
+            snapshot = model.createAddressBookSnapshot();
         }
+
+        CommandResult commandResult = command.execute(model);
 
         try {
             if (command.mutatesModel()) {
                 storage.saveAddressBook(model.getAddressBook());
             }
+            if (command.shouldRecordInHistory()) {
+                model.commitAddressBook();
+            }
         } catch (AccessDeniedException e) {
+            rollback(snapshot);
             throw new CommandException(String.format(FILE_OPS_PERMISSION_ERROR_FORMAT, e.getMessage()), e);
         } catch (IOException ioe) {
+            rollback(snapshot);
             throw new CommandException(String.format(FILE_OPS_ERROR_FORMAT, ioe.getMessage()), ioe);
         }
 
         return commandResult;
+    }
+
+    private void rollback(VersionedAddressBook.Snapshot snapshot) {
+        if (snapshot != null) {
+            model.restoreAddressBookSnapshot(snapshot);
+        }
     }
 
     @Override

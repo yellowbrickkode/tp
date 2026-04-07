@@ -176,4 +176,14 @@ public interface Model {
      * Saves the current address book state for undo/redo.
      */
     void commitAddressBook();
+
+    /**
+     * Creates a snapshot of the current address book data and history state.
+     */
+    VersionedAddressBook.Snapshot createAddressBookSnapshot();
+
+    /**
+     * Restores the address book data and history state from {@code snapshot}.
+     */
+    void restoreAddressBookSnapshot(VersionedAddressBook.Snapshot snapshot);
 }
