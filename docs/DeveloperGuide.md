@@ -271,129 +271,117 @@ Our platform streamlines logistics by tagging orders by region for efficient bat
 
 ### User stories
 
+**Requirements implemented in the current version**
+
+The user stories below reflect features that are implemented in the current system and are aligned with the actual command behavior and use cases.
+
+**Requirements yet to be implemented**
+
+The planned user stories and the Planned Enhancements appendix describe near-future changes we intend to add in upcoming iterations.
+
+**Implemented user stories (current version)**
+
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​                                               | I want to …​                                       | So that I can…​                                                        |
-| ------ |----------------------------------------------------------|-------------------------------------------------------|---------------------------------------------------------------------------|
-| `* * *` | user                                                     | add a new contact with name, address and phone number | record the customer's details to the system.                              |
-| `* * *` | user                                                     | delete a contact                                      | remove contacts from the system that no longer order from the restaurant. |
-| `* * *` | user                                                     | add an order                                          | save the details of an order and the customer who ordered it.             |
-| `* * *` | user                                                     | delete an order                                       | remove wrongly-keyed orders in the system.                                |
-| `* * *` | restaurant employee                                      | mark an order as completed                            | keep track of which orders are completed.                                 |
-| `* *`  | new user                                                 | follow the walkthrough                                | learn to use the main features of the app.                                |
-| `* *`  | user                                                     | select an existing contact while adding an order      | save time by not retyping the same details.                               |
-| `* *`  | user                                                     | add a scheduled order                                 | add an order for later, ahead of time.                                    |
-| `* *`  | careless user                                            | undo deletion or edition of an order                  | restore the data.                                                         |
-| `* *`  | restaurant delivery worker troubled by regional delivery | find all active orders with a specific region tag     | filter the orders and find all the orders in specific regions.            |
-| `* *`  | restaurant delivery worker                               | sort orders by waiting time                           | prioritize deliveries that have been waiting too long.                    |
-| `* *`  | restaurant manager                                       | see the statistics of the restaurant's orders         | see which menu items are the most popular.                                |
-| `* *`  | restaurant manager                                       | keep track of the number of food items ordered        | know which items are favoured by customers.                               |
-| `*`    | experienced user                                         | pin important orders                                  | easily view them later if required.                                       |
-| `*`    | experienced user                                         | copy the customer's phone number                      | easily paste the number to Whatsapp to call the customer.                 |
-| `*`    | user                                                     | be alerted if I add an identical contact              | avoid adding the same customer twice by mistake.                          |
+| Priority | As a …​                | I want to …​                                           | So that I can…​                                                     |
+| ------ |---------------------------|-----------------------------------------------------------|------------------------------------------------------------------------|
+| `* * *` | user                      | add a person with name, phone, address, and region        | store customer details for future orders.                             |
+| `* * *` | user                      | edit a person’s details                                  | keep customer information accurate.                                   |
+| `* * *` | user                      | delete a person by index                                 | remove customers who no longer order.                                 |
+| `* * *` | user                      | list all persons                                         | view all customers in the system.                                     |
+| `* * *` | user                      | add an order for an existing customer                    | record new orders without re-entering customer details.               |
+| `* * *` | user                      | delete an order by index                                 | remove wrongly-keyed orders.                                          |
+| `* *`  | user                      | delete orders by phone number                            | quickly remove all orders tied to a specific customer.                |
+| `* * *` | restaurant employee       | mark an order as completed                               | keep track of fulfilled orders.                                       |
+| `* *`  | restaurant delivery worker| find persons by region                                   | identify customers in a delivery region.                              |
+| `* *`  | restaurant delivery worker| find active orders by phone or region                    | filter orders for delivery planning.                                  |
+| `* *`  | restaurant delivery worker| list current and past orders                             | separate active orders from completed ones.                           |
+| `* *`  | user                      | undo or redo recent changes                              | recover from accidental edits or deletions.                           |
 
 *{More to be added}*
-
 
 ### Use cases
 
 (For all use cases below, the **System** is the `Food Bridge` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Add a contact**
+**Use case: Add an order for an existing customer**
 
 **MSS**
 
-1.  User requests to add a contact, providing relevant information.
-2.  Food Bridge adds the contact to the list.
-3.  Food Bridge shows the list of persons.
+1. User requests to add an order with a customer index and one or more order items.
+2. Food Bridge creates the order and adds it to the order list.
+3. Food Bridge shows the updated order list.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 2a. The number given is invalid.
+* 1a. The customer index is missing or not a positive integer.
+  * 1a1. Food Bridge shows an error message.
+  * Use case resumes at step 1.
 
+* 1b. Any order item is invalid (e.g., malformed `o/` input).
+  * 1b1. Food Bridge shows an error message.
+  * Use case resumes at step 1.
+
+* 2a. The customer index is out of range.
   * 2a1. Food Bridge shows an error message.
+  * Use case resumes at step 1.
 
-    Use case resumes at step 1.
-
-
-* 2b. The address given is invalid.
-
-  * 2b1. Food Bridge shows an error message.
-
-    Use case resumes at step 1.
-
-
-* 2c. No order is given.
-
-  * 2c1. Food Bridge shows an error message.
-
-    Use case resumes at step 1.
-
-
-* 2d. Contact is a duplicate - all information exactly matches a contact already in the list.
-
-  * 2d1. Food Bridge adds the order to the already-stored contact.
-
-    Use case ends.
-
-
-
-**Use case: Delete a contact**
+**Use case: Find active orders by phone or region**
 
 **MSS**
 
-1.  User requests to list persons.
-2.  Food Bridge shows a list of persons.
-3.  User requests to delete a specific person in the list.
-4.  Food Bridge deletes the person.
+1. User requests to find active orders with `p/PHONE` or `r/REGION`.
+2. Food Bridge filters the active orders and shows the matching list.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 1a. Both `p/` and `r/` are provided.
+  * 1a1. Food Bridge shows an error message indicating only one prefix is allowed.
+  * Use case resumes at step 1.
 
-  Use case ends.
+* 1b. The phone number or region value is invalid.
+  * 1b1. Food Bridge shows an error message for the invalid value.
+  * Use case resumes at step 1.
 
-* 3a. The given index is invalid.
-
-    * 3a1. Food Bridge shows an error message.
-
-      Use case resumes at step 2.
-
-
-**Use case: List all contacts**
+**Use case: Mark an order as completed**
 
 **MSS**
 
-1.  User requests to list persons.
-2.  Food Bridge shows a list of persons.
+1. User requests to complete an order by index.
+2. Food Bridge marks the order as completed.
+3. Food Bridge shows the updated order list.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
+* 1a. The index is invalid or out of range.
+  * 1a1. Food Bridge shows an error message.
+  * Use case resumes at step 1.
 
-  Use case ends.
+* 2a. The order is already completed or cancelled.
+  * 2a1. Food Bridge shows an error message.
+  * Use case resumes at step 1.
 
-
-**Use case: List all orders**
+**Use case: Undo/redo a command**
 
 **MSS**
 
-1.  User requests to list orders.
-2.  Food Bridge shows a list of orders, and the details of the customer who made the order.
+1. User requests to undo or redo the last command.
+2. Food Bridge updates the data to the previous/next state.
+3. Food Bridge shows the updated list view.
 
-    Use case ends.
+   Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
-
-  Use case ends.
+* 1a. There is no command to undo/redo.
+  * 1a1. Food Bridge shows an error message.
+  * Use case ends.
 
 *{More to be added}*
 
@@ -414,6 +402,17 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 * **Contact**: An individual or business entity stored in the application for reference. In this project, a contact refers to a customer.
 * **Orders**: In this project, customer orders are stored in a different list than the contact list.
 * **Region Tag**: A geographical area used to categorise delivery locations. In this project, region refers specifically to one of the following values: North, North-East, West, East, Central.
+
+--------------------------------------------------------------------------------------------------------------------
+
+## **Appendix: Planned Enhancements**
+
+Team size: 5
+
+1. Pin important orders for faster access: Currently, orders are listed strictly by time and all orders look the same, so urgent orders can get buried in a long list. We will add a `pinorder INDEX` command that toggles a pinned flag on an existing order and a pin indicator on the order card (a small pin icon and the text `Pinned`). Pinned orders will appear in a dedicated pinned block at the top of the order list, while preserving their relative ordering by `orderDatetime`. The result display will confirm the pin toggle (e.g., `Order 3 pinned`).
+2. Copy a customer’s phone number from an order card: Currently, users must manually select and copy the phone number, which is slow and error-prone when handling multiple deliveries. We will add a small copy button next to the customer phone line in the order card. Clicking it copies the phone number to the clipboard and shows a brief confirmation in the result display (e.g., `Copied phone number: 98765432`). If the clipboard is unavailable, the result display will show a clear error (e.g., `Unable to copy phone number: clipboard unavailable`) and the UI will remain unchanged.
+3. Show only orders due for delivery today on app launch: Currently, the app shows all orders on startup, which can overwhelm the user when only today’s deliveries matter. We will apply a startup filter that shows only orders whose `orderDatetime` falls on the current local date, and display a one-line hint in the result display (e.g., `Showing orders for today (2026-04-08)`). Users can clear the filter with `listorder`, which restores the full order list. The filter is read-only and does not modify stored order data.
+4. Alert when adding an identical contact: Currently, adding a person who already exists may either succeed or fail with a generic duplicate message, leaving the user unclear about what is duplicated. We will detect an exact duplicate (same name, phone, address, region, tags) and show a specific error: `Contact Amy Lee already exists with the same details.` This will not block partially matching contacts (e.g., same name but different phone), which will continue to be allowed.
 
 --------------------------------------------------------------------------------------------------------------------
 
