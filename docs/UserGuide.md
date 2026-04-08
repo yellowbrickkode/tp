@@ -278,26 +278,20 @@ Shows a list of all incomplete (active) orders.
 
 Format: `listcurrorder`
 
-Examples:
-* `listcurrorder` displays all incomplete orders.
-
 #### Viewing past orders: `listpastorder`
 
 Shows a list of all completed or cancelled orders.
 
 Format: `listpastorder`
 
-Examples:
-* `listpastorder` displays all completed or cancelled orders.
-
 #### Filtering orders by phone number: `findorder`
 
-Finds active orders matching a specific customer phone number.
+Finds orders matching a specific customer phone number.
 
 Format: `findorder p/PHONE_NUMBER`
 
-* The search is an exact match on `PHONE_NUMBER`.
-* This command only accepts one filter at a time.
+* The search matches orders whose phone number exactly equals `PHONE_NUMBER`.
+* This command only accepts one filter (i.e. either `r/` or `p/`) at a time.
 * Use `listorder` to show all orders again after filtering.
 
 Examples:
@@ -305,11 +299,11 @@ Examples:
 
 #### Deleting orders of a specific person: `deleteorderbyphone`
 
-Deletes active orders matching a specific customer phone number.
+Deletes orders matching a specific customer phone number.
 
 Format: `deleteorderbyphone PHONE_NUMBER`
 
-* Deletes all orders whose customer's phone number matches `PHONE_NUMBER`.
+* Deletes all orders whose customer's phone number exactly matches `PHONE_NUMBER`.
 
 Examples:
 * `deleteorderbyphone 98765432` deletes all orders made by the customer with phone number `98765432`.
@@ -413,6 +407,9 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 **Q**: Why does `deleteorderbyphone` not use `p/` like `findorder`?<br>
 **A**: `deleteorderbyphone` takes a plain `PHONE_NUMBER` argument without a prefix. Example: `deleteorderbyphone 98765432`.
 
+**Q**: What happens if I delete a customer with existing orders?<br>
+**A**: Deleting a customer automatically deletes their corresponding orders.
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
@@ -426,27 +423,26 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 
 ## Command summary
 
-| Action                       | Format, Examples                                                                                                                                              |
-|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Add Customer**             | `addperson n/NAME p/PHONE_NUMBER a/POSTAL_CODE [u/UNIT_NUMBER] r/REGION [t/TAG]…​` <br> e.g. `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N t/member` |
-| **Delete Customer**          | `deleteperson CUSTOMER_INDEX` <br> e.g. `deleteperson 2`                                                                                                      |
-| **List Customers**           | `listperson`                                                                                                                                                  |
-| **Edit Customer**            | `editperson CUSTOMER_INDEX [n/NAME] [p/PHONE_NUMBER] [a/POSTAL_CODE] [u/UNIT_NUMBER] [r/REGION] [t/TAG]…​` <br> e.g. `editperson 1 p/91234567 r/E`            |
-| **Find Customers by Region** | `findperson REGION [MORE_REGIONS]…` <br> e.g. `findperson N`                                                                                                  |
-| **Add Order**                | `addorder c/CUSTOMER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​` <br> e.g. `addorder c/1 o/2 5`                                                      |
-| **Delete Order**             | `deleteorder ORDER_INDEX` <br> e.g. `deleteorder 3`                                                                                                           |
-| **List Orders**              | `listorder`                                                                                                                                                   |
-| **View Current Orders**      | `listcurrorder`                                                                                                                                                |
-| **View Past Orders**         | `listpastorder`                                                                                                                                                |
-| **Mark Order as Completed**  | `complete ORDER_INDEX` <br> e.g. `complete 1`                                                                                                                 |
-| **Find Orders by Region**    | `findorder r/REGION` <br> e.g. `findorder r/N`                                                                                                                |
-| **Filter Orders by Phone**   | `findorder p/PHONE_NUMBER` <br> e.g. `findorder p/98765432`                                                                                                   |
-| **Complete Orders by Region** | `completeregion r/REGION` <br> e.g. `completeregion r/NE`                                                                                                     |
-| **Delete Orders by Phone**   | `deleteorderbyphone PHONE_NUMBER` <br> e.g. `deleteorderbyphone 98765432`                                                                                     |
-| **Clear All Orders**         | `clearorder`                                                                                                                                                  |
-| **Edit Order**               | `editorder ORDER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​` <br> e.g. `editorder 1 o/1 1 o/2 4`                                                     |
-| **View Help**                | `help`                                                                                                                                                        |
-| **Undo**                     | `undo`                                                                                                                                                        |
-| **Redo**                     | `redo`                                                                                                                                                        |
-| **Clear**                    | `clear`                                                                                                                                                       |
-| **Exit**                     | `exit`                                                                                                                                                        |
+| Action                             | Format, Examples                                                                                                                                              |
+|------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Add Customer**                   | `addperson n/NAME p/PHONE_NUMBER a/POSTAL_CODE [u/UNIT_NUMBER] r/REGION [t/TAG]…​` <br> e.g. `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N t/member` |
+| **Delete Customer**                | `deleteperson CUSTOMER_INDEX` <br> e.g. `deleteperson 2`                                                                                                      |
+| **List Customers**                 | `listperson`                                                                                                                                                  |
+| **Edit Customer**                  | `editperson CUSTOMER_INDEX [n/NAME] [p/PHONE_NUMBER] [a/POSTAL_CODE] [u/UNIT_NUMBER] [r/REGION] [t/TAG]…​` <br> e.g. `editperson 1 p/91234567 r/E`            |
+| **Find Customers by Region**       | `findperson REGION [MORE_REGIONS]…` <br> e.g. `findperson N`                                                                                                  |
+| **Add Order**                      | `addorder c/CUSTOMER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​` <br> e.g. `addorder c/1 o/2 5`                                                      |
+| **Delete Order**                   | `deleteorder ORDER_INDEX` <br> e.g. `deleteorder 3`                                                                                                           |
+| **List Orders**                    | `listorder`                                                                                                                                                   |
+| **List Current Orders**            | `listcurrorder`                                                                                                                                                |
+| **List Past Orders**               | `listpastorder`                                                                                                                                                |
+| **Edit Order**                     | `editorder ORDER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​` <br> e.g. `editorder 1 o/1 1 o/2 4`                                                     |
+| **Mark Order as Completed**        | `complete ORDER_INDEX` <br> e.g. `complete 1`                                                                                                                 |
+| **Find Orders by Region or Phone** | `findorder [p/PHONE_NUMBER] [r/REGION]` (exactly one field must be provided) <br> e.g. `findorder r/N`, `findorder p/98765432`                       |
+| **Complete Orders by Region**      | `completeregion r/REGION` <br> e.g. `completeregion r/NE`                                                                                                     |
+| **Delete Orders by Phone**         | `deleteorderbyphone PHONE_NUMBER` <br> e.g. `deleteorderbyphone 98765432`                                                                                     |
+| **Clear All Orders**               | `clearorder`                                                                                                                                                  |
+| **View Help**                      | `help`                                                                                                                                                        |
+| **Undo**                           | `undo`                                                                                                                                                        |
+| **Redo**                           | `redo`                                                                                                                                                        |
+| **Clear**                          | `clear`                                                                                                                                                       |
+| **Exit**                           | `exit`                                                                                                                                                        |
