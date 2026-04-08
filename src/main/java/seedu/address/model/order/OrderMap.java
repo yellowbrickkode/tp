@@ -117,7 +117,8 @@ public class OrderMap {
         }
 
         return otherOrder != null
-                && otherOrder.getOrderId() == getOrderId();
+                && otherOrder.getOrderId() == getOrderId()
+                && otherOrder.getOrderDatetime() == getOrderDatetime();
     }
 
     /**
