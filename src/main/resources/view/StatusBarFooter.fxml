@@ -9,5 +9,5 @@
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10" />
   </columnConstraints>
   <Label fx:id="saveLocationStatus" wrapText="true" textOverrun="CLIP"
-      maxWidth="1.7976931348623157E308" />
+      maxWidth="Infinity" />
 </GridPane>
