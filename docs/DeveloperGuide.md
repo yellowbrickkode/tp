@@ -12,6 +12,7 @@ title: Developer Guide
 * Base project structure and several core patterns were adapted from [se-edu AddressBook-Level3 (AB3)](https://github.com/se-edu/addressbook-level3).
 * Undo/redo state-management logic was reused and adapted from [se-edu AddressBook-Level4 (AB4)](https://github.com/se-edu/addressbook-level4), primarily in `VersionedAddressBook` and related model integration.
 * Some JavaFX-related code ideas were adapted from Marco Jakob's tutorial: [JavaFX 8 Tutorial](http://code.makery.ch/library/javafx-8-tutorial/).
+* Libraries used: JavaFX, Jackson, JUnit5.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -391,4 +392,3 @@ testers are expected to do more *exploratory* testing.
    1. _{explain how to simulate a missing/corrupted file, and the expected behavior}_
 
 1. _{ more test cases …​ }_
-
