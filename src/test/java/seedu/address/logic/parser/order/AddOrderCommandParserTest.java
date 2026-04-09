@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.order.AddOrderCommand;
 import seedu.address.model.order.ProductQuantityPair;
-import seedu.address.model.order.Quantity;
 
 public class AddOrderCommandParserTest {
 
@@ -71,7 +70,7 @@ public class AddOrderCommandParserTest {
 
     @Test
     public void parse_invalidQuantity_failure() {
-        assertParseFailure(parser, " c/1 o/1 0", Quantity.MESSAGE_CONSTRAINTS_POSITIVE);
+        assertParseFailure(parser, " c/1 o/1 0", AddOrderCommand.MESSAGE_ZERO_QUANTITY);
     }
 
     @Test

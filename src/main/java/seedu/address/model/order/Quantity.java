@@ -9,8 +9,7 @@ import seedu.address.commons.util.AppUtil;
  * Represents a quantity in an order.
  */
 public class Quantity {
-    public static final String MESSAGE_CONSTRAINTS_NONNEGATIVE = "Quantity should be a non-negative integer.";
-    public static final String MESSAGE_CONSTRAINTS_POSITIVE = "Quantity should be a positive integer.";
+    public static final String MESSAGE_CONSTRAINTS = "Quantity should be a non-negative integer.";
     private static final String VALIDATION_REGEX_NONNEGATIVE = "^[0-9]\\d*$";
 
     private final int value;
@@ -22,7 +21,7 @@ public class Quantity {
      */
     public Quantity(String quantity) {
         requireNonNull(quantity);
-        AppUtil.checkArgument(isValidQuantity(quantity), MESSAGE_CONSTRAINTS_NONNEGATIVE);
+        AppUtil.checkArgument(isValidQuantity(quantity), MESSAGE_CONSTRAINTS);
         this.value = Integer.parseInt(quantity);
     }
 

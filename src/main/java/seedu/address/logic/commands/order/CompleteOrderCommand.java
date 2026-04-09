@@ -17,7 +17,7 @@ import seedu.address.model.order.OrderMap;
 public class CompleteOrderCommand extends Command {
     public static final String COMMAND_WORD = "complete";
 
-    public static final String MESSAGE_SUCCESS = "Order Marked as Completed: %s";
+    public static final String MESSAGE_SUCCESS = "Order %d for %s marked as completed.";
 
     public static final String MESSAGE_INVALID_INDEX = "No order with that index was found";
     public static final String MESSAGE_USAGE = COMMAND_WORD
@@ -70,7 +70,9 @@ public class CompleteOrderCommand extends Command {
 
         model.setOrder(orderToMark, completedOrder);
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, completedOrder));
+        return new CommandResult(String.format(MESSAGE_SUCCESS,
+                completedOrder.getOrderId(),
+                completedOrder.getPerson().getName()));
     }
 
     @Override
@@ -79,11 +81,10 @@ public class CompleteOrderCommand extends Command {
             return true;
         }
 
-        if (!(other instanceof CompleteOrderCommand)) {
+        if (!(other instanceof CompleteOrderCommand otherCommand)) {
             return false;
         }
 
-        CompleteOrderCommand otherCommand = (CompleteOrderCommand) other;
         return targetIndex.equals(otherCommand.targetIndex);
     }
 }

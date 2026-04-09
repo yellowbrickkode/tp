@@ -32,4 +32,8 @@ public class FindPersonCommandParserTest {
         assertParseSuccess(parser, " \n N \n \t E  \t", expectedFindCommand);
     }
 
+    @Test
+    public void parse_invalidRegion_throwsParseException() {
+        assertParseFailure(parser, "ABC", seedu.address.model.person.Region.MESSAGE_CONSTRAINTS);
+    }
 }
