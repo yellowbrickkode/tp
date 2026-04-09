@@ -9,11 +9,13 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.order.ProductQuantityPair;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
@@ -23,14 +25,16 @@ public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_ADDRESS = " ";
-    private static final String INVALID_EMAIL = "example.com";
+    private static final String INVALID_ORDER_NEGATIVE_QUANTITY = "1 -1";
+    private static final String INVALID_ORDER_ZERO_QUANTITY = "1 0";
     private static final String INVALID_TAG = "#friend";
 
     private static final String VALID_NAME = "Rachel Walker";
     private static final String VALID_PHONE = "91234567";
     private static final String VALID_ADDRESS = "123456";
     private static final String VALID_UNITNO = "#05-05";
-    private static final String VALID_EMAIL = "rachel@example.com";
+    private static final String VALID_ORDER_1 = "1 1";
+    private static final String VALID_ORDER_2 = "2 2";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
 
@@ -123,6 +127,26 @@ public class ParserUtilTest {
         String addressWithWhitespace = WHITESPACE + VALID_ADDRESS + WHITESPACE;
         Address expectedAddress = new Address(VALID_ADDRESS, VALID_UNITNO);
         assertEquals(expectedAddress, ParserUtil.parseAddress(addressWithWhitespace, VALID_UNITNO));
+    }
+
+    @Test
+    public void parseOrdersPositiveQuantity_validValueWithWhitespace_returnsProductQuantityPairSet()
+            throws ParseException {
+        String order1 = WHITESPACE + VALID_ORDER_1 + WHITESPACE;
+        String order2 = WHITESPACE + VALID_ORDER_2;
+        List<String> orders = Arrays.asList(order1, order2);
+        Set<ProductQuantityPair> expectedSet = new HashSet<>();
+        expectedSet.add(new ProductQuantityPair(VALID_ORDER_1));
+        expectedSet.add(new ProductQuantityPair(VALID_ORDER_2));
+        assertEquals(expectedSet, ParserUtil.parseOrdersPositiveQuantity(orders));
+    }
+
+    @Test
+    public void parseOrdersPositiveQuantity_nonPositiveQuantity_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseOrdersPositiveQuantity(
+                List.of(INVALID_ORDER_NEGATIVE_QUANTITY)));
+        assertThrows(ParseException.class, () -> ParserUtil.parseOrdersPositiveQuantity(
+                List.of(INVALID_ORDER_ZERO_QUANTITY)));
     }
 
     @Test
