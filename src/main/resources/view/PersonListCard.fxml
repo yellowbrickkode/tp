@@ -27,11 +27,16 @@
         </Label>
         <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
       </HBox>
-      <Label fx:id="region" styleClass="cell_small_label" text="\$region" />
-      <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
-      <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
-      <FlowPane fx:id="orders" />
-      <FlowPane fx:id="tags" />
+      <GridPane hgap="5">
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="cell_small_label" text="Region: "/>
+        <Label GridPane.columnIndex="1" GridPane.rowIndex="0" fx:id="region" styleClass="cell_small_label" text="\$region" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="cell_small_label" text="Phone: "/>
+        <Label GridPane.columnIndex="1" GridPane.rowIndex="1" fx:id="phone" styleClass="cell_small_label" text="\$phone" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="cell_small_label" text="Address: "/>
+        <Label GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="address" styleClass="cell_small_label" text="\$address" />
+        <Label GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="cell_small_label" text="Tags: "/>
+        <FlowPane GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="tags" />
+      </GridPane>
     </VBox>
   </GridPane>
 </HBox>
