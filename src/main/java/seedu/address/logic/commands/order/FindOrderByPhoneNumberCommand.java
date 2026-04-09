@@ -12,14 +12,14 @@ import seedu.address.model.Model;
 import seedu.address.model.order.OrderMap;
 
 /**
- * Finds and lists all active orders in address book that match the given predicate.
+ * Finds and lists all orders in address book that match the given predicate.
  */
 public class FindOrderByPhoneNumberCommand extends Command {
 
     public static final String COMMAND_WORD = "findorder";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD
-            + ": Finds all active orders that match the given criteria and displays them as a list "
+            + ": Finds all orders that match the given criteria and displays them as a list "
             + "with index numbers.\n"
             + "Parameters: [p/PHONE] [r/REGION] (exactly one field must be provided)\n"
             + "Example: " + COMMAND_WORD + " p/90813212\n"
@@ -28,7 +28,7 @@ public class FindOrderByPhoneNumberCommand extends Command {
     private final Predicate<OrderMap> predicate;
 
     /**
-     * Creates a command to find active orders by predicate.
+     * Creates a command to find orders by predicate.
      */
     public FindOrderByPhoneNumberCommand(Predicate<OrderMap> predicate) {
         requireNonNull(predicate);

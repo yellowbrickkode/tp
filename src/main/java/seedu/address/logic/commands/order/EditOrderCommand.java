@@ -37,7 +37,7 @@ public class EditOrderCommand extends Command {
             + PREFIX_ORDERS + "8 0";
 
     public static final String MESSAGE_EDIT_ORDER_SUCCESS = "Order edited successfully.\n%1$s";
-    public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
+    public static final String MESSAGE_NOT_EDITED = "At least one menu item to edit must be provided.";
     public static final String MESSAGE_EMPTY_ORDER = "An order must have at least one item.";
 
     private final Index index;

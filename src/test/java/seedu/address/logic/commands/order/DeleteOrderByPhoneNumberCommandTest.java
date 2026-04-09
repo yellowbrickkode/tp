@@ -26,6 +26,10 @@ public class DeleteOrderByPhoneNumberCommandTest {
     public void execute_matchingPhone_deletesAllMatchingOrders() {
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
 
+        OrderMap completedAliceOrder = TypicalOrders.ALICE_ORDER.markAsCompleted();
+        model.setOrder(TypicalOrders.ALICE_ORDER, completedAliceOrder);
+        expectedModel.setOrder(TypicalOrders.ALICE_ORDER, completedAliceOrder);
+
         OrderMap extraOrder = new OrderBuilder(TypicalOrders.ALICE_ORDER).withOrderId(99).build();
         model.addOrder(extraOrder);
         expectedModel.addOrder(extraOrder);
@@ -38,6 +42,7 @@ public class DeleteOrderByPhoneNumberCommandTest {
                 String.format(DeleteOrderByPhoneNumberCommand.MESSAGE_DELETE_ORDERS_BY_PHONE_SUCCESS,
                         expectedDeletedCount), false, false, false, true);
         assertCommandSuccess(command, model, expectedResult, expectedModel);
+        assertEquals(2, expectedDeletedCount);
         assertEquals(0, model.getAddressBook().getOrderList().stream().filter(predicate).count());
     }
 

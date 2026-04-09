@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.testutil.Assert.assertThrows;
+import static seedu.address.testutil.TypicalOrders.ALICE_ORDER;
+import static seedu.address.testutil.TypicalOrders.BENSON_ORDER;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
@@ -78,6 +80,32 @@ public class AddressBookTest {
         Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
                 .build();
         assertTrue(addressBook.hasPerson(editedAlice));
+    }
+
+    @Test
+    public void removeOrdersForPerson_personWithOrders_removesOnlyMatchingOrders() {
+        addressBook.addOrder(ALICE_ORDER);
+        addressBook.addOrder(BENSON_ORDER);
+        Person editedAlice = new PersonBuilder(ALICE).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_HUSBAND)
+                .build();
+
+        addressBook.removeOrdersForPerson(editedAlice);
+
+        assertFalse(addressBook.hasOrder(ALICE_ORDER));
+        assertTrue(addressBook.hasOrder(BENSON_ORDER));
+    }
+
+    @Test
+    public void setPerson_ordersReferToEditedPerson_updatesOrderPerson() {
+        addressBook.addPerson(ALICE);
+        addressBook.addOrder(ALICE_ORDER);
+
+        Person editedAlice = new PersonBuilder(ALICE).withRegion("E").build();
+        addressBook.setPerson(ALICE, editedAlice);
+
+        OrderMap updatedOrder = addressBook.getOrderList().get(0);
+        assertEquals(editedAlice, updatedOrder.getPerson());
+        assertEquals("E", updatedOrder.getPerson().getRegion().toString());
     }
 
     @Test

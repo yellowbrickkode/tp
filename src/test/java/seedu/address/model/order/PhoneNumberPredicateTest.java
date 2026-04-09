@@ -28,11 +28,11 @@ public class PhoneNumberPredicateTest {
     }
 
     @Test
-    public void test_completedOrder_returnsFalse() {
+    public void test_completedOrderWithMatchingPhone_returnsTrue() {
         PhoneNumberPredicate predicate = new PhoneNumberPredicate("94351253");
         Person person = new PersonBuilder().withPhone("94351253").build();
         OrderMap completedOrder = new OrderBuilder().withPerson(person).build().markAsCompleted();
-        assertFalse(predicate.test(completedOrder));
+        assertTrue(predicate.test(completedOrder));
     }
 
     @Test

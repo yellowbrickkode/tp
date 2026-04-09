@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.model.order.exceptions.DuplicateOrderException;
 import seedu.address.model.order.exceptions.OrderNotFoundException;
+import seedu.address.model.person.Person;
 
 /**
  * A list of orders that enforces uniqueness between its elements and does not allow nulls.
@@ -67,6 +68,26 @@ public class UniqueOrderList implements Iterable<OrderMap> {
         }
 
         internalList.set(index, editedOrder);
+    }
+
+    /**
+     * Edits the order belonging to person {@code target} in the order list
+     * to belong to {@code editedPerson} instead.
+     */
+    public void setPerson(Person target, Person editedPerson) {
+        requireAllNonNull(target, editedPerson);
+
+        for (int i = 0; i < internalList.size(); i++) {
+            OrderMap order = internalList.get(i);
+            if (order.getPerson().isSamePerson(target)) {
+                internalList.set(i, new OrderMap(
+                        order.getOrderId(),
+                        editedPerson,
+                        order.getProductQuantityPairs(),
+                        order.getStatus(),
+                        order.getOrderDatetime()));
+            }
+        }
     }
 
     /**

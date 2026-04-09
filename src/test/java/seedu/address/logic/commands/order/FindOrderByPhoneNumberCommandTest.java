@@ -13,7 +13,9 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.order.OrderMap;
 import seedu.address.model.order.PhoneNumberPredicate;
+import seedu.address.testutil.TypicalOrders;
 
 public class FindOrderByPhoneNumberCommandTest {
 
@@ -55,6 +57,25 @@ public class FindOrderByPhoneNumberCommandTest {
         assertCommandSuccess(command, model,
                 new CommandResult(expectedMessage, false, false, false, true), expectedModel);
         assertEquals(1, model.getFilteredOrderList().size());
+    }
+
+    @Test
+    public void execute_matchingPhoneCompletedOrder_oneOrderFound() {
+        Model localModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        Model localExpectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
+        OrderMap completedAliceOrder = TypicalOrders.ALICE_ORDER.markAsCompleted();
+        localModel.setOrder(TypicalOrders.ALICE_ORDER, completedAliceOrder);
+        localExpectedModel.setOrder(TypicalOrders.ALICE_ORDER, completedAliceOrder);
+
+        String expectedMessage = String.format(MESSAGE_ORDERS_LISTED_OVERVIEW, 1);
+        PhoneNumberPredicate predicate = preparePredicate("94351253");
+        FindOrderByPhoneNumberCommand command = new FindOrderByPhoneNumberCommand(predicate);
+        localExpectedModel.updateFilteredOrderList(predicate);
+
+        assertCommandSuccess(command, localModel,
+                new CommandResult(expectedMessage, false, false, false, true), localExpectedModel);
+        assertEquals(1, localModel.getFilteredOrderList().size());
     }
 
     @Test

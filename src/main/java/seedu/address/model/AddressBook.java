@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -99,9 +100,29 @@ public class AddressBook implements ReadOnlyAddressBook {
      * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
      */
     public void setPerson(Person target, Person editedPerson) {
+        requireNonNull(target);
         requireNonNull(editedPerson);
 
         persons.setPerson(target, editedPerson);
+        updateOrdersForEditedPerson(target, editedPerson);
+    }
+
+    /**
+     * Updates all orders referencing {@code target} to use {@code editedPerson}.
+     */
+    private void updateOrdersForEditedPerson(Person target, Person editedPerson) {
+        List<OrderMap> ordersToUpdate = new ArrayList<>(orders.asUnmodifiableObservableList());
+        for (OrderMap order : ordersToUpdate) {
+            if (order.getPerson().isSamePerson(target)) {
+                OrderMap updatedOrder = new OrderMap(
+                        order.getOrderId(),
+                        editedPerson,
+                        order.getProductQuantityPairs(),
+                        order.getStatus(),
+                        order.getOrderDatetime());
+                orders.setOrder(order, updatedOrder);
+            }
+        }
     }
 
     /**
@@ -110,6 +131,19 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removePerson(Person key) {
         persons.remove(key);
+    }
+
+    /**
+     * Removes all orders associated with {@code person}.
+     */
+    public void removeOrdersForPerson(Person person) {
+        requireNonNull(person);
+        List<OrderMap> ordersToRemove = new ArrayList<>(orders.asUnmodifiableObservableList());
+        for (OrderMap order : ordersToRemove) {
+            if (order.getPerson().isSamePerson(person)) {
+                orders.remove(order);
+            }
+        }
     }
 
     //@@author Achiack

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.CommandResult;
-import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -32,7 +31,7 @@ public class CompleteOrderCommandTest {
     }
 
     @Test
-    public void execute_validIndex_success() throws CommandException {
+    public void execute_validIndex_success() {
         // get first order in the filtered list
         List<OrderMap> lastShownList = model.getFilteredOrderList();
         OrderMap orderToComplete = lastShownList.get(0);
@@ -44,7 +43,9 @@ public class CompleteOrderCommandTest {
         expectedModel.updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
 
         CommandResult expectedCommandResult =
-                new CommandResult(String.format(CompleteOrderCommand.MESSAGE_SUCCESS, completedOrder));
+                new CommandResult(String.format(CompleteOrderCommand.MESSAGE_SUCCESS,
+                        completedOrder.getOrderId(),
+                        completedOrder.getPerson().getName()));
 
         assertCommandSuccess(command, model, expectedCommandResult, expectedModel);
     }
@@ -58,7 +59,7 @@ public class CompleteOrderCommandTest {
     }
 
     @Test
-    public void execute_alreadyCompleted_throwsCommandException() throws CommandException {
+    public void execute_alreadyCompleted_throwsCommandException() {
         OrderMap orderToComplete = model.getFilteredOrderList().get(0);
         // mark it completed first
         OrderMap completedOrder = orderToComplete.markAsCompleted();
@@ -71,7 +72,6 @@ public class CompleteOrderCommandTest {
 
     @Test
     public void execute_undoRedo_modelUpdated() throws Exception {
-        OrderMap orderToComplete = model.getFilteredOrderList().get(0);
         CompleteOrderCommand command = new CompleteOrderCommand(Index.fromOneBased(1));
         command.execute(model);
 

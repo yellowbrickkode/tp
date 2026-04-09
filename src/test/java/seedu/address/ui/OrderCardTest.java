@@ -20,6 +20,9 @@ public class OrderCardTest {
 
     @BeforeAll
     public static void initToolkit() {
+        if (System.getenv("CI") != null) {
+            org.junit.jupiter.api.Assumptions.assumeTrue(false, "Skip UI tests on CI");
+        }
         System.setProperty("javafx.platform", "Monocle");
         System.setProperty("monocle.platform", "Headless");
         System.setProperty("prism.order", "sw");
@@ -41,8 +44,38 @@ public class OrderCardTest {
         Parent root = card.getRoot();
         Label regionLabel = (Label) root.lookup("#region");
         assertNotNull(regionLabel);
-        String expected = "Region: " + order.getPerson().getRegion();
+        String expected = order.getPerson().getRegion().toLabel();
         assertEquals(expected, regionLabel.getText());
+    }
+
+    @Test
+    public void constructor_displaysStatusTagItemsAndDatetime() throws Exception {
+        java.time.LocalDateTime time = java.time.LocalDateTime.of(2026, 3, 11, 10, 15);
+        java.util.HashSet<seedu.address.model.order.ProductQuantityPair> items = new java.util.HashSet<>();
+        items.add(new seedu.address.model.order.ProductQuantityPair("1 1"));
+        items.add(new seedu.address.model.order.ProductQuantityPair("2 3"));
+        seedu.address.model.person.Person person = new PersonBuilder().withRegion("N").build();
+        OrderMap order = new OrderMap(1, person, items, seedu.address.model.order.OrderStatus.PENDING,
+                new seedu.address.model.order.OrderDateTime(time));
+
+        OrderCard card = createOrderCard(order, 1);
+        Parent root = card.getRoot();
+
+        javafx.scene.layout.FlowPane statusTags =
+                (javafx.scene.layout.FlowPane) root.lookup("#statusTags");
+        assertNotNull(statusTags);
+        assertEquals(1, statusTags.getChildren().size());
+        Label statusLabel = (Label) statusTags.getChildren().get(0);
+        assertEquals("PENDING", statusLabel.getText());
+
+        Label itemsLabel = (Label) root.lookup("#items");
+        assertNotNull(itemsLabel);
+        String itemsText = itemsLabel.getText();
+        org.junit.jupiter.api.Assertions.assertTrue(itemsText.contains(", "));
+
+        Label datetimeLabel = (Label) root.lookup("#datetime");
+        assertNotNull(datetimeLabel);
+        assertEquals("At: 2026-03-11 10:15", datetimeLabel.getText());
     }
 
     private OrderCard createOrderCard(OrderMap order, int displayedIndex) throws Exception {

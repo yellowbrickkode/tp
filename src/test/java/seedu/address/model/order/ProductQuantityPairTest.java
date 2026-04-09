@@ -37,7 +37,7 @@ public class ProductQuantityPairTest {
     @Test
     void constructor_invalidQuantity_throwsIllegalArgumentException() {
         String invalidQuantity = "1 -1";
-        String expectedMessage = ProductQuantityPair.MESSAGE_CONSTRAINTS;
+        String expectedMessage = Quantity.MESSAGE_CONSTRAINTS;
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class, () -> new ProductQuantityPair(invalidQuantity));
         assertEquals(expectedMessage, exception.getMessage());

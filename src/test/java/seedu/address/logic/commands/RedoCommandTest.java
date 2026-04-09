@@ -41,33 +41,37 @@ public class RedoCommandTest {
     public void execute_singleRedoableState_success() {
         // Commit a state, then undo it so that it can be redone
         Person person = new PersonBuilder().withName("Redo Test Person")
-                .withPhone("91234567").withAddress("123456").build();
+                .withPhone("91234567").withAddress("123456").withRegion("N").build();
+        String commandText = "addperson n/Redo Test Person p/91234567 a/123456 r/N";
 
         model.addPerson(person);
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
 
         // Expected model after redo should have the person re-added
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.addPerson(person);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(commandText);
 
         model.undoAddressBook(); // Undo so there is something to redo
 
-        assertCommandSuccess(new RedoCommand(), model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(RedoCommand.MESSAGE_SUCCESS, commandText);
+        assertCommandSuccess(new RedoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_multipleRedoableStates_success() {
         // Commit two states, undo both, then redo once
         Person firstPerson = new PersonBuilder().withName("First Redo Person")
-                .withPhone("91111111").withAddress("111111").build();
+                .withPhone("91111111").withAddress("111111").withRegion("N").build();
         Person secondPerson = new PersonBuilder().withName("Second Redo Person")
-                .withPhone("92222222").withAddress("222222").build();
+                .withPhone("92222222").withAddress("222222").withRegion("N").build();
+        String firstCommandText = "addperson n/First Redo Person p/91111111 a/111111 r/N";
+        String secondCommandText = "addperson n/Second Redo Person p/92222222 a/222222 r/N";
 
         model.addPerson(firstPerson);
-        model.commitAddressBook();
+        model.commitAddressBook(firstCommandText);
         model.addPerson(secondPerson);
-        model.commitAddressBook();
+        model.commitAddressBook(secondCommandText);
 
         // Undo both commits
         model.undoAddressBook();
@@ -78,31 +82,34 @@ public class RedoCommandTest {
         // state list: [typicals, typicals+first, typicals+first+second], pointer at 1
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.addPerson(firstPerson);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(firstCommandText);
         expectedModel.addPerson(secondPerson);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(secondCommandText);
         expectedModel.undoAddressBook();
         expectedModel.undoAddressBook();
         expectedModel.redoAddressBook();
 
-        assertCommandSuccess(new RedoCommand(), model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(RedoCommand.MESSAGE_SUCCESS, firstCommandText);
+        assertCommandSuccess(new RedoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_redoAfterNewCommit_failure() {
         // Undo history is cleared when a new commit is made, so redo should fail
         Person person = new PersonBuilder().withName("Redo Test Person")
-                .withPhone("91234567").withAddress("123456").build();
+                .withPhone("91234567").withAddress("123456").withRegion("N").build();
+        String commandText = "addperson n/Redo Test Person p/91234567 a/123456 r/N";
 
         model.addPerson(person);
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
         model.undoAddressBook(); // Undo to create a redoable state
 
         // Now make a new commit, which should clear the redo history
         Person newPerson = new PersonBuilder().withName("New Person After Undo")
-                .withPhone("93333333").withAddress("333333").build();
+                .withPhone("93333333").withAddress("333333").withRegion("N").build();
+        String newCommandText = "addperson n/New Person After Undo p/93333333 a/333333 r/N";
         model.addPerson(newPerson);
-        model.commitAddressBook();
+        model.commitAddressBook(newCommandText);
 
         // Redo should now fail since the redo history was cleared by the new commit
         assertCommandFailure(new RedoCommand(), model, RedoCommand.MESSAGE_FAILURE);
@@ -112,35 +119,39 @@ public class RedoCommandTest {
     public void execute_redoAddPersonCommand_success() {
         // Add a person, commit, undo, then redo – person should be re-added
         Person personToAdd = new PersonBuilder().withName("Hoon Meier")
-                .withPhone("84824240").withAddress("500001").build();
+                .withPhone("84824240").withAddress("500001").withRegion("N").build();
+        String commandText = "addperson n/Hoon Meier p/84824240 a/500001 r/N";
 
         model.addPerson(personToAdd);
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
         model.undoAddressBook();
 
         // expectedModel mirrors: add → commit (pointer at 1 after redo)
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.addPerson(personToAdd);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(commandText);
 
-        assertCommandSuccess(new RedoCommand(), model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(RedoCommand.MESSAGE_SUCCESS, commandText);
+        assertCommandSuccess(new RedoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_redoDeleteCommand_success() {
         // Delete a person, commit, undo, then redo – person should be removed again
         Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        String commandText = "deleteperson 1";
 
         model.deletePerson(personToDelete);
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
         model.undoAddressBook();
 
         // expectedModel mirrors: delete → commit (pointer at 1 after redo)
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.deletePerson(personToDelete);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(commandText);
 
-        assertCommandSuccess(new RedoCommand(), model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(RedoCommand.MESSAGE_SUCCESS, commandText);
+        assertCommandSuccess(new RedoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
@@ -148,71 +159,79 @@ public class RedoCommandTest {
         // Edit a person, commit, undo, then redo – edit should be reapplied
         Person original = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person edited = new PersonBuilder(original).withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB).build();
+        String commandText = "editperson 1 n/Bob Choo p/92222222";
 
         model.setPerson(original, edited);
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
         model.undoAddressBook();
 
         // expectedModel mirrors: edit → commit (pointer at 1 after redo)
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.setPerson(original, edited);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(commandText);
 
-        assertCommandSuccess(new RedoCommand(), model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(RedoCommand.MESSAGE_SUCCESS, commandText);
+        assertCommandSuccess(new RedoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_redoClearCommand_success() {
         // Clear the address book, commit, undo, then redo – book should be empty again
+        String commandText = "clear";
         model.setAddressBook(new AddressBook());
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
         model.undoAddressBook();
 
         // expectedModel mirrors: clear → commit (pointer at 1 after redo)
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.setAddressBook(new AddressBook());
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(commandText);
 
-        assertCommandSuccess(new RedoCommand(), model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(RedoCommand.MESSAGE_SUCCESS, commandText);
+        assertCommandSuccess(new RedoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_consecutiveRedos_success() {
         // Commit two states, undo both, then redo through all the way to the last state
         Person firstPerson = new PersonBuilder().withName("Hoon Meier")
-                .withPhone("84824240").withAddress("500001").build();
+                .withPhone("84824240").withAddress("500001").withRegion("N").build();
         Person secondPerson = new PersonBuilder().withName("Ida Mueller")
-                .withPhone("84821310").withAddress("600001").build();
+                .withPhone("84821310").withAddress("600001").withRegion("N").build();
+        String firstCommandText = "addperson n/Hoon Meier p/84824240 a/500001 r/N";
+        String secondCommandText = "addperson n/Ida Mueller p/84821310 a/600001 r/N";
 
         model.addPerson(firstPerson);
-        model.commitAddressBook();
+        model.commitAddressBook(firstCommandText);
         model.addPerson(secondPerson);
-        model.commitAddressBook();
+        model.commitAddressBook(secondCommandText);
         model.undoAddressBook();
         model.undoAddressBook();
 
         // First redo – forward to state with only firstPerson
         Model expectedAfterFirstRedo = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedAfterFirstRedo.addPerson(firstPerson);
-        expectedAfterFirstRedo.commitAddressBook();
+        expectedAfterFirstRedo.commitAddressBook(firstCommandText);
         expectedAfterFirstRedo.addPerson(secondPerson);
-        expectedAfterFirstRedo.commitAddressBook();
+        expectedAfterFirstRedo.commitAddressBook(secondCommandText);
         expectedAfterFirstRedo.undoAddressBook();
         expectedAfterFirstRedo.undoAddressBook();
         expectedAfterFirstRedo.redoAddressBook();
-        assertCommandSuccess(new RedoCommand(), model, RedoCommand.MESSAGE_SUCCESS, expectedAfterFirstRedo);
+        String expectedFirstMessage = String.format(RedoCommand.MESSAGE_SUCCESS, firstCommandText);
+        assertCommandSuccess(new RedoCommand(), model, expectedFirstMessage, expectedAfterFirstRedo);
 
         // Second redo – forward to state with both persons
         Model expectedAfterSecondRedo = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedAfterSecondRedo.addPerson(firstPerson);
-        expectedAfterSecondRedo.commitAddressBook();
+        expectedAfterSecondRedo.commitAddressBook(firstCommandText);
         expectedAfterSecondRedo.addPerson(secondPerson);
-        expectedAfterSecondRedo.commitAddressBook();
+        expectedAfterSecondRedo.commitAddressBook(secondCommandText);
         expectedAfterSecondRedo.undoAddressBook();
         expectedAfterSecondRedo.undoAddressBook();
         expectedAfterSecondRedo.redoAddressBook();
         expectedAfterSecondRedo.redoAddressBook();
-        assertCommandSuccess(new RedoCommand(), model, RedoCommand.MESSAGE_SUCCESS, expectedAfterSecondRedo);
+        String expectedSecondMessage = String.format(RedoCommand.MESSAGE_SUCCESS, secondCommandText);
+        assertCommandSuccess(new RedoCommand(), model, expectedSecondMessage, expectedAfterSecondRedo);
 
         // Third redo should fail – at the latest state already
         assertCommandFailure(new RedoCommand(), model, RedoCommand.MESSAGE_FAILURE);

@@ -16,7 +16,9 @@ import org.junit.jupiter.api.Test;
 import seedu.address.model.ModelManager;
 import seedu.address.model.order.exceptions.DuplicateOrderException;
 import seedu.address.model.order.exceptions.OrderNotFoundException;
+import seedu.address.model.person.Person;
 import seedu.address.testutil.OrderBuilder;
+import seedu.address.testutil.PersonBuilder;
 
 public class UniqueOrderListTest {
 
@@ -150,5 +152,24 @@ public class UniqueOrderListTest {
         UniqueOrderList copy = new UniqueOrderList();
         copy.add(order2);
         assertNotEquals(uniqueOrderList, copy);
+    }
+
+    @Test
+    void setPerson_personInOrder_personUpdated() {
+        uniqueOrderList.add(order1);
+        Person originalPerson = order1.getPerson();
+        Person editedPerson = new PersonBuilder().withName("Edited Name").build();
+
+        uniqueOrderList.setPerson(originalPerson, editedPerson);
+
+        assertTrue(uniqueOrderList.contains(order1));
+        assertEquals(uniqueOrderList.asUnmodifiableObservableList().get(0).getPerson(), editedPerson);
+    }
+
+    @Test
+    void setPerson_null_throwsNullPointerException() {
+        Person editedPerson = new PersonBuilder().withName("Edited Name").build();
+        assertThrows(NullPointerException.class, () -> uniqueOrderList.setPerson(null, editedPerson));
+        assertThrows(NullPointerException.class, () -> uniqueOrderList.setPerson(order1.getPerson(), null));
     }
 }

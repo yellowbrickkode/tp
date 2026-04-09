@@ -22,8 +22,7 @@ public class PhoneNumberPredicate implements Predicate<OrderMap> {
 
     @Override
     public boolean test(OrderMap order) {
-        return order.getPerson().getPhone().toString().equals(phoneNum)
-                && order.getStatus() == OrderStatus.PENDING;
+        return order.getPerson().getPhone().toString().equals(phoneNum);
     }
 
     @Override
