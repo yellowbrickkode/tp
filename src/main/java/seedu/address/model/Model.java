@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.order.OrderMap;
+import seedu.address.model.order.OrderStatus;
 import seedu.address.model.person.Person;
 
 /**
@@ -18,6 +19,14 @@ public interface Model {
     //@@author Achiack
     /** {@code Predicate} that always evaluate to true */
     Predicate<OrderMap> PREDICATE_SHOW_ALL_ORDERS = unused -> true;
+
+    /** {@code Predicate} that evaluates if status of {@code OrderMap} is OrderStatus.PENDING */
+    Predicate<OrderMap> PREDICATE_SHOW_CURR_ORDERS =
+            orderMap -> orderMap.getStatus() == OrderStatus.PENDING;
+
+    /** {@code Predicate} that evaluates if status of {@code OrderMap} is not OrderStatus.PENDING */
+    Predicate<OrderMap> PREDICATE_SHOW_PAST_ORDERS =
+            orderMap -> orderMap.getStatus() != OrderStatus.PENDING;
 
     //@@author
     /**
@@ -82,6 +91,12 @@ public interface Model {
      * The order must exist in the address book.
      */
     void deleteOrder(OrderMap target);
+
+    /**
+     * Deletes all orders matching {@code predicate}.
+     * If no orders match, implementations may throw an exception rather than performing a no-op.
+     */
+    void deleteOrderByPredicate(Predicate<OrderMap> predicate);
 
     //@@author
     /**
@@ -158,7 +173,17 @@ public interface Model {
     void redoAddressBook();
 
     /**
-     * Saves the current address book state for undo/redo.
+     * Returns the command text that will be undone next.
      */
-    void commitAddressBook();
+    String getUndoCommandText();
+
+    /**
+     * Returns the command text that will be redone next.
+     */
+    String getRedoCommandText();
+
+    /**
+     * Saves the current address book state for undo/redo with the command that created it.
+     */
+    void commitAddressBook(String commandText);
 }

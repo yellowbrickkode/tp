@@ -55,4 +55,19 @@ public class AddOrderCommandIntegrationTest {
         assertEquals(model.getFilteredPersonList().get(index - 1), addedOrder.getPerson());
         assertEquals(1, model.getAddressBook().getOrderList().size());
     }
+
+    @Test
+    public void execute_newOrder_resetsFilteredOrderList() throws Exception {
+        model.updateFilteredOrderList(order -> false);
+
+        int index = 1;
+        Set<ProductQuantityPair> order = new HashSet<>();
+        order.add(new ProductQuantityPair("1 2"));
+
+        AddOrderCommand addOrderCommand = new AddOrderCommand(index, order);
+        addOrderCommand.execute(model);
+
+        assertEquals(1, model.getFilteredOrderList().size());
+        assertEquals(1, model.getAddressBook().getOrderList().size());
+    }
 }

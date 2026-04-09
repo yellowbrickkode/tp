@@ -43,7 +43,12 @@ public class DeleteOrderCommand extends Command {
 
         OrderMap orderToDelete = lastShownList.get(targetIndex.getZeroBased());
         model.deleteOrder(orderToDelete);
-        return new CommandResult(String.format(MESSAGE_DELETE_ORDER_SUCCESS, Messages.format(orderToDelete)));
+        return new CommandResult(
+                String.format(MESSAGE_DELETE_ORDER_SUCCESS, Messages.format(orderToDelete)),
+                false,
+                false,
+                false,
+                true);
     }
 
     @Override

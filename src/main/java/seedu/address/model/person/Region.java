@@ -16,16 +16,18 @@ public class Region {
      * An enumeration for all possible region types.
      */
     public enum RegionType {
-        N("North"),
-        NE("North East"),
-        W("West"),
-        E("East"),
-        C("Central");
+        N("North", "#2C7542"),
+        NE("North East", "#B87F23"),
+        W("West", "#32458A"),
+        E("East", "#8C3B3B"),
+        C("Central", "#7D4B8C");
 
         public final String label;
+        public final String colour;
 
-        RegionType(String label) {
+        RegionType(String label, String colour) {
             this.label = label;
+            this.colour = colour;
         }
     }
 
@@ -61,6 +63,13 @@ public class Region {
      */
     public String toLabel() {
         return getValue().label;
+    }
+
+    /**
+     * Returns the label colour of the Region.
+     */
+    public String getColour() {
+        return getValue().colour;
     }
 
     @Override

@@ -104,6 +104,7 @@ public class ModelManager implements Model {
 
     @Override
     public void deletePerson(Person target) {
+        this.versionedAddressBook.removeOrdersForPerson(target);
         this.versionedAddressBook.removePerson(target);
     }
 
@@ -112,6 +113,12 @@ public class ModelManager implements Model {
     public void deleteOrder(OrderMap target) {
         versionedAddressBook.removeOrder(target);
     }
+
+    @Override
+    public void deleteOrderByPredicate(Predicate<OrderMap> predicate) {
+        versionedAddressBook.removeOrderByPredicate(predicate);
+    }
+
     //@@author
     @Override
     public void addPerson(Person person) {
@@ -196,8 +203,18 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void commitAddressBook() {
-        versionedAddressBook.commit();
+    public String getUndoCommandText() {
+        return versionedAddressBook.getUndoCommandText();
+    }
+
+    @Override
+    public String getRedoCommandText() {
+        return versionedAddressBook.getRedoCommandText();
+    }
+
+    @Override
+    public void commitAddressBook(String commandText) {
+        versionedAddressBook.commit(commandText);
     }
 
     @Override

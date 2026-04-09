@@ -13,6 +13,7 @@ import java.util.List;
 public class VersionedAddressBook extends AddressBook {
 
     private final List<ReadOnlyAddressBook> addressBookStateList;
+    private final List<String> commandHistory;
     private int currentStatePointer;
 
     /**
@@ -23,6 +24,8 @@ public class VersionedAddressBook extends AddressBook {
 
         addressBookStateList = new ArrayList<>();
         addressBookStateList.add(new AddressBook(initialState));
+        commandHistory = new ArrayList<>();
+        commandHistory.add("Initial state");
         currentStatePointer = 0;
     }
 
@@ -30,14 +33,16 @@ public class VersionedAddressBook extends AddressBook {
      * Saves a copy of the current {@code AddressBook} state at the end of the state list.
      * Undone states are removed from the state list.
      */
-    public void commit() {
+    public void commit(String commandText) {
         removeStatesAfterCurrentPointer();
         addressBookStateList.add(new AddressBook(this));
+        commandHistory.add(commandText);
         currentStatePointer++;
     }
 
     private void removeStatesAfterCurrentPointer() {
         addressBookStateList.subList(currentStatePointer + 1, addressBookStateList.size()).clear();
+        commandHistory.subList(currentStatePointer + 1, commandHistory.size()).clear();
     }
 
     /**
@@ -60,6 +65,26 @@ public class VersionedAddressBook extends AddressBook {
         }
         currentStatePointer++;
         resetData(addressBookStateList.get(currentStatePointer));
+    }
+
+    /**
+     * Returns the command text that will be undone next.
+     */
+    public String getUndoCommandText() {
+        if (!canUndo()) {
+            throw new NoUndoableStateException();
+        }
+        return commandHistory.get(currentStatePointer);
+    }
+
+    /**
+     * Returns the command text that will be redone next.
+     */
+    public String getRedoCommandText() {
+        if (!canRedo()) {
+            throw new NoRedoableStateException();
+        }
+        return commandHistory.get(currentStatePointer + 1);
     }
 
     /**
@@ -93,6 +118,7 @@ public class VersionedAddressBook extends AddressBook {
         // state check
         return super.equals(otherVersionedAddressBook)
                 && addressBookStateList.equals(otherVersionedAddressBook.addressBookStateList)
+                && commandHistory.equals(otherVersionedAddressBook.commandHistory)
                 && currentStatePointer == otherVersionedAddressBook.currentStatePointer;
     }
 

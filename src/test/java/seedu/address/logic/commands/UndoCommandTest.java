@@ -41,56 +41,62 @@ public class UndoCommandTest {
     public void execute_singleUndoableState_success() {
         // Simulate a modifying command by adding a person and committing
         Person person = new PersonBuilder().withName("Undo Test Person")
-                .withPhone("91234567").withAddress("123456").build();
+                .withPhone("91234567").withAddress("123456").withRegion("N").build();
+        String commandText = "addperson n/Undo Test Person p/91234567 a/123456 r/N";
 
         model.addPerson(person);
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
 
         // Expected model should be in the state before the commit (no extra person)
         // expectedModel must mirror the exact same version history as model after the undo:
         // state list: [typicals, typicals+person], pointer at 0
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.addPerson(person);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(commandText);
         expectedModel.undoAddressBook();
 
-        assertCommandSuccess(new UndoCommand(), model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(UndoCommand.MESSAGE_SUCCESS, commandText);
+        assertCommandSuccess(new UndoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_multipleUndoableStates_success() {
         // Commit two modifying states
         Person firstPerson = new PersonBuilder().withName("First Undo Person")
-                .withPhone("91111111").withAddress("111111").build();
+                .withPhone("91111111").withAddress("111111").withRegion("N").build();
         Person secondPerson = new PersonBuilder().withName("Second Undo Person")
-                .withPhone("92222222").withAddress("222222").build();
+                .withPhone("92222222").withAddress("222222").withRegion("N").build();
+        String firstCommandText = "addperson n/First Undo Person p/91111111 a/111111 r/N";
+        String secondCommandText = "addperson n/Second Undo Person p/92222222 a/222222 r/N";
 
         model.addPerson(firstPerson);
-        model.commitAddressBook();
+        model.commitAddressBook(firstCommandText);
         model.addPerson(secondPerson);
-        model.commitAddressBook();
+        model.commitAddressBook(secondCommandText);
 
         // Undo once – should go back to state with only firstPerson added
         // expectedModel must mirror the exact same version history as model after the undo:
         // state list: [typicals, typicals+first, typicals+first+second], pointer at 1
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.addPerson(firstPerson);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(firstCommandText);
         expectedModel.addPerson(secondPerson);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(secondCommandText);
         expectedModel.undoAddressBook();
 
-        assertCommandSuccess(new UndoCommand(), model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(UndoCommand.MESSAGE_SUCCESS, secondCommandText);
+        assertCommandSuccess(new UndoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_undoAfterUndoingAll_failure() {
         // Commit one state, undo it manually, then the UndoCommand should fail
         Person person = new PersonBuilder().withName("Undo Test Person")
-                .withPhone("91234567").withAddress("123456").build();
+                .withPhone("91234567").withAddress("123456").withRegion("N").build();
+        String commandText = "addperson n/Undo Test Person p/91234567 a/123456 r/N";
 
         model.addPerson(person);
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
 
         model.undoAddressBook(); // Manually undo to exhaust the history
 
@@ -101,33 +107,37 @@ public class UndoCommandTest {
     public void execute_undoAddPersonCommand_success() {
         // Execute AddPersonCommand, commit, then undo – person should be removed
         Person personToAdd = new PersonBuilder().withName("Hoon Meier")
-                .withPhone("84824240").withAddress("500001").build();
+                .withPhone("84824240").withAddress("500001").withRegion("N").build();
+        String commandText = "addperson n/Hoon Meier p/84824240 a/500001 r/N";
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.addPerson(personToAdd);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(commandText);
         expectedModel.undoAddressBook();
 
         model.addPerson(personToAdd);
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
 
-        assertCommandSuccess(new UndoCommand(), model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(UndoCommand.MESSAGE_SUCCESS, commandText);
+        assertCommandSuccess(new UndoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_undoDeleteCommand_success() {
         // Execute DeleteCommand, commit, then undo – deleted person should be restored
         Person personToDelete = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        String commandText = "deleteperson 1";
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.deletePerson(personToDelete);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(commandText);
         expectedModel.undoAddressBook();
 
         model.deletePerson(personToDelete);
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
 
-        assertCommandSuccess(new UndoCommand(), model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(UndoCommand.MESSAGE_SUCCESS, commandText);
+        assertCommandSuccess(new UndoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
@@ -135,63 +145,71 @@ public class UndoCommandTest {
         // Execute EditCommand, commit, then undo – person should revert to original
         Person original = model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
         Person edited = new PersonBuilder(original).withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB).build();
+        String commandText = "editperson 1 n/Bob Choo p/92222222";
 
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.setPerson(original, edited);
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(commandText);
         expectedModel.undoAddressBook();
 
         model.setPerson(original, edited);
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
 
-        assertCommandSuccess(new UndoCommand(), model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(UndoCommand.MESSAGE_SUCCESS, commandText);
+        assertCommandSuccess(new UndoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_undoClearCommand_success() {
         // Execute ClearCommand, commit, then undo – address book should be restored
+        String commandText = "clear";
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.setAddressBook(new AddressBook());
-        expectedModel.commitAddressBook();
+        expectedModel.commitAddressBook(commandText);
         expectedModel.undoAddressBook();
 
         model.setAddressBook(new AddressBook());
-        model.commitAddressBook();
+        model.commitAddressBook(commandText);
 
-        assertCommandSuccess(new UndoCommand(), model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
+        String expectedMessage = String.format(UndoCommand.MESSAGE_SUCCESS, commandText);
+        assertCommandSuccess(new UndoCommand(), model, expectedMessage, expectedModel);
     }
 
     @Test
     public void execute_consecutiveUndos_success() {
         // Commit three states, then undo all the way back to the initial state
         Person firstPerson = new PersonBuilder().withName("Hoon Meier")
-                .withPhone("84824240").withAddress("500001").build();
+                .withPhone("84824240").withAddress("500001").withRegion("N").build();
         Person secondPerson = new PersonBuilder().withName("Ida Mueller")
-                .withPhone("84821310").withAddress("600001").build();
+                .withPhone("84821310").withAddress("600001").withRegion("N").build();
+        String firstCommandText = "addperson n/Hoon Meier p/84824240 a/500001 r/N";
+        String secondCommandText = "addperson n/Ida Mueller p/84821310 a/600001 r/N";
 
         model.addPerson(firstPerson);
-        model.commitAddressBook();
+        model.commitAddressBook(firstCommandText);
         model.addPerson(secondPerson);
-        model.commitAddressBook();
+        model.commitAddressBook(secondCommandText);
 
         // First undo – back to state with only firstPerson
         Model expectedAfterFirstUndo = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedAfterFirstUndo.addPerson(firstPerson);
-        expectedAfterFirstUndo.commitAddressBook();
+        expectedAfterFirstUndo.commitAddressBook(firstCommandText);
         expectedAfterFirstUndo.addPerson(secondPerson);
-        expectedAfterFirstUndo.commitAddressBook();
+        expectedAfterFirstUndo.commitAddressBook(secondCommandText);
         expectedAfterFirstUndo.undoAddressBook();
-        assertCommandSuccess(new UndoCommand(), model, UndoCommand.MESSAGE_SUCCESS, expectedAfterFirstUndo);
+        String expectedFirstMessage = String.format(UndoCommand.MESSAGE_SUCCESS, secondCommandText);
+        assertCommandSuccess(new UndoCommand(), model, expectedFirstMessage, expectedAfterFirstUndo);
 
         // Second undo – back to initial state (typicals only)
         Model expectedAfterSecondUndo = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedAfterSecondUndo.addPerson(firstPerson);
-        expectedAfterSecondUndo.commitAddressBook();
+        expectedAfterSecondUndo.commitAddressBook(firstCommandText);
         expectedAfterSecondUndo.addPerson(secondPerson);
-        expectedAfterSecondUndo.commitAddressBook();
+        expectedAfterSecondUndo.commitAddressBook(secondCommandText);
         expectedAfterSecondUndo.undoAddressBook();
         expectedAfterSecondUndo.undoAddressBook();
-        assertCommandSuccess(new UndoCommand(), model, UndoCommand.MESSAGE_SUCCESS, expectedAfterSecondUndo);
+        String expectedSecondMessage = String.format(UndoCommand.MESSAGE_SUCCESS, firstCommandText);
+        assertCommandSuccess(new UndoCommand(), model, expectedSecondMessage, expectedAfterSecondUndo);
 
         // Third undo should fail – no more history
         assertCommandFailure(new UndoCommand(), model, UndoCommand.MESSAGE_FAILURE);
