@@ -26,8 +26,11 @@
         </Label>
         <Label fx:id="customer" styleClass="cell_big_label" text="Customer" />
       </HBox>
-      <Label fx:id="region" styleClass="cell_small_label" text="Region" />
-      <FlowPane fx:id="statusTags" />
+      <HBox spacing="6" alignment="CENTER_LEFT">
+        <Label fx:id="region" styleClass="cell_small_label" text="Region" />
+        <FlowPane fx:id="statusTags" />
+      </HBox>
+      <Label fx:id="phone" styleClass="cell_small_label" text="Phone" />
       <Label fx:id="datetime" styleClass="cell_small_label" text="Datetime" />
       <Label fx:id="items" styleClass="cell_small_label" text="Items" />
     </VBox>

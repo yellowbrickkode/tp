@@ -36,6 +36,8 @@ public class OrderCard extends UiPart<Region> {
     @FXML
     private Label items;
     @FXML
+    private Label phone;
+    @FXML
     private FlowPane statusTags;
 
 
@@ -49,9 +51,11 @@ public class OrderCard extends UiPart<Region> {
         customer.setText(order.getPerson().getName().fullName);
         region.setText(order.getPerson().getRegion().toLabel());
         region.setStyle("-fx-background-color: " + order.getPerson().getRegion().getColour());
+        phone.setText("Phone number: " + order.getPerson().getPhone().value);
         datetime.setText("At: " + order.getOrderDatetime().value.format(DISPLAY_FORMATTER));
 
         Label statusLabel = new Label(order.getStatus().toString());
+        statusLabel.getStyleClass().add("cell_small_label");
         statusLabel.setStyle("-fx-background-color: " + getStatusColor(order.getStatus()) + ";");
         statusTags.getChildren().add(statusLabel);
 
