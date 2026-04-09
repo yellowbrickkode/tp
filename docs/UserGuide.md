@@ -180,6 +180,7 @@ Format: `editperson CUSTOMER_INDEX [n/NAME] [p/PHONE_NUMBER] [a/POSTAL_CODE] [u/
   * The index refers to the index number shown in the displayed contact list.
 * At least one of the optional fields must be provided.
 * Existing values will be updated to the input values.
+* If the customer's phone number is edited, all of that customer's existing orders are updated to use the new phone number.
 
 Editing tags:
 * When editing tags, the existing tags of the customer will be overridden.
