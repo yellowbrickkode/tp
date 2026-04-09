@@ -32,8 +32,8 @@ public class CompleteRegionOrdersCommandTest {
 
     @Test
     public void execute_matchingRegion_marksOrdersCompleted() {
-        Person northPerson = new PersonBuilder().withName("North Person").withRegion("N").build();
-        Person eastPerson = new PersonBuilder().withName("East Person").withRegion("E").build();
+        Person northPerson = new PersonBuilder().withName("North Person").withPhone("81111111").withRegion("N").build();
+        Person eastPerson = new PersonBuilder().withName("East Person").withPhone("91111111").withRegion("E").build();
 
         OrderMap northOrder = new OrderBuilder().withPerson(northPerson).withOrderId(1).build();
         OrderMap eastOrder = new OrderBuilder().withPerson(eastPerson).withOrderId(2).build();
