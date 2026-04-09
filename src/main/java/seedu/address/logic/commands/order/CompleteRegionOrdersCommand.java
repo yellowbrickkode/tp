@@ -1,10 +1,11 @@
 package seedu.address.logic.commands.order;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_ORDERS;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.commands.Command;
@@ -47,6 +48,7 @@ public class CompleteRegionOrdersCommand extends Command {
         int matched = 0;
         int completed = 0;
         int skipped = 0;
+        Set<Integer> completedOrderIds = new HashSet<>();
 
         for (OrderMap order : orders) {
             if (!order.getPerson().getRegion().equals(region)) {
@@ -57,12 +59,13 @@ public class CompleteRegionOrdersCommand extends Command {
                 OrderMap completedOrder = order.markAsCompleted();
                 model.setOrder(order, completedOrder);
                 completed++;
+                completedOrderIds.add(completedOrder.getOrderId());
             } catch (IllegalStateException e) {
                 skipped++;
             }
         }
 
-        model.updateFilteredOrderList(PREDICATE_SHOW_ALL_ORDERS);
+        model.updateFilteredOrderList(order -> completedOrderIds.contains(order.getOrderId()));
 
         if (matched == 0) {
             return new CommandResult(String.format(MESSAGE_NO_MATCHING_ORDERS, region));
@@ -102,4 +105,3 @@ public class CompleteRegionOrdersCommand extends Command {
                 .toString();
     }
 }
-

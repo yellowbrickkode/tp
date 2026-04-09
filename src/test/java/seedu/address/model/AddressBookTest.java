@@ -96,6 +96,19 @@ public class AddressBookTest {
     }
 
     @Test
+    public void setPerson_ordersReferToEditedPerson_updatesOrderPerson() {
+        addressBook.addPerson(ALICE);
+        addressBook.addOrder(ALICE_ORDER);
+
+        Person editedAlice = new PersonBuilder(ALICE).withRegion("E").build();
+        addressBook.setPerson(ALICE, editedAlice);
+
+        OrderMap updatedOrder = addressBook.getOrderList().get(0);
+        assertEquals(editedAlice, updatedOrder.getPerson());
+        assertEquals("E", updatedOrder.getPerson().getRegion().toString());
+    }
+
+    @Test
     public void getPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> addressBook.getPersonList().remove(0));
     }

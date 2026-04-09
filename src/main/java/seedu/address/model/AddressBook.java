@@ -104,7 +104,25 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedPerson);
 
         persons.setPerson(target, editedPerson);
-        orders.setPerson(target, editedPerson);
+        updateOrdersForEditedPerson(target, editedPerson);
+    }
+
+    /**
+     * Updates all orders referencing {@code target} to use {@code editedPerson}.
+     */
+    private void updateOrdersForEditedPerson(Person target, Person editedPerson) {
+        List<OrderMap> ordersToUpdate = new ArrayList<>(orders.asUnmodifiableObservableList());
+        for (OrderMap order : ordersToUpdate) {
+            if (order.getPerson().isSamePerson(target)) {
+                OrderMap updatedOrder = new OrderMap(
+                        order.getOrderId(),
+                        editedPerson,
+                        order.getProductQuantityPairs(),
+                        order.getStatus(),
+                        order.getOrderDatetime());
+                orders.setOrder(order, updatedOrder);
+            }
+        }
     }
 
     /**
