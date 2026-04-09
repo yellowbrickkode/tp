@@ -13,9 +13,9 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.order.EditOrderCommand;
-import seedu.address.logic.commands.person.EditPersonCommand;
 import seedu.address.model.order.OrderMap;
 import seedu.address.model.order.ProductQuantityPair;
+import seedu.address.model.order.Quantity;
 
 public class EditOrderCommandParserTest {
 
@@ -35,7 +35,7 @@ public class EditOrderCommandParserTest {
         assertParseFailure(parser, VALID_ORDER_ONE, MESSAGE_INVALID_FORMAT);
 
         // no field specified
-        assertParseFailure(parser, "1", EditPersonCommand.MESSAGE_NOT_EDITED);
+        assertParseFailure(parser, "1", EditOrderCommand.MESSAGE_NOT_EDITED);
 
         // no index and no field specified
         assertParseFailure(parser, "", MESSAGE_INVALID_FORMAT);
@@ -77,7 +77,7 @@ public class EditOrderCommandParserTest {
         String preamble = String.valueOf(targetIndex.getOneBased());
 
         assertParseFailure(parser, preamble + " o/1 -1",
-                ProductQuantityPair.MESSAGE_CONSTRAINTS);
+                Quantity.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, preamble + " o/1",
                 ProductQuantityPair.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, preamble + " o/1 A",

@@ -291,6 +291,16 @@ Examples:
 *  `editorder 1 o/1 1 o/2 4` edits the 1st order in the list to include 1 unit of menu item 1 and 4 units of menu item 2.
 *  `editorder 2 o/3 0` edits the 2nd order to remove menu item 3 from the order.
 
+#### Mark an order as completed: `complete`
+
+Mark an existing order in the order list as Completed.
+
+Format: `complete INDEX`
+
+* Marks the order at the specified `INDEX` as completed.
+* The index refers to the index number shown in the displayed order list.
+* The index **must be a positive integer** 1, 2, 3, …​
+
 #### Completing all orders in a region : `completeregion`
 
 Marks all orders belonging to customers in a region as completed.
@@ -313,6 +323,12 @@ Format: `findorder r/REGION`
 
 Examples:
 * `findorder r/N` lists active orders for customers in the `N` region.
+
+#### Clear Order List: `clearorder`
+
+Clears all orders from the order list.
+
+Format: `clearorder`
 
 --------------------------------------------------------------------------------------------------------------------
 

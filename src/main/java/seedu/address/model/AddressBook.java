@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -102,6 +103,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedPerson);
 
         persons.setPerson(target, editedPerson);
+        orders.setPerson(target, editedPerson);
     }
 
     /**
@@ -110,6 +112,19 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void removePerson(Person key) {
         persons.remove(key);
+    }
+
+    /**
+     * Removes all orders associated with {@code person}.
+     */
+    public void removeOrdersForPerson(Person person) {
+        requireNonNull(person);
+        List<OrderMap> ordersToRemove = new ArrayList<>(orders.asUnmodifiableObservableList());
+        for (OrderMap order : ordersToRemove) {
+            if (order.getPerson().isSamePerson(person)) {
+                orders.remove(order);
+            }
+        }
     }
 
     //@@author Achiack

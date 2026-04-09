@@ -1,12 +1,14 @@
 package seedu.address.storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.jupiter.api.Test;
@@ -34,8 +36,9 @@ public class JsonSerializableAddressBookTest {
 
     @Test
     public void toModelType_typicalPersonsFile_success() throws Exception {
-        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(TYPICAL_PERSONS_FILE,
-                JsonSerializableAddressBook.class).get();
+        var maybeData = JsonUtil.readJsonFile(TYPICAL_PERSONS_FILE, JsonSerializableAddressBook.class);
+        assertTrue(maybeData.isPresent());
+        JsonSerializableAddressBook dataFromFile = maybeData.get();
         AddressBook addressBookFromFile = dataFromFile.toModelType();
         AddressBook typicalPersonsAddressBook = TypicalPersons.getTypicalAddressBook();
         assertEquals(addressBookFromFile, typicalPersonsAddressBook);
@@ -43,17 +46,26 @@ public class JsonSerializableAddressBookTest {
 
     @Test
     public void toModelType_invalidPersonFile_throwsIllegalValueException() throws Exception {
-        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(INVALID_PERSON_FILE,
-                JsonSerializableAddressBook.class).get();
+        var maybeData = JsonUtil.readJsonFile(INVALID_PERSON_FILE, JsonSerializableAddressBook.class);
+        assertTrue(maybeData.isPresent());
+        JsonSerializableAddressBook dataFromFile = maybeData.get();
         assertThrows(IllegalValueException.class, dataFromFile::toModelType);
     }
 
     @Test
     public void toModelType_duplicatePersons_throwsIllegalValueException() throws Exception {
-        JsonSerializableAddressBook dataFromFile = JsonUtil.readJsonFile(DUPLICATE_PERSON_FILE,
-                JsonSerializableAddressBook.class).get();
+        var maybeData = JsonUtil.readJsonFile(DUPLICATE_PERSON_FILE, JsonSerializableAddressBook.class);
+        assertTrue(maybeData.isPresent());
+        JsonSerializableAddressBook dataFromFile = maybeData.get();
         assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_DUPLICATE_PERSON,
                 dataFromFile::toModelType);
+    }
+
+    @Test
+    public void toModelType_nullPersonsAndOrders_success() throws Exception {
+        JsonSerializableAddressBook jsonAb = new JsonSerializableAddressBook(null, null);
+
+        assertEquals(new AddressBook(), jsonAb.toModelType());
     }
 
     @Test
@@ -96,6 +108,79 @@ public class JsonSerializableAddressBookTest {
         assertEquals("Alice", converted.getOrderList().get(0).getPerson().getName().toString());
         assertEquals(orderItems, converted.getOrderList().get(0).getProductQuantityPairs());
         assertEquals("2026-03-10T10:15:30", converted.getOrderList().get(0).getOrderDatetime().toString());
+    }
+
+    @Test
+    public void toModelType_orderMatchedByPhone_success() throws Exception {
+        Person person = new Person(
+                new Name("Alice"),
+                new Phone("98765432"),
+                new Address("123456"),
+                new Region("W"),
+                new HashSet<>());
+        JsonAdaptedOrder adaptedOrder = new JsonAdaptedOrder(
+                "1", "Wrong Name", "98765432", "PENDING", LocalDateTime.now().toString(), List.of("1 1"));
+
+        JsonSerializableAddressBook jsonAb = new JsonSerializableAddressBook(
+                List.of(new JsonAdaptedPerson(person)), List.of(adaptedOrder));
+
+        AddressBook converted = jsonAb.toModelType();
+        assertEquals(1, converted.getOrderList().size());
+        assertEquals("Alice", converted.getOrderList().get(0).getPerson().getName().toString());
+    }
+
+    @Test
+    public void toModelType_orderMatchedByNameWhenPhoneMissing_success() throws Exception {
+        Person person = new Person(
+                new Name("Alice"),
+                new Phone("98765432"),
+                new Address("123456"),
+                new Region("W"),
+                new HashSet<>());
+        JsonAdaptedOrder adaptedOrder = new JsonAdaptedOrder(
+                "1", "Alice", null, "PENDING", LocalDateTime.now().toString(), List.of("1 1"));
+
+        JsonSerializableAddressBook jsonAb = new JsonSerializableAddressBook(
+                List.of(new JsonAdaptedPerson(person)), List.of(adaptedOrder));
+
+        AddressBook converted = jsonAb.toModelType();
+        assertEquals(1, converted.getOrderList().size());
+        assertEquals("Alice", converted.getOrderList().get(0).getPerson().getName().toString());
+    }
+
+    @Test
+    public void toModelType_missingPersonForOrder_throwsIllegalValueException() {
+        Person person = new Person(
+                new Name("Alice"),
+                new Phone("98765432"),
+                new Address("123456"),
+                new Region("W"),
+                new HashSet<>());
+        JsonAdaptedOrder adaptedOrder = new JsonAdaptedOrder(
+                "1", "Unknown", "99999999", "PENDING", LocalDateTime.now().toString(), List.of("1 1"));
+
+        JsonSerializableAddressBook jsonAb = new JsonSerializableAddressBook(
+                List.of(new JsonAdaptedPerson(person)), List.of(adaptedOrder));
+
+        assertThrows(IllegalValueException.class, "Person not found for order: Unknown", jsonAb::toModelType);
+    }
+
+    @Test
+    public void toModelType_duplicateOrders_throwsIllegalValueException() {
+        Person person = new Person(
+                new Name("Alice"),
+                new Phone("98765432"),
+                new Address("123456"),
+                new Region("W"),
+                new HashSet<>());
+        JsonAdaptedOrder order = new JsonAdaptedOrder(
+                "1", "Alice", "98765432", "PENDING", LocalDateTime.now().toString(), List.of("1 1"));
+
+        JsonSerializableAddressBook jsonAb = new JsonSerializableAddressBook(
+                List.of(new JsonAdaptedPerson(person)), List.of(order, order));
+
+        assertThrows(IllegalValueException.class, JsonSerializableAddressBook.MESSAGE_DUPLICATE_ORDER,
+                jsonAb::toModelType);
     }
 
 }
