@@ -17,16 +17,21 @@ public class ClearOrderCommand extends Command {
 
     public static final String COMMAND_WORD = "clearorder";
     public static final String MESSAGE_SUCCESS = "Orders have been cleared!";
+    public static final String MESSAGE_NO_ORDERS = "No order(s) to clear.";
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
 
+        if (model.getAddressBook().getOrderList().isEmpty()) {
+            return new CommandResult(MESSAGE_NO_ORDERS, false, false, false, true);
+        }
+
         AddressBook clearedAddressBook = new AddressBook(model.getAddressBook());
         clearedAddressBook.setOrders(Collections.emptyList());
         model.setAddressBook(clearedAddressBook);
 
-        return new CommandResult(MESSAGE_SUCCESS, false, false, false, false);
+        return new CommandResult(MESSAGE_SUCCESS, false, false, false, true);
     }
 
     @Override

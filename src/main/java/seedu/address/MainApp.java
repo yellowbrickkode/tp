@@ -77,6 +77,7 @@ public class MainApp extends Application {
 
         Optional<ReadOnlyAddressBook> addressBookOptional;
         ReadOnlyAddressBook initialData;
+        boolean shouldSaveAddressBook;
         try {
             addressBookOptional = storage.readAddressBook();
             if (!addressBookOptional.isPresent()) {
@@ -84,10 +85,22 @@ public class MainApp extends Application {
                         + " populated with a sample AddressBook.");
             }
             initialData = addressBookOptional.orElseGet(SampleDataUtil::getSampleAddressBook);
+            shouldSaveAddressBook = true;
         } catch (DataLoadingException e) {
             logger.warning("Data file at " + storage.getAddressBookFilePath() + " could not be loaded."
                     + " Will be starting with an empty AddressBook.");
             initialData = new AddressBook();
+            shouldSaveAddressBook = false;
+        }
+
+        if (shouldSaveAddressBook) {
+            try {
+                storage.saveAddressBook(initialData);
+            } catch (IOException e) {
+                logger.warning("Failed to save address book file : " + StringUtil.getDetails(e));
+            }
+        } else {
+            logger.info("Skipping startup save to avoid overwriting unreadable address book data.");
         }
 
         return new ModelManager(initialData, userPrefs);

@@ -27,6 +27,11 @@ public class FindPersonCommandParser implements Parser<FindPersonCommand> {
         }
 
         String[] regionKeywords = trimmedArgs.split("\\s+");
+        for (String keyword : regionKeywords) {
+            if (!seedu.address.model.person.Region.isValidRegion(keyword)) {
+                throw new ParseException(seedu.address.model.person.Region.MESSAGE_CONSTRAINTS);
+            }
+        }
 
         return new FindPersonCommand(new RegionContainsKeywordsPredicate(Arrays.asList(regionKeywords)));
     }

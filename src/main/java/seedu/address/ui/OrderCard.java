@@ -1,5 +1,7 @@
 package seedu.address.ui;
 
+import java.time.format.DateTimeFormatter;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
@@ -16,6 +18,8 @@ import seedu.address.model.order.Quantity;
 public class OrderCard extends UiPart<Region> {
 
     private static final String FXML = "OrderListCard.fxml";
+    private static final DateTimeFormatter DISPLAY_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public final OrderMap order;
 
@@ -26,13 +30,16 @@ public class OrderCard extends UiPart<Region> {
     @FXML
     private Label customer;
     @FXML
-    private Label status;
-    @FXML
     private Label datetime;
     @FXML
     private Label region;
     @FXML
-    private FlowPane items;
+    private Label items;
+    @FXML
+    private Label phone;
+    @FXML
+    private FlowPane statusTags;
+
 
     /**
      * Creates an {@code OrderCard} with the given {@code OrderMap} and index to display.
@@ -45,14 +52,34 @@ public class OrderCard extends UiPart<Region> {
         region.setText(order.getPerson().getRegion().toLabel());
         region.setStyle("-fx-background-color: " + order.getPerson().getRegion().getColour());
         status.setText("Status: " + order.getStatus());
-        datetime.setText("At: " + order.getOrderDatetime());
+        phone.setText("Phone number: " + order.getPerson().getPhone().value);
+        datetime.setText("At: " + order.getOrderDatetime().value.format(DISPLAY_FORMATTER));
 
+        Label statusLabel = new Label(order.getStatus().toString());
+        statusLabel.getStyleClass().add("cell_small_label");
+        statusLabel.setStyle("-fx-background-color: " + getStatusColor(order.getStatus()) + ";");
+        statusTags.getChildren().add(statusLabel);
+
+        StringBuilder itemList = new StringBuilder();
         for (ProductQuantityPair entry : order.getProductQuantityPairs()) {
+            if (itemList.length() > 0) {
+                itemList.append(", ");
+            }
             Product product = entry.getProduct();
             Quantity quantity = entry.getQuantity();
-            String itemLabel;
-            itemLabel = product.getName() + " x" + quantity;
-            items.getChildren().add(new Label(itemLabel));
+            itemList.append(product.getName()).append(" x").append(quantity);
+        }
+        items.setText(itemList.toString());
+    }
+
+    private String getStatusColor(seedu.address.model.order.OrderStatus status) {
+        switch (status) {
+        case COMPLETED:
+            return "#2C7542";
+        case CANCELLED:
+            return "#8C3B3B";
+        default:
+            return "#B87F23";
         }
     }
 }

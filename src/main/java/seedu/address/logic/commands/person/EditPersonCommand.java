@@ -3,7 +3,6 @@ package seedu.address.logic.commands.person;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_ORDERS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_REGION;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
@@ -50,15 +49,14 @@ public class EditPersonCommand extends Command {
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_UNITNO + "UNIT] "
             + "[" + PREFIX_REGION + "REGION] "
-            + "[" + PREFIX_ORDERS + "ORDER]... "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
-            + PREFIX_ORDERS + "chicken rice";
+            + PREFIX_TAG + "member";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Contact edited successfully.\n%1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This phone number already exists in the contact list.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;

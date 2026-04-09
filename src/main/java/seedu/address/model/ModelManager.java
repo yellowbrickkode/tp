@@ -104,6 +104,7 @@ public class ModelManager implements Model {
 
     @Override
     public void deletePerson(Person target) {
+        this.versionedAddressBook.removeOrdersForPerson(target);
         this.versionedAddressBook.removePerson(target);
     }
 
@@ -202,8 +203,29 @@ public class ModelManager implements Model {
     }
 
     @Override
-    public void commitAddressBook() {
-        versionedAddressBook.commit();
+    public String getUndoCommandText() {
+        return versionedAddressBook.getUndoCommandText();
+    }
+
+    @Override
+    public String getRedoCommandText() {
+        return versionedAddressBook.getRedoCommandText();
+    }
+
+    @Override
+    public void commitAddressBook(String commandText) {
+        versionedAddressBook.commit(commandText);
+    }
+
+    @Override
+    public VersionedAddressBook.Snapshot createAddressBookSnapshot() {
+        return versionedAddressBook.createSnapshot();
+    }
+
+    @Override
+    public void restoreAddressBookSnapshot(VersionedAddressBook.Snapshot snapshot) {
+        requireNonNull(snapshot);
+        versionedAddressBook.restoreSnapshot(snapshot);
     }
 
     @Override

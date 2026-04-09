@@ -30,6 +30,7 @@ public class AddOrderCommand extends Command {
             + "This means customer 1 ordered 1 of menu item 1 and 4 of menu item 2.";
 
     public static final String MESSAGE_SUCCESS = "New order added: %1$s.";
+    public static final String MESSAGE_ZERO_QUANTITY = "Quantity cannot be zero";
 
     private final int index;
     private final Set<ProductQuantityPair> order;
