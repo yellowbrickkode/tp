@@ -39,7 +39,7 @@ public class OrderListPanelTest {
     }
 
     @Test
-    public void constructor_sortsOrdersByNewestFirst() throws Exception {
+    public void constructor_displaysOrdersInProvidedOrder() throws Exception {
         Person person = new PersonBuilder().withName("Order Person").build();
         HashSet<ProductQuantityPair> items = new HashSet<>();
         items.add(new ProductQuantityPair("1 1"));
@@ -54,8 +54,8 @@ public class OrderListPanelTest {
 
         ListView<OrderMap> listView = getListView(panel);
         assertNotNull(listView);
-        assertEquals(newer, listView.getItems().get(0));
-        assertEquals(older, listView.getItems().get(1));
+        assertEquals(older, listView.getItems().get(0));
+        assertEquals(newer, listView.getItems().get(1));
     }
 
     private OrderListPanel createPanel(ObservableList<OrderMap> orders) throws Exception {

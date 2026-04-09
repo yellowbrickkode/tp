@@ -4,14 +4,17 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.order.OrderMap;
+import seedu.address.model.order.OrderStatus;
 import seedu.address.model.person.Person;
 
 /**
@@ -19,11 +22,15 @@ import seedu.address.model.person.Person;
  */
 public class ModelManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
+    private static final Comparator<OrderMap> DISPLAYED_ORDER_COMPARATOR =
+            Comparator.comparingInt(ModelManager::getOrderStatusSortKey)
+                    .thenComparing(order -> order.getOrderDatetime().value, Comparator.reverseOrder());
 
     private final VersionedAddressBook versionedAddressBook;
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<OrderMap> filteredOrders;
+    private final SortedList<OrderMap> sortedFilteredOrders;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -37,6 +44,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.versionedAddressBook.getPersonList());
         filteredOrders = new FilteredList<>(this.versionedAddressBook.getOrderList());
+        sortedFilteredOrders = new SortedList<>(filteredOrders, DISPLAYED_ORDER_COMPARATOR);
     }
 
     public ModelManager() {
@@ -160,7 +168,7 @@ public class ModelManager implements Model {
     //@@author Achiack
     @Override
     public ObservableList<OrderMap> getFilteredOrderList() {
-        return filteredOrders;
+        return sortedFilteredOrders;
     }
     //@@author
     @Override
@@ -174,6 +182,10 @@ public class ModelManager implements Model {
     public void updateFilteredOrderList(Predicate<OrderMap> predicate) {
         requireNonNull(predicate);
         filteredOrders.setPredicate(predicate);
+    }
+
+    private static int getOrderStatusSortKey(OrderMap order) {
+        return order.getStatus() == OrderStatus.PENDING ? 0 : 1;
     }
     //@@author
 

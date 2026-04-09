@@ -7,16 +7,22 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalPersons.CARL;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.model.order.OrderDateTime;
+import seedu.address.model.order.OrderMap;
+import seedu.address.model.order.OrderStatus;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.testutil.AddressBookBuilder;
+import seedu.address.testutil.OrderBuilder;
 
 public class ModelManagerTest {
 
@@ -91,6 +97,32 @@ public class ModelManagerTest {
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> modelManager.getFilteredPersonList().remove(0));
+    }
+
+    @Test
+    public void getFilteredOrderList_ordersReturnedInDisplayedOrder() {
+        AddressBook addressBook = new AddressBookBuilder()
+                .withPerson(ALICE)
+                .withPerson(BENSON)
+                .withPerson(CARL)
+                .build();
+
+        OrderMap completedNewest = new OrderMap(1, ALICE, new OrderBuilder().getDefaultOrderMap(),
+                OrderStatus.COMPLETED, new OrderDateTime(LocalDateTime.of(2026, 1, 3, 12, 0)));
+        OrderMap pendingOld = new OrderMap(2, BENSON, new OrderBuilder().getDefaultOrderMap(),
+                OrderStatus.PENDING, new OrderDateTime(LocalDateTime.of(2026, 1, 1, 12, 0)));
+        OrderMap pendingNewest = new OrderMap(3, CARL, new OrderBuilder().getDefaultOrderMap(),
+                OrderStatus.PENDING, new OrderDateTime(LocalDateTime.of(2026, 1, 2, 12, 0)));
+
+        addressBook.addOrder(completedNewest);
+        addressBook.addOrder(pendingOld);
+        addressBook.addOrder(pendingNewest);
+
+        ModelManager localModel = new ModelManager(addressBook, new UserPrefs());
+
+        assertEquals(pendingNewest, localModel.getFilteredOrderList().get(0));
+        assertEquals(pendingOld, localModel.getFilteredOrderList().get(1));
+        assertEquals(completedNewest, localModel.getFilteredOrderList().get(2));
     }
 
     @Test

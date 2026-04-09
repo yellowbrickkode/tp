@@ -65,18 +65,31 @@ public class CompleteOrderCommandTest {
         OrderMap completedOrder = orderToComplete.markAsCompleted();
         model.setOrder(orderToComplete, completedOrder);
 
-        CompleteOrderCommand command = new CompleteOrderCommand(Index.fromOneBased(1));
+        int completedOrderIndex = findDisplayedIndexByOrderId(completedOrder.getOrderId());
+        CompleteOrderCommand command = new CompleteOrderCommand(Index.fromZeroBased(completedOrderIndex));
 
         assertCommandFailure(command, model, "Order is already completed");
     }
 
     @Test
     public void execute_undoRedo_modelUpdated() throws Exception {
+        OrderMap orderToComplete = model.getFilteredOrderList().get(0);
         CompleteOrderCommand command = new CompleteOrderCommand(Index.fromOneBased(1));
         command.execute(model);
 
-        assert(model.getFilteredOrderList().get(0).getStatus() == OrderStatus.COMPLETED);
+        int updatedOrderIndex = findDisplayedIndexByOrderId(orderToComplete.getOrderId());
+        assert(model.getFilteredOrderList().get(updatedOrderIndex).getStatus() == OrderStatus.COMPLETED);
         assertTrue(command.shouldRecordInHistory());
         assertTrue(command.mutatesModel());
+    }
+
+    private int findDisplayedIndexByOrderId(int orderId) {
+        List<OrderMap> displayedOrders = model.getFilteredOrderList();
+        for (int i = 0; i < displayedOrders.size(); i++) {
+            if (displayedOrders.get(i).getOrderId() == orderId) {
+                return i;
+            }
+        }
+        throw new AssertionError("Expected order id not found in displayed list: " + orderId);
     }
 }

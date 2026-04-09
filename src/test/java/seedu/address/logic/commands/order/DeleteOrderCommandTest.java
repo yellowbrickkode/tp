@@ -9,15 +9,22 @@ import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_ORDER;
 import static seedu.address.testutil.TypicalIndexes.INDEX_SECOND_ORDER;
 import static seedu.address.testutil.TypicalOrders.getTypicalAddressBook;
 
+import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.model.order.OrderDateTime;
 import seedu.address.model.order.OrderMap;
+import seedu.address.model.order.OrderStatus;
+import seedu.address.testutil.OrderBuilder;
+import seedu.address.testutil.TypicalPersons;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for
@@ -40,6 +47,33 @@ public class DeleteOrderCommandTest {
 
         CommandResult expectedCommandResult = new CommandResult(expectedMessage, false, false, false, true);
         assertCommandSuccess(deleteCommand, model, expectedCommandResult, expectedModel);
+    }
+
+    @Test
+    public void execute_validIndexUnfilteredListWithDisplaySorting_success() {
+        AddressBook addressBook = new AddressBook();
+        addressBook.addPerson(TypicalPersons.ALICE);
+        addressBook.addPerson(TypicalPersons.BENSON);
+
+        OrderMap olderPendingOrder = new OrderMap(1, TypicalPersons.ALICE, new OrderBuilder().getDefaultOrderMap(),
+                OrderStatus.PENDING, new OrderDateTime(LocalDateTime.of(2026, 1, 1, 12, 0)));
+        OrderMap newerPendingOrder = new OrderMap(2, TypicalPersons.BENSON, new OrderBuilder().getDefaultOrderMap(),
+                OrderStatus.PENDING, new OrderDateTime(LocalDateTime.of(2026, 1, 2, 12, 0)));
+        addressBook.addOrder(olderPendingOrder);
+        addressBook.addOrder(newerPendingOrder);
+
+        Model localModel = new ModelManager(addressBook, new UserPrefs());
+        DeleteOrderCommand deleteCommand = new DeleteOrderCommand(INDEX_FIRST_ORDER);
+        OrderMap displayedFirstOrder = localModel.getFilteredOrderList().get(INDEX_FIRST_ORDER.getZeroBased());
+
+        String expectedMessage = String.format(DeleteOrderCommand.MESSAGE_DELETE_ORDER_SUCCESS,
+                Messages.format(displayedFirstOrder));
+
+        ModelManager expectedModel = new ModelManager(localModel.getAddressBook(), new UserPrefs());
+        expectedModel.deleteOrder(displayedFirstOrder);
+
+        CommandResult expectedCommandResult = new CommandResult(expectedMessage, false, false, false, true);
+        assertCommandSuccess(deleteCommand, localModel, expectedCommandResult, expectedModel);
     }
 
     @Test
