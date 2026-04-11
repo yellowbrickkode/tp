@@ -295,7 +295,7 @@ Shows a list of all completed or cancelled orders.
 
 Format: `listpastorder`
 
-![List past order](images/listPastOrderExample.png)
+![Listing past orders](images/listPastOrderExample.png)
 
 #### Filtering orders by phone number: `findorder`
 
@@ -367,6 +367,7 @@ Examples:
 * `completeregion r/E` marks all orders made by customers who live in the East region as completed.
 
 ![Marking an order as completed by region](images/completeOrderRegionExample.png)
+*Figure: Completing all orders for customers in the specified region marks the matching orders as completed in the order list.*
 
 #### Finding orders by region : `findorder`
 
