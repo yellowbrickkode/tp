@@ -155,6 +155,9 @@ Examples:
 * `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N` adds a customer named `John Doe` with phone number `98765432`, postal code `111111`, unit number `#01-01`, in the `N` region to the customer list.
 * `addperson n/Betsy Crowe p/87243155 a/110022 r/C t/member` adds a customer named `Betsy Crowe`, with phone number `87243155`, postal code `110022`, in the `C` region, tagged as a `member` to the customer list. 
 
+![Adding a customer](images/addPersonExample.png)
+*Figure: The new customer appears in the customer list after executing the command `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N`.*
+
 #### Deleting a customer: `deleteperson`
 
 Deletes the specified customer from the contact list.
@@ -259,6 +262,9 @@ Examples:
 * `addorder c/1 o/2 5` adds an order of 5 units of menu item 2 for the first customer in the customer list.
 * `addorder c/2 o/1 1 o/2 3 o/4 2` adds an order for the second customer, consisting of 1 unit of menu item 1, 3 units of menu item 2, and 2 units of menu item 4.
 
+![Adding an order](images/addOrderExample.png)
+*Figure: The new order appears in the order list after executing the command `addorder c/1 o/2 5`.*
+
 #### Deleting an order: `deleteorder`
 
 Deletes an order from the order list.
@@ -341,6 +347,11 @@ Format: `complete INDEX`
 * The index refers to the index number shown in the displayed order list.
 * The index **must be a positive integer** 1, 2, 3, …​
 
+Examples:
+* `complete 1` marks the 1st order in the list as completed.
+
+![Adding an order](images/completeOrderExample.png)
+
 #### Completing all orders in a region : `completeregion`
 
 Marks all orders belonging to customers in a region as completed.
@@ -351,7 +362,9 @@ Format: `completeregion r/REGION`
 * Orders that are already completed are skipped.
 
 Examples:
-* `completeregion r/N` marks all orders from the `N` region as completed.
+* `completeregion r/E` marks all orders made by customers who live in the East region as completed.
+
+![Adding an order](images/completeOrderRegionExample.png)
 
 #### Finding orders by region : `findorder`
 
