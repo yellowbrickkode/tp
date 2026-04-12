@@ -33,7 +33,8 @@ public class AddOrderCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New order added: %1$s.";
     public static final String MESSAGE_ZERO_QUANTITY = "Quantity cannot be zero";
-    public static final String MESSAGE_DUPLICATE_ORDER = "Customer has a pending order: either edit or complete the existing order";
+    public static final String MESSAGE_DUPLICATE_ORDER = "Customer has a pending order: "
+            + "either edit or complete the existing order";
 
     private final int index;
     private final Set<ProductQuantityPair> order;
@@ -63,7 +64,9 @@ public class AddOrderCommand extends Command {
             return new CommandResult(MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         } else {
             Person person = model.getFilteredPersonList().get(index - 1);
-            if (model.getFilteredOrderList().stream().filter(orderMap -> orderMap.getPerson().equals(person)).anyMatch(orderMap -> orderMap.getStatus().equals(OrderStatus.PENDING))) {
+            if (model.getFilteredOrderList().stream()
+                    .filter(orderMap -> orderMap.getPerson().equals(person))
+                    .anyMatch(orderMap -> orderMap.getStatus().equals(OrderStatus.PENDING))) {
                 return new CommandResult(MESSAGE_DUPLICATE_ORDER);
             }
             OrderMap toAdd = new OrderMap(person, this.order);
