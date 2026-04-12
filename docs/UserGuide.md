@@ -306,7 +306,7 @@ Format: `listcurrorder`
 
 #### Viewing past orders: `listpastorder`
 
-Shows a list of all completed or cancelled orders.
+Shows a list of all completed orders.
 
 Format: `listpastorder`
 
