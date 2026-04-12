@@ -71,7 +71,10 @@ public class Person {
         }
 
         return otherPerson != null
-                && otherPerson.getPhone().equals(getPhone());
+                && otherPerson.getName().equals(getName())
+                && otherPerson.getPhone().equals(getPhone())
+                && otherPerson.getAddress().equals(getRegion())
+                && otherPerson.getRegion().equals(getRegion());
     }
 
     /**
