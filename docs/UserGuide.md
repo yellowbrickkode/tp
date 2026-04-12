@@ -42,7 +42,8 @@ By using simple typed commands, you can manage everything faster than traditiona
 
 9. Refer to the [Features](#features) below for details of each command.
 
-[Return to Table of Contents](#toc)
+<a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Example Workflow
@@ -83,7 +84,8 @@ Here is an example workflow for a new user getting to know Food Bridge.
 
 10. [**Exit**](#exiting-the-program--exit): Use `exit` to close the application.
 
-[Return to Table of Contents](#toc)
+<a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Features
@@ -118,7 +120,8 @@ Notes about the format:
 
 If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 
-[Return to Table of Contents](#toc)
+<a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ### **Customer Management Commands**
@@ -159,6 +162,8 @@ Examples:
 * `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N` adds a customer named `John Doe` with phone number `98765432`, postal code `111111`, unit number `#01-01`, in the `N` region to the customer list.
 * `addperson n/Betsy Crowe p/87243155 a/110022 r/C t/member` adds a customer named `Betsy Crowe`, with phone number `87243155`, postal code `110022`, in the `C` region, tagged as a `member` to the customer list. 
 
+<a href="#customer-contacts" style="font-size:12px;"> Refer to common parameters and required formats. </a>
+
 #### Deleting a customer: `deleteperson`
 
 Deletes the specified customer from the contact list.
@@ -171,6 +176,8 @@ Format: `deleteperson CUSTOMER_INDEX`
 Examples:
 * `deleteperson 2` deletes the 2nd customer in the contact list.
 * `findperson N` followed by `deleteperson 1` deletes the 1st person displayed in the results of the `findperson` command.
+
+<a href="#customer-contacts" style="font-size:12px;"> Refer to common parameters and required formats. </a>
 
 #### Listing all customers: `listperson`
 
@@ -200,6 +207,8 @@ Examples:
 * `editperson 2 n/Betsy Crower t/` edits the name of the 2nd person to be `Betsy Crower` and clears all existing tags.
 * `editperson 3 a/123456 u/` edits the postal code of the 3rd person to be `123456` and clears the existing unit number.
 
+<a href="#customer-contacts" style="font-size:12px;"> Refer to common parameters and required formats. </a>
+
 #### Finding customers by region: `findperson`
 
 Finds people who live in one of the given regions.
@@ -214,7 +223,10 @@ Examples:
 * `findperson N` displays customers who live in region `N`.
 * `findperson NE W` displays customers who live in either region `NE` or `W`.
 
-[Return to Table of Contents](#toc)
+<a href="#customer-contacts" style="font-size:12px;"> Refer to common parameters and required formats. </a>
+
+<a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ### **Order Management Commands** 
@@ -250,7 +262,6 @@ Below is the menu used in Food Bridge, consisting of each item's name and price.
 7. Apple Juice, $1.50
 8. Cafe Latte, $3.00
 
-
 #### Adding an order: `addorder`
 
 Adds an order to the order list.
@@ -265,6 +276,8 @@ Examples:
 * `addorder c/1 o/2 5` adds an order of 5 units of menu item 2 for the first customer in the customer list.
 * `addorder c/2 o/1 1 o/2 3 o/4 2` adds an order for the second customer, consisting of 1 unit of menu item 1, 3 units of menu item 2, and 2 units of menu item 4.
 
+<a href="#order" style="font-size:12px;">Refer to common parameters and required formats. </a>
+
 #### Deleting an order: `deleteorder`
 
 Deletes an order from the order list.
@@ -276,6 +289,8 @@ Format: `deleteorder ORDER_INDEX`
 
 Examples:
 * `deleteorder 3` deletes the 3rd order in the order list.
+
+<a href="#order" style="font-size:12px;">Refer to common parameters and required formats. </a>
 
 #### Listing all orders: `listorder`
 
@@ -308,6 +323,8 @@ Format: `findorder p/PHONE_NUMBER`
 Examples:
 * `findorder p/98765432` displays all orders made by the customer with phone number `98765432`.
 
+<a href="#order" style="font-size:12px;">Refer to common parameters and required formats. </a>
+
 #### Deleting orders of a specific person: `deleteorderbyphone`
 
 Deletes orders matching a specific customer phone number.
@@ -318,6 +335,8 @@ Format: `deleteorderbyphone PHONE_NUMBER`
 
 Examples:
 * `deleteorderbyphone 98765432` deletes all orders made by the customer with phone number `98765432`.
+
+<a href="#order" style="font-size:12px;">Refer to common parameters and required formats. </a>
 
 #### Editing an order: `editorder`
 
@@ -336,6 +355,8 @@ Format: `editorder ORDER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​
 Examples:
 *  `editorder 1 o/1 1 o/2 4` edits the 1st order in the list to include 1 unit of menu item 1 and 4 units of menu item 2.
 *  `editorder 2 o/3 0` edits the 2nd order to remove menu item 3 from the order.
+
+<a href="#order" style="font-size:12px;">Refer to common parameters and required formats. </a>
 
 #### Mark an order as completed: `complete`
 
@@ -359,6 +380,8 @@ Format: `completeregion r/REGION`
 Examples:
 * `completeregion r/N` marks all orders from the `N` region as completed.
 
+<a href="#order" style="font-size:12px;">Refer to common parameters and required formats. </a>
+
 #### Finding orders by region : `findorder`
 
 Finds all orders whose customer's region matches the given region.
@@ -368,13 +391,16 @@ Format: `findorder r/REGION`
 Examples:
 * `findorder r/N` lists active orders for customers in the `N` region.
 
+<a href="#order" style="font-size:12px;">Refer to common parameters and required formats. </a>
+
 #### Clear Order List: `clearorder`
 
 Clears all orders from the order list.
 
 Format: `clearorder`
 
-[Return to Table of Contents](#toc)
+<a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ### **General Commands**
@@ -440,7 +466,8 @@ If your changes are invalid, Food Bridge will discard all data and start with an
 Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e.g., if a value is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
-[Return to Table of Contents](#toc)
+<a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## FAQ
@@ -460,7 +487,8 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 **Q**: What happens if I delete a customer with existing orders?<br>
 **A**: Deleting a customer automatically deletes their corresponding orders.
 
-[Return to Table of Contents](#toc)
+<a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
@@ -471,7 +499,8 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 4. **If the app is placed in a write-protected folder**, it may fail to save data and preferences correctly. The workaround is to move the app to a folder with write permissions.
 5. Mac users using the fullscreen mode for secondary dialogs (e.g., the help dialog) might encounter unexpected behaviours.
 
-[Return to Table of Contents](#toc)
+<a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
+
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
@@ -500,4 +529,4 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 | **Clear**                          | `clear`                                                                                                                                                       |
 | **Exit**                           | `exit`                                                                                                                                                        |
 
-[Return to Table of Contents](#toc)
+<a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
