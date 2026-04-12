@@ -33,7 +33,7 @@ By using simple typed commands, you can manage everything faster than traditiona
 
 6. Type `java -jar food-bridge-[version].jar` and press Enter to launch the application.<br>
     E.g. If you downloaded version 1.5, you should type `java -jar food-bridge-1.5.jar`.<br>
-     A GUI similar to the below should appear. Note how the app contains some sample data.<br>
+     An interface similar to the below should appear. Note how the app contains some sample data.<br>
          ![Ui](images/Ui.png)
 
 7. Type a command into the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.
@@ -109,7 +109,7 @@ Notes about the format:
 * **Optionals**: Items in square brackets are optional.<br>
   e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/member` or as `n/John Doe`.
 
-* **Multiple parameters**: Items with `…`​ after them can be used multiple times including zero times.<br>
+* **Multiple parameters**: Items with `…`​ after them can be used multiple times, including zero times.<br>
   e.g. `[t/TAG]…​` can be used as `t/member`, `t/member t/staff`, or simply ignored.
 
 * **Parameter order**: Apart from the `INDEX`, parameters can be in any order.<br>
@@ -199,7 +199,7 @@ Format: `editperson CUSTOMER_INDEX [n/NAME] [p/PHONE_NUMBER] [a/POSTAL_CODE] [u/
 
 Editing tags:
 * When editing tags, the existing tags of the customer will be overridden.
-* You can remove all of the specified customer’s tags by using `t/` without
+* You can remove all the specified customer’s tags by using `t/` without
     specifying any tags after it.
 
 Examples:
@@ -463,7 +463,7 @@ Food Bridge data is stored as a JSON file `[JAR file location]/data/addressbook.
 
 <div markdown="span" class="alert alert-warning"> :exclamation: **Caution:**
 If your changes are invalid, Food Bridge will discard all data and start with an empty data file on the next run. Hence, it is recommended to back up the file before editing it.<br>
-Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e.g., if a value is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e.g. if a value is outside the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
 <a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
@@ -473,7 +473,7 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 ## FAQ
 
 **Q**: How do I transfer my data to another computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous AddressBook home folder.
+**A**: Install the app in the other computer. Then, run the app. Overwrite the empty data file it creates with the file that contains the data of your previous Food Bridge home folder. Your data should load once you relaunch your app. 
 
 **Q**: Can I add multiple products in one order?<br>
 **A**: Yes. Use the `addorder` command and add as many menu items as you want with the `o/` prefix.
@@ -493,11 +493,11 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
-3. **Double-clicking the `.jar` file may not work on some systems**, depending on system Java/file association settings. The workaround is to launch the app from a terminal using `java -jar food-bridge-[version].jar`.
-4. **If the app is placed in a write-protected folder**, it may fail to save data and preferences correctly. The workaround is to move the app to a folder with write permissions.
-5. Mac users using the fullscreen mode for secondary dialogs (e.g., the help dialog) might encounter unexpected behaviours.
+1. **Using multiple screens**: if you move the app to a second screen, and later switch back to using only one screen, the app might open somewhere you can't see it. To fix this, delete the `preferences.json` file before opening the app again.
+2. **Help Window remains hidden**: if you minimize the Help Window then try to open it again (whether by using the `help` command, the `Help` menu, or the keyboard shortcut `F1`), nothing will seem to happen. Instead, simply restore the minimized Help Window manually.
+3. **App does not open when double-clicking the `.jar` file**: double-clicking the `.jar` file may not work on some systems. Instead, open a terminal and launch the app using the command `java -jar food-bridge-[version].jar`.
+4. **App can't save data**: if the app is in a folder where it isn’t allowed to make changes, the data won’t be saved properly. You'll need to move it to a different folder where it has permission.
+5. **Mac fullscreen issues**: on Mac, using fullscreen mode for pup-up windows (e.g., the help dialog) may cause some unexpected behaviour.
 
 <a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
 
