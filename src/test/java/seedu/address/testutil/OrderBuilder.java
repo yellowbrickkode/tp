@@ -102,6 +102,14 @@ public class OrderBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code status} of the {@code OrderMap} we are building.
+     */
+    public OrderBuilder withStatus(OrderStatus status) {
+        this.status = status;
+        return this;
+    }
+
     /** Gets DEFAULT_PERSON. */
     public Person getDefaultPerson() {
         return DEFAULT_PERSON;
