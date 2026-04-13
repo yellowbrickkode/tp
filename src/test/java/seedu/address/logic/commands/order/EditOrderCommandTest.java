@@ -18,6 +18,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.order.OrderMap;
+import seedu.address.model.order.OrderStatus;
 import seedu.address.testutil.EditOrderDescriptorBuilder;
 import seedu.address.testutil.OrderBuilder;
 
@@ -106,6 +107,18 @@ public class EditOrderCommandTest {
         EditOrderCommand editCommand = new EditOrderCommand(outOfBoundIndex, descriptor);
 
         assertCommandFailure(editCommand, model, Messages.MESSAGE_INVALID_ORDER_DISPLAYED_INDEX);
+    }
+
+    @Test
+    public void execute_completeOrder_failure() {
+        model.addOrder(new OrderBuilder()
+                .withOrderId(model.getFilteredOrderList().size() + 1)
+                .withStatus(OrderStatus.COMPLETED).build());
+        Index index = Index.fromOneBased(model.getFilteredOrderList().size());
+        EditOrderDescriptor descriptor = new EditOrderDescriptorBuilder().withOrderMap("1 0").build();
+        EditOrderCommand editCommand = new EditOrderCommand(index, descriptor);
+
+        assertCommandFailure(editCommand, model, EditOrderCommand.MESSAGE_COMPLETED_ORDER);
     }
 
     @Test

@@ -17,6 +17,7 @@ import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.order.OrderMap;
+import seedu.address.model.order.OrderStatus;
 import seedu.address.model.order.Product;
 import seedu.address.model.order.ProductQuantityPair;
 
@@ -39,6 +40,7 @@ public class EditOrderCommand extends Command {
     public static final String MESSAGE_EDIT_ORDER_SUCCESS = "Order edited successfully.\n%1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one menu item to edit must be provided.";
     public static final String MESSAGE_EMPTY_ORDER = "An order must have at least one item.";
+    public static final String MESSAGE_COMPLETED_ORDER = "Cannot edit a completed order.";
 
     private final Index index;
     private final EditOrderDescriptor editOrderDescriptor;
@@ -65,6 +67,9 @@ public class EditOrderCommand extends Command {
         }
 
         OrderMap orderToEdit = lastShownList.get(index.getZeroBased());
+        if (orderToEdit.getStatus().equals(OrderStatus.COMPLETED)) {
+            throw new CommandException(MESSAGE_COMPLETED_ORDER);
+        }
         OrderMap editedOrder = createEditedOrderMap(orderToEdit, editOrderDescriptor);
 
         model.setOrder(orderToEdit, editedOrder);
