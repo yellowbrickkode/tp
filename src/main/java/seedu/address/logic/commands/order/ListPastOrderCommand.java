@@ -40,7 +40,7 @@ public class ListPastOrderCommand extends Command {
 
     @Override
     public boolean equals(Object other) {
-        return other == this || other instanceof ListCurrOrderCommand;
+        return other == this || other instanceof ListPastOrderCommand;
     }
 
     @Override
