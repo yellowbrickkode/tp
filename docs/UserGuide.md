@@ -155,6 +155,9 @@ Examples:
 * `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N` adds a customer named `John Doe` with phone number `98765432`, postal code `111111`, unit number `#01-01`, in the `N` region to the contact list.
 * `addperson n/Betsy Crowe p/87243155 a/110022 r/C t/member` adds a customer named `Betsy Crowe`, with phone number `87243155`, postal code `110022`, in the `C` region, tagged as a `member` to the contact list. 
 
+![Adding a customer](images/addPersonExample.png)
+*Figure: The new customer appears in the customer list after executing the command `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N`.*
+
 #### Deleting a customer: `deleteperson`
 
 You can delete the specified customer from the contact list.
@@ -259,6 +262,9 @@ Examples:
 * `addorder c/1 o/2 5` adds an order of 5 units of menu item 2 for the first customer in the contact list.
 * `addorder c/2 o/1 1 o/2 3 o/4 2` adds an order for the second customer, consisting of 1 unit of menu item 1, 3 units of menu item 2, and 2 units of menu item 4.
 
+![Adding an order](images/addOrderExample.png)
+*Figure: The new order appears in the order list after executing the command `addorder c/1 o/2 5`.*
+
 #### Deleting an order: `deleteorder`
 
 You can delete an order from the order list.
@@ -288,6 +294,8 @@ Format: `listcurrorder`
 You can view a list of all completed orders.
 
 Format: `listpastorder`
+
+![Listing past orders](images/listPastOrderExample.png)
 
 #### Filtering orders by phone number: `findorder`
 
@@ -341,6 +349,11 @@ Format: `complete ORDER_INDEX`
 * Marks the order at the specified `ORDER_INDEX` as completed.
   * The index refers to the index number shown in the displayed order list.
 
+Examples:
+* `complete 1` marks the 1st order in the list as completed.
+
+![Marking an order as completed](images/completeOrderExample.png)
+
 #### Completing all orders in a region : `completeregion`
 
 You can mark all orders from one region as completed.
@@ -351,7 +364,10 @@ Format: `completeregion r/REGION`
 * This will not affect orders that are already completed.
 
 Examples:
-* `completeregion r/N` marks all orders from the `N` region as completed.
+* `completeregion r/E` marks all orders made by customers who live in the East region as completed.
+
+![Marking an order as completed by region](images/completeOrderRegionExample.png)
+*Figure: Completing all orders for customers in the specified region marks the matching orders as completed in the order list.*
 
 #### Finding orders by region : `findorder`
 
@@ -376,7 +392,7 @@ Format: `clearorder`
 
 You can view a summary of commands.
 
-![help message](images/helpMessage.png)
+![help message](images/helpWindow.png)
 
 * You can also view the help window by pressing F1, or clicking the "Help" button in the menu bar.
 
