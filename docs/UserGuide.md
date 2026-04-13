@@ -460,7 +460,6 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 3. **Double-clicking the `.jar` file may not work on some systems**, depending on system Java/file association settings. The workaround is to launch the app from a terminal using `java -jar food-bridge-[version].jar`.
 4. **If the app is placed in a write-protected folder**, it may fail to save data and preferences correctly. The workaround is to move the app to a folder with write permissions.
-5. Mac users using the fullscreen mode for secondary dialogs (e.g., the help dialog) might encounter unexpected behaviours.
 
 --------------------------------------------------------------------------------------------------------------------
 
