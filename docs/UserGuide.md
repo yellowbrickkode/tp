@@ -385,7 +385,7 @@ Examples:
 
 ![Marking an order as completed](images/completeOrderExample.png)
 
-#### Completing all orders in a region : `completeregion`
+#### Completing all orders in a region: `completeregion`
 
 You can mark all orders from one region as completed.
 
