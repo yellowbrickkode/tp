@@ -37,9 +37,11 @@ By using simple typed commands, you can manage everything faster than traditiona
 
 7. Type a command into the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.
     
-8. Refer to the [Example Workflow](#example-workflow) for a quick introduction to the commands.
+8. If you are new to CLI apps, read [Command format](#command-format) first to understand how Food Bridge commands are structured.
 
-9. Refer to the [Features](#features) below for details of each command.
+9. Refer to the [Example Workflow](#example-workflow) for a quick introduction to the commands.
+
+10. Refer to the [Features](#features) below for details of each command.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -75,7 +77,7 @@ Here is an example workflow for a new user getting to know Food Bridge.
 
 7. [**Delete an order**](#deleting-an-order--deleteorder): Once the order is completed, use `deleteorder` to delete the order.
 
-8. [**Find orders**](#finding-orders-by-region--findorder): Use `findorder r/N` to list all active orders from the North region, or `findorder p/98765432` to list active orders by phone number.
+8. [**Find orders**](#finding-orders-by-phone-number-or-region--findorder): Use `findorder r/N` to list all orders (active and inactive) from the North region, or `findorder p/98765432` to list all orders (active and inactive) by phone number.
 
 9. [**Complete orders by region**](#completing-all-orders-in-a-region--completeregion): Use `completeregion r/N` to mark all North region orders as completed.
 
@@ -295,20 +297,21 @@ You can view a list of all completed orders.
 
 Format: `listpastorder`
 
-![Listing past orders](images/listPastOrderExample.png)
+#### Finding orders by phone number or region: `findorder`
 
-#### Filtering orders by phone number: `findorder`
+You can find orders by either customer phone number or customer region.
 
-You can search for orders matching a customer's phone number.
+Format: `findorder [p/PHONE_NUMBER] [r/REGION]`
 
-Format: `findorder p/PHONE_NUMBER`
-
-* The search matches orders whose phone number exactly equals `PHONE_NUMBER`.
-* This command only accepts one filter (i.e. either `r/` or `p/`) at a time.
+* Exactly one filter must be provided (either `p/PHONE_NUMBER` or `r/REGION`).
+* The phone filter matches orders whose phone number exactly equals `PHONE_NUMBER`.
+* The region filter matches orders whose customer's region exactly equals `REGION`.
+* `findorder` works for both active and inactive orders.
 * You can use `listorder` to show all orders again after filtering.
 
 Examples:
-* `findorder p/98765432` displays all orders made by the customer with phone number `98765432`.
+* `findorder p/98765432` displays all orders (active and inactive) made by the customer with phone number `98765432`.
+* `findorder r/N` displays all orders (active and inactive) made by customers in region `N`.
 
 #### Deleting orders of a specific person: `deleteorderbyphone`
 
@@ -368,15 +371,6 @@ Examples:
 
 ![Marking an order as completed by region](images/completeOrderRegionExample.png)
 *Figure: Completing all orders for customers in the specified region marks the matching orders as completed in the order list.*
-
-#### Finding orders by region : `findorder`
-
-You can search for all orders from a given region.
-
-Format: `findorder r/REGION`
-
-Examples:
-* `findorder r/N` lists active orders for customers in the `N` region.
 
 #### Clear Order List: `clearorder`
 
@@ -498,7 +492,7 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 | **List Past Orders**               | `listpastorder`                                                                                                                                                |
 | **Edit Order**                     | `editorder ORDER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​` <br> e.g. `editorder 1 o/1 1 o/2 4`                                                     |
 | **Mark Order as Completed**        | `complete ORDER_INDEX` <br> e.g. `complete 1`                                                                                                                 |
-| **Find Orders by Region or Phone** | `findorder [p/PHONE_NUMBER] [r/REGION]` (exactly one field must be provided) <br> e.g. `findorder r/N`, `findorder p/98765432`                       |
+| **Find Orders by Region or Phone** | `findorder [p/PHONE_NUMBER] [r/REGION]` (exactly one field must be provided; works for active and inactive orders) <br> e.g. `findorder r/N`, `findorder p/98765432`                       |
 | **Complete Orders by Region**      | `completeregion r/REGION` <br> e.g. `completeregion r/NE`                                                                                                     |
 | **Delete Orders by Phone**         | `deleteorderbyphone PHONE_NUMBER` <br> e.g. `deleteorderbyphone 98765432`                                                                                     |
 | **Clear All Orders**               | `clearorder`                                                                                                                                                  |
