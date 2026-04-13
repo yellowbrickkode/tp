@@ -77,10 +77,3 @@ shadowJar {
 }
 
 defaultTasks 'clean', 'test'
-
-processResources {
-    from('docs') {
-        include 'UserGuide.md'
-        into 'docs'
-    }
-}
