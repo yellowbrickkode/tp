@@ -202,6 +202,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *` | user                      | delete an order by index                                 | remove wrongly-keyed orders.                                          |
 | `* *`  | user                      | delete orders by phone number                            | quickly remove all orders tied to a specific customer.                |
 | `* * *` | restaurant employee       | mark an order as completed                               | keep track of fulfilled orders.                                       |
+| `* *`  | restaurant employee       | mark all orders in a region as completed                 | batch-complete deliveries for the same area.                          |
+| `* *`  | restaurant employee       | clear all orders                                         | reset the order queue quickly when needed.                            |
 | `* *`  | restaurant delivery worker| find persons by region                                   | identify customers in a delivery region.                              |
 | `* *`  | restaurant delivery worker| find active orders by phone or region                    | filter orders for delivery planning.                                  |
 | `* *`  | restaurant delivery worker| list current and past orders                             | separate active orders from completed ones.                           |
