@@ -13,6 +13,7 @@ import javafx.scene.layout.Region;
 public class ResultDisplay extends UiPart<Region> {
 
     private static final String FXML = "ResultDisplay.fxml";
+    private static final int MAX_MESSAGE_LENGTH = 200;
 
     @FXML
     private Label resultDisplay;
@@ -28,12 +29,18 @@ public class ResultDisplay extends UiPart<Region> {
         resultDisplay.setMinHeight(Region.USE_PREF_SIZE);
     }
 
+    private String truncate(String text) {
+        if (text.length() <= MAX_MESSAGE_LENGTH) {
+            return text;
+        }
+        return text.substring(0, MAX_MESSAGE_LENGTH) + "...";
+    }
     /**
      * Sets the feedback message shown to the user.
      */
     public void setFeedbackToUser(String feedbackToUser) {
         requireNonNull(feedbackToUser);
-        resultDisplay.setText(feedbackToUser);
+        resultDisplay.setText(truncate(feedbackToUser));
         resultDisplay.requestLayout();
         getRoot().requestLayout();
     }
