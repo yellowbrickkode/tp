@@ -44,8 +44,6 @@ public class HelpWindow extends UiPart<Stage> {
         super(FXML, root);
 
         helpMessage.setText(HELP_MESSAGE);
-        commandList.setText(getCommandSummary());
-        commandList.positionCaret(0);
     }
 
     /**

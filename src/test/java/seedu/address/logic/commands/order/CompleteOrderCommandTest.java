@@ -45,7 +45,7 @@ public class CompleteOrderCommandTest {
         CommandResult expectedCommandResult =
                 new CommandResult(String.format(CompleteOrderCommand.MESSAGE_SUCCESS,
                         completedOrder.getOrderId(),
-                        completedOrder.getPerson().getName()));
+                        completedOrder.getPerson().getName()), false, false, false, true);
 
         assertCommandSuccess(command, model, expectedCommandResult, expectedModel);
     }

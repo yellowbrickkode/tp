@@ -72,7 +72,7 @@ public class CompleteOrderCommand extends Command {
 
         return new CommandResult(String.format(MESSAGE_SUCCESS,
                 completedOrder.getOrderId(),
-                completedOrder.getPerson().getName()));
+                completedOrder.getPerson().getName()), false, false, false, true);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class Messages {
     public static final String MESSAGE_ORDERS_LISTED_OVERVIEW = "%1$d order(s) listed!";
     public static final String MESSAGE_DUPLICATE_FIELDS =
                 "Multiple values specified for the following single-valued field(s): ";
-    public static final String MESSAGE_INVALID_MENU_ITEM = "Invalid menu item index: %d";
+    public static final String MESSAGE_INVALID_MENU_ITEM = "Invalid menu item index: %s";
 
     public static final ProductList MENU = new ProductList();
 

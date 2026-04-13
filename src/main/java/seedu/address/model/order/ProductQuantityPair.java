@@ -10,7 +10,7 @@ import seedu.address.logic.Messages;
 public class ProductQuantityPair implements Comparable<ProductQuantityPair> {
     public static final String MESSAGE_CONSTRAINTS =
             "Orders should be in the form \"MENU_ITEM PRODUCT_QUANTITY\".";
-    public static final String VALIDATION_REGEX = "^[0-9]\\d* -?\\d+$";
+    public static final String VALIDATION_REGEX = "^[0-9]\\d*\\s+-?\\d+$";
     private final Product product;
     private Quantity quantity;
 
@@ -25,8 +25,13 @@ public class ProductQuantityPair implements Comparable<ProductQuantityPair> {
         }
 
         String[] pair = productQuantityPair.split(" ", 2);
-        int product = Integer.parseInt(pair[0]);
-        String quantity = pair[1];
+        int product;
+        try {
+            product = Integer.parseInt(pair[0].trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(String.format(Messages.MESSAGE_INVALID_MENU_ITEM, pair[0].trim()));
+        }
+        String quantity = pair[1].trim();
 
         if (!new ProductList().isValidItem(product)) {
             throw new IllegalArgumentException(String.format(Messages.MESSAGE_INVALID_MENU_ITEM, product));

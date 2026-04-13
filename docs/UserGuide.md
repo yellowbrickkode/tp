@@ -38,9 +38,11 @@ By using simple typed commands, you can manage everything faster than traditiona
 
 7. Type a command into the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.
     
-8. Refer to the [Example Workflow](#example-workflow) for a quick introduction to the commands.
+8. If you are new to CLI apps, read [Command format](#command-format) first to understand how Food Bridge commands are structured.
 
-9. Refer to the [Features](#features) below for details of each command.
+9. Refer to the [Example Workflow](#example-workflow) for a quick introduction to the commands.
+
+10. Refer to the [Features](#features) below for details of each command.
 
 <a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
 
@@ -78,7 +80,7 @@ Here is an example workflow for a new user getting to know Food Bridge.
 
 7. [**Delete an order**](#deleting-an-order--deleteorder): Once the order is completed, use `deleteorder` to delete the order.
 
-8. [**Find orders**](#finding-orders-by-region--findorder): Use `findorder r/N` to list all active orders from the North region, or `findorder p/98765432` to list active orders by phone number.
+8. [**Find orders**](#finding-orders-by-phone-number-or-region--findorder): Use `findorder r/N` to list all orders (active and inactive) from the North region, or `findorder p/98765432` to list all orders (active and inactive) by phone number.
 
 9. [**Complete orders by region**](#completing-all-orders-in-a-region--completeregion): Use `completeregion r/N` to mark all North region orders as completed.
 
@@ -115,7 +117,7 @@ Notes about the format:
 * **Parameter order**: Apart from the `INDEX`, parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* **Commands with no parameters**: Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
+* **Commands with no parameters**: Extraneous parameters for commands that do not take in parameters (such as `help`, `listperson`, `listorder`, `exit` and `clear`) will be ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
 If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -151,27 +153,31 @@ Below are some common parameters and their required formats.
 
 #### Adding a customer: `addperson`
 
-Adds a customer to the address book.
+You can add a customer to the contact list.
 
 Format: `addperson n/NAME p/PHONE_NUMBER a/POSTAL_CODE [u/UNIT_NUMBER] r/REGION [t/TAG]…​`
 
 * Adding a unit number is optional.
-* A customer can have zero or more tags.
+* You can add zero or more tags to a customer.
 
 Examples:
-* `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N` adds a customer named `John Doe` with phone number `98765432`, postal code `111111`, unit number `#01-01`, in the `N` region to the customer list.
-* `addperson n/Betsy Crowe p/87243155 a/110022 r/C t/member` adds a customer named `Betsy Crowe`, with phone number `87243155`, postal code `110022`, in the `C` region, tagged as a `member` to the customer list. 
+* `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N` adds a customer named `John Doe` with phone number `98765432`, postal code `111111`, unit number `#01-01`, in the `N` region to the contact list.
+* `addperson n/Betsy Crowe p/87243155 a/110022 r/C t/member` adds a customer named `Betsy Crowe`, with phone number `87243155`, postal code `110022`, in the `C` region, tagged as a `member` to the contact list. 
+
+![Adding a customer](images/addPersonExample.png)
+*Figure: The new customer appears in the customer list after executing the command `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N`.*
 
 <a href="#customer-contacts" style="font-size:12px;"> Refer to common parameters and required formats. </a>
 
 #### Deleting a customer: `deleteperson`
 
-Deletes the specified customer from the contact list.
+You can delete the specified customer from the contact list.
 
 Format: `deleteperson CUSTOMER_INDEX`
 
 * Deletes the customer at the specified `CUSTOMER_INDEX`.
   * The index refers to the index number shown in the displayed contact list.
+* **Warning:** This is a destructive action. If the customer has any existing orders, those associated orders are deleted together with the customer.
 
 Examples:
 * `deleteperson 2` deletes the 2nd customer in the contact list.
@@ -181,25 +187,25 @@ Examples:
 
 #### Listing all customers: `listperson`
 
-Shows a list of all customers in the contact list.
+You can view a list of all customers in the contact list.
 
 Format: `listperson`
 
 #### Editing a customer: `editperson`
 
-Edits an existing customer in the contact list.
+You can edit an existing customer in the contact list.
 
 Format: `editperson CUSTOMER_INDEX [n/NAME] [p/PHONE_NUMBER] [a/POSTAL_CODE] [u/UNIT_NUMBER] [r/REGION] [t/TAG]…​`
 
-* Edits the person at the specified `CUSTOMER_INDEX`. 
+* This will edit the customer at the specified `CUSTOMER_INDEX`. 
   * The index refers to the index number shown in the displayed contact list.
-* At least one of the optional fields must be provided.
-* Existing values will be updated to the input values.
-* If the customer's phone number is edited, all of that customer's existing orders are updated to use the new phone number.
+* You must provide at least one of the optional fields.
+* Existing values will be updated with your input values.
+* If you edit the customer's phone number, that customer's existing orders will be updated to use the new phone number.
 
 Editing tags:
-* When editing tags, the existing tags of the customer will be overridden.
-* You can remove all the specified customer’s tags by using `t/` without
+* If you edit the customer's tags, the existing tags will be overridden.
+* You can remove all of the specified customer’s tags by using `t/` without
     specifying any tags after it.
 
 Examples:
@@ -211,7 +217,7 @@ Examples:
 
 #### Finding customers by region: `findperson`
 
-Finds people who live in one of the given regions.
+You can search for customers who live in one of the given regions.
 
 Format: `findperson REGION [MORE_REGIONS]…`
 
@@ -264,27 +270,30 @@ Below is the menu used in Food Bridge, consisting of each item's name and price.
 
 #### Adding an order: `addorder`
 
-Adds an order to the order list.
+You can add an order to the order list.
 
 Format: `addorder c/CUSTOMER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​`
 
 * Adds an order for the customer at `CUSTOMER_INDEX` in the displayed contact list.
-* An order can consist of one or more menu items.
-  * The `o/` prefix can be repeated to add multiple items in the same order.
+* You can add one or more menu items to the order.
+  * To add multiple items in the same order, simply repeat the `o/` prefix.
 
 Examples:
-* `addorder c/1 o/2 5` adds an order of 5 units of menu item 2 for the first customer in the customer list.
+* `addorder c/1 o/2 5` adds an order of 5 units of menu item 2 for the first customer in the contact list.
 * `addorder c/2 o/1 1 o/2 3 o/4 2` adds an order for the second customer, consisting of 1 unit of menu item 1, 3 units of menu item 2, and 2 units of menu item 4.
+
+![Adding an order](images/addOrderExample.png)
+*Figure: The new order appears in the order list after executing the command `addorder c/1 o/2 5`.*
 
 <a href="#order" style="font-size:12px;">Refer to common parameters and required formats. </a>
 
 #### Deleting an order: `deleteorder`
 
-Deletes an order from the order list.
+You can delete an order from the order list.
 
 Format: `deleteorder ORDER_INDEX`
 
-* Deletes the order at the specified `ORDER_INDEX`.
+* Deletes the order at `ORDER_INDEX`.
   * The index refers to the index number shown in the displayed order list.
 
 Examples:
@@ -294,40 +303,43 @@ Examples:
 
 #### Listing all orders: `listorder`
 
-Shows a list of all orders in the order list.
+You can view a list of all orders in the order list.
 
 Format: `listorder`
 
 #### Viewing current orders: `listcurrorder`
 
-Shows a list of all incomplete (active) orders.
+You can view a list of all incomplete (active) orders.
 
 Format: `listcurrorder`
 
 #### Viewing past orders: `listpastorder`
 
-Shows a list of all completed orders.
+You can view a list of all completed orders.
 
 Format: `listpastorder`
 
-#### Filtering orders by phone number: `findorder`
+#### Finding orders by phone number or region: `findorder`
 
-Finds orders matching a specific customer phone number.
+You can find orders by either customer phone number or customer region.
 
-Format: `findorder p/PHONE_NUMBER`
+Format: `findorder [p/PHONE_NUMBER] [r/REGION]`
 
-* The search matches orders whose phone number exactly equals `PHONE_NUMBER`.
-* This command only accepts one filter (i.e. either `r/` or `p/`) at a time.
-* Use `listorder` to show all orders again after filtering.
+* Exactly one filter must be provided (either `p/PHONE_NUMBER` or `r/REGION`).
+* The phone filter matches orders whose phone number exactly equals `PHONE_NUMBER`.
+* The region filter matches orders whose customer's region exactly equals `REGION`.
+* `findorder` works for both active and inactive orders.
+* You can use `listorder` to show all orders again after filtering.
 
 Examples:
-* `findorder p/98765432` displays all orders made by the customer with phone number `98765432`.
+* `findorder p/98765432` displays all orders (active and inactive) made by the customer with phone number `98765432`.
+* `findorder r/N` displays all orders (active and inactive) made by customers in region `N`.
 
 <a href="#order" style="font-size:12px;">Refer to common parameters and required formats. </a>
 
 #### Deleting orders of a specific person: `deleteorderbyphone`
 
-Deletes orders matching a specific customer phone number.
+You can delete orders matching a specific customer phone number.
 
 Format: `deleteorderbyphone PHONE_NUMBER`
 
@@ -340,17 +352,18 @@ Examples:
 
 #### Editing an order: `editorder`
 
-Edits an existing order in the order list.
+You can edit an existing order in the order list.
 
 Format: `editorder ORDER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​` 
 
 * Edits the order at the specified `ORDER_INDEX`. 
   * The index refers to the index number shown in the displayed order list.
-* The `o/` prefix can be repeated to modify multiple menu items.
+* You can repeat the `o/` prefix to modify multiple menu items.
 * For each specified menu item:
   * If it does not exist in the order, it will be added. 
   * If it already exists, its quantity will be updated. 
   * If the specified quantity is `0`, the item will be removed from the order.
+* You cannot edit already completed orders.
 
 Examples:
 *  `editorder 1 o/1 1 o/2 4` edits the 1st order in the list to include 1 unit of menu item 1 and 4 units of menu item 2.
@@ -360,42 +373,40 @@ Examples:
 
 #### Mark an order as completed: `complete`
 
-Mark an existing order in the order list as Completed.
+You can mark an existing order as completed.
 
-Format: `complete INDEX`
+Format: `complete ORDER_INDEX`
 
-* Marks the order at the specified `INDEX` as completed.
-* The index refers to the index number shown in the displayed order list.
-* The index **must be a positive integer** 1, 2, 3, …​
+* Marks the order at the specified `ORDER_INDEX` as completed.
+  * The index refers to the index number shown in the displayed order list.
+
+Examples:
+* `complete 1` marks the 1st order in the list as completed.
+
+![Marking an order as completed](images/completeOrderExample.png)
 
 #### Completing all orders in a region : `completeregion`
 
-Marks all orders belonging to customers in a region as completed.
+You can mark all orders from one region as completed.
 
 Format: `completeregion r/REGION`
 
 * Marks all orders made by customers in the specified `REGION` as completed.
-* Orders that are already completed are skipped.
+* This will not affect orders that are already completed.
 
 Examples:
-* `completeregion r/N` marks all orders from the `N` region as completed.
+* `completeregion r/E` marks all orders made by customers who live in the East region as completed.
 
 <a href="#order" style="font-size:12px;">Refer to common parameters and required formats. </a>
 
-#### Finding orders by region : `findorder`
-
-Finds all orders whose customer's region matches the given region.
-
-Format: `findorder r/REGION`
-
-Examples:
-* `findorder r/N` lists active orders for customers in the `N` region.
+![Marking an order as completed by region](images/completeOrderRegionExample.png)
+*Figure: Completing all orders for customers in the specified region marks the matching orders as completed in the order list.*
 
 <a href="#order" style="font-size:12px;">Refer to common parameters and required formats. </a>
 
 #### Clear Order List: `clearorder`
 
-Clears all orders from the order list.
+You can clear all orders from the order list.
 
 Format: `clearorder`
 
@@ -407,15 +418,17 @@ Format: `clearorder`
 
 #### Viewing help: `help`
 
-Shows a message explaining how to access the help page.
+You can view a summary of commands.
 
-![help message](images/helpMessage.png)
+![help message](images/helpWindow.png)
+
+* You can also view the help window by pressing F1, or clicking the "Help" button in the menu bar.
 
 Format: `help`
 
 #### Undoing the last change: `undo`
 
-Undoes the most recent change to the address book.
+You can undo the most recent change to the contact or order lists.
 
 Format: `undo`
 
@@ -427,12 +440,12 @@ Examples:
 
 #### Redoing the last undone change: `redo`
 
-Redoes the most recently undone change.
+You can redo the most recently undone change.
 
 Format: `redo`
 
-* Can only be used after `undo` is used.
-  * If there are no undone changes, the command will fail.
+* You can only use `redo` after `undo` is used.
+  * If there are no undone changes, `redo` will fail.
 * You can perform `redo` multiple times until the latest state is reached.
 * The redo history is cleared when new changes are made.
 
@@ -441,13 +454,13 @@ Examples:
 
 #### Clearing all entries: `clear`
 
-Clears all entries from the address book.
+You can clear all entries from the contact list and order list.
 
 Format: `clear`
 
 #### Exiting the program: `exit`
 
-Exits the program.
+You can close the application.
 
 Format: `exit`
 
@@ -497,7 +510,6 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 2. **Help Window remains hidden**: if you minimize the Help Window then try to open it again (whether by using the `help` command, the `Help` menu, or the keyboard shortcut `F1`), nothing will seem to happen. Instead, simply restore the minimized Help Window manually.
 3. **App does not open when double-clicking the `.jar` file**: double-clicking the `.jar` file may not work on some systems. Instead, open a terminal and launch the app using the command `java -jar food-bridge-[version].jar`.
 4. **App can't save data**: if the app is in a folder where it isn’t allowed to make changes, the data won’t be saved properly. You'll need to move it to a different folder where it has permission.
-5. **Mac fullscreen issues**: on Mac, using fullscreen mode for pup-up windows (e.g., the help dialog) may cause some unexpected behaviour.
 
 <a href="#toc" style="font-size:10px;">Return to Table of Contents</a>
 
@@ -508,7 +520,7 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 | Action                             | Format, Examples                                                                                                                                              |
 |------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Add Customer**                   | `addperson n/NAME p/PHONE_NUMBER a/POSTAL_CODE [u/UNIT_NUMBER] r/REGION [t/TAG]…​` <br> e.g. `addperson n/John Doe p/98765432 a/111111 u/#01-01 r/N t/member` |
-| **Delete Customer**                | `deleteperson CUSTOMER_INDEX` <br> e.g. `deleteperson 2`                                                                                                      |
+| **Delete Customer**                | `deleteperson CUSTOMER_INDEX` (deletes the customer and all associated orders) <br> e.g. `deleteperson 2`                                                    |
 | **List Customers**                 | `listperson`                                                                                                                                                  |
 | **Edit Customer**                  | `editperson CUSTOMER_INDEX [n/NAME] [p/PHONE_NUMBER] [a/POSTAL_CODE] [u/UNIT_NUMBER] [r/REGION] [t/TAG]…​` <br> e.g. `editperson 1 p/91234567 r/E`            |
 | **Find Customers by Region**       | `findperson REGION [MORE_REGIONS]…` <br> e.g. `findperson N`                                                                                                  |
@@ -519,7 +531,7 @@ Furthermore, certain edits may cause Food Bridge to behave in unexpected ways (e
 | **List Past Orders**               | `listpastorder`                                                                                                                                                |
 | **Edit Order**                     | `editorder ORDER_INDEX o/MENU_ITEM QUANTITY [o/MENU_ITEM QUANTITY]…​` <br> e.g. `editorder 1 o/1 1 o/2 4`                                                     |
 | **Mark Order as Completed**        | `complete ORDER_INDEX` <br> e.g. `complete 1`                                                                                                                 |
-| **Find Orders by Region or Phone** | `findorder [p/PHONE_NUMBER] [r/REGION]` (exactly one field must be provided) <br> e.g. `findorder r/N`, `findorder p/98765432`                       |
+| **Find Orders by Region or Phone** | `findorder [p/PHONE_NUMBER] [r/REGION]` (exactly one field must be provided; works for active and inactive orders) <br> e.g. `findorder r/N`, `findorder p/98765432`                       |
 | **Complete Orders by Region**      | `completeregion r/REGION` <br> e.g. `completeregion r/NE`                                                                                                     |
 | **Delete Orders by Phone**         | `deleteorderbyphone PHONE_NUMBER` <br> e.g. `deleteorderbyphone 98765432`                                                                                     |
 | **Clear All Orders**               | `clearorder`                                                                                                                                                  |
